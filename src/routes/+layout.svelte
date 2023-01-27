@@ -1,7 +1,9 @@
-<main class="scroll">
+<script>
+	import '$lib/layout-classes/all.css';
+	import Nav from '../lib/components/Nav.svelte';
+</script>
+
+<main class="viewport col">
+	<Nav />
 	<slot />
 </main>
-
-<style global lang="postcss">
-	@import '../lib/layout-classes/all.css';
-</style>
