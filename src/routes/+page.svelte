@@ -4,6 +4,10 @@
 	import Header from '$lib/components/Header.svelte';
 	import ToolsList from '$lib/components/ToolsList.svelte';
 	import TipsList from '$lib/components/TipsList.svelte';
+
+	export let data;
+
+	console.log(data);
 </script>
 
 <svelte:head>
