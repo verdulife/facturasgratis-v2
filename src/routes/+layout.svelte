@@ -7,3 +7,9 @@
 	<Nav />
 	<slot />
 </main>
+
+<style lang="postcss">
+	main {
+		background-color: var(--c-neutral);
+	}
+</style>

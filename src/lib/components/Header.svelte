@@ -1,34 +1,26 @@
 <script>
-	import { User } from '$lib/stores';
-
-	const userData = Object.keys($User).length > 0;
+	import { searchTerm } from '$lib/stores';
 </script>
 
 <header class="col acenter xfill">
 	<h1>Herramientas gratuitas para autónomos y pymes</h1>
-	<p>
+	<!-- <p>
 		La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos,
 		albaranes, clientes, proveedores, productos y servicios. Si eres <strong>autónomo</strong> o
 		tienes una <strong>pequeña empresa</strong> esta es tu herramienta. Empieza ahora, sin registrarte
 		y gratis.
-	</p>
+	</p> -->
 
-	{#if !userData}
-		<h2>Primeros pasos</h2>
-		<p>
-			Para empezar a trabajar con <strong>facturasgratis</strong>, el primer paso es rellenar tus
-			datos.
-		</p>
-	{/if}
-
-	<a href="/ajustes" class="btn succ semi">TUS DATOS</a>
+	<div class="input-wrapper row acenter nowrap">
+		<input class="grow" type="text" placeholder="🔍 ¿Que quieres hacer?" bind:value={$searchTerm} />
+		<button class="accent round"><b>BUSCAR</b></button>
+	</div>
 </header>
 
 <style lang="postcss">
 	header {
-		background: linear-gradient(45deg, var(--c-neutral-900) 50%, var(--c-neutral-700));
+		background: radial-gradient(ellipse at top, var(--c-accent-300), var(--c-neutral) 75%);
 		text-align: center;
-		color: var(--c-neutral);
 		padding: 60px 40px;
 
 		@media (--mobile) {
@@ -38,7 +30,7 @@
 
 	h1 {
 		max-width: 900px;
-		font-size: 3vw;
+		font-size: clamp(40px 8vw, 60px);
 		line-height: 1.2;
 		margin-bottom: 40px;
 
@@ -48,11 +40,7 @@
 		}
 	}
 
-	h2 {
-		font-size: 2em;
-	}
-
-	p {
+	/* p {
 		max-width: 900px;
 		font-size: 18px;
 		color: var(--c-neutral);
@@ -61,9 +49,23 @@
 		@media (--mobile) {
 			font-size: 14px;
 		}
-	}
+	} */
 
-	a.btn {
-		min-width: 200px;
+	.input-wrapper {
+		width: 550px;
+		gap: 0.5em;
+		background-color: var(--c-neutral);
+		border: 1px solid var(--c-neutral-100);
+		border-radius: 0.5em;
+		padding: 0.25em;
+
+		& input {
+			padding: 0;
+			padding-left: 0.5em;
+		}
+
+		& button {
+			padding: 0.5em 1em;
+		}
 	}
 </style>

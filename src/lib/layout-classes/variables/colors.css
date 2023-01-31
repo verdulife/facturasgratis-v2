@@ -65,15 +65,13 @@
 
   /* Scrollbar colors */
   --c-scroll-thumb: var(--c-accent);
-  --c-scroll-track: var(--c-neutral-800);
+  --c-scroll-track: var(--c-neutral-100);
 
   /* Selection colors */
   --c-selection-bg: var(--c-accent);
-  --c-selection-color: var(--c-neutral);
+  --c-selection-color: var(--text-accent);
 
   /* Input elements color */
   --c-input-placeholder: var(--c-neutral-700);
-
-  /* Input elements color */
   --c-input-elements: var(--c-accent);
 }

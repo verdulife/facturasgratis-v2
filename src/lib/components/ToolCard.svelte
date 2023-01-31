@@ -2,7 +2,7 @@
 	export let tool;
 </script>
 
-<article class="col acenter fill">
+<article class="col acenter fill" style="background-image: url('{tool.icon}')">
 	<a class="fill" href={tool.slug}>
 		<picture>
 			<img width="50" height="50" src={tool.icon} alt={tool.title} title={tool.title} />
@@ -21,25 +21,31 @@
 	article {
 		position: relative;
 		width: 250px;
-		border: 1px solid var(--c-neutral-200);
-		border-radius: 0.25em;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
 		padding: 0;
-		transition: 200ms;
-
+		
 		@media (--mobile) {
 			width: calc(50% - 2px);
 			min-width: 0;
 			margin: 1px;
 		}
-
-		&:hover {
-			background: var(--c-neutral-200);
-		}
 	}
-
+	
 	a {
+		background-color: hsl(var(--a-neutral), 0.6);
+		backdrop-filter: blur(50px) saturate(0.5);
 		color: var(--text-accent);
+		border: 1px solid var(--c-neutral-200);
+		border-radius: 0.5em;
 		padding: 20px;
+		transition: 150ms;
+		overflow: hidden;
+		
+		&:hover {
+			background-color: var(--c-accent);
+		}
 	}
 
 	picture {
