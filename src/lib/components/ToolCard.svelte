@@ -24,15 +24,17 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
+		border-radius: 0.5em;
 		padding: 0;
-		
+		overflow: hidden;
+
 		@media (--mobile) {
 			width: calc(50% - 2px);
 			min-width: 0;
 			margin: 1px;
 		}
 	}
-	
+
 	a {
 		background-color: hsl(var(--a-neutral), 0.6);
 		backdrop-filter: blur(50px) saturate(0.5);
@@ -42,7 +44,7 @@
 		padding: 20px;
 		transition: 150ms;
 		overflow: hidden;
-		
+
 		&:hover {
 			background-color: var(--c-accent);
 		}

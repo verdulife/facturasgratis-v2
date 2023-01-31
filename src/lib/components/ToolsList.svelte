@@ -18,6 +18,8 @@
 			<li class="row">
 				<ToolCard {tool} />
 			</li>
+			{:else}
+				<p>No hay conincidencias</p>
 		{/each}
 	</ul>
 </section>
