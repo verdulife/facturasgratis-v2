@@ -6,8 +6,9 @@
 	import TipsList from '$lib/components/TipsList.svelte';
 
 	export let data;
+	const { users_data } = data;
 
-	console.log(data);
+	console.log(users_data);
 </script>
 
 <svelte:head>
