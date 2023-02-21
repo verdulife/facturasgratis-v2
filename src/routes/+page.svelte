@@ -4,11 +4,6 @@
 	import Header from '$lib/components/Header.svelte';
 	import ToolsList from '$lib/components/ToolsList.svelte';
 	import TipsList from '$lib/components/TipsList.svelte';
-
-	export let data;
-	const { users_data } = data;
-
-	console.log(users_data);
 </script>
 
 <svelte:head>
@@ -33,8 +28,6 @@
 	<meta name="twitter:image" content={home.image} />
 </svelte:head>
 
-<div class="scroll">
-	<Header />
-	<ToolsList />
-	<TipsList />
-</div>
+<Header />
+<ToolsList />
+<TipsList />

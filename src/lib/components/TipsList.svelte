@@ -3,7 +3,7 @@
 	import TipCard from '$lib/components/TipCard.svelte';
 </script>
 
-<section class="col acenter xfill">
+<section class="col acenter wfull">
 	<h2>Consejos para hacer tus facturas</h2>
 	<p>
 		Aquí encontraras algunos de los consejos que te ayudaran a hacer mejores facturas, evitar

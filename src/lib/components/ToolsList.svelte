@@ -12,10 +12,10 @@
 	});
 </script>
 
-<section class="col acenter xfill">
-	<ul class="row jcenter xfill">
+<section class="col acenter wfull">
+	<ul class="row jcenter astretch wrap wfull">
 		{#each filteredTools as tool}
-			<li class="row">
+			<li class="row hfull">
 				<ToolCard {tool} />
 			</li>
 			{:else}

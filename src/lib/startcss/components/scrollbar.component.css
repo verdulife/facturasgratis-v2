@@ -1,0 +1,38 @@
+/* 
+          __             __                
+    _____/ /_____ ______/ /________________
+   / ___/ __/ __ `/ ___/ __/ ___/ ___/ ___/
+  (__  ) /_/ /_/ / /  / /_/ /__(__  |__  ) 
+ /____/\__/\__,_/_/   \__/\___/____/____/  v0.0.1 
+
+*/
+
+@custom-selector :--button button, a.btn;
+
+/* ⚡ startcss reset ⚡ */
+
+.scrollbar {
+	&::-webkit-scrollbar {
+		width: 20px;
+		background-color: transparent;
+
+		@media (--touch) {
+			width: 0;
+		}
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: var(--alt);
+		background-clip: padding-box;
+		border: 6px solid transparent;
+		border-radius: 20px;
+
+		@media (--dark) {
+			background-color: var(--accent);
+		}
+	}
+}

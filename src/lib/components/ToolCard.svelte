@@ -2,13 +2,13 @@
 	export let tool;
 </script>
 
-<article class="col acenter fill" style="background-image: url('{tool.icon}')">
-	<a class="fill" href={tool.slug}>
+<article class="col acenter full" style="background-image: url('{tool.icon}')">
+	<a class="full" href={tool.slug}>
 		<picture>
 			<img width="50" height="50" src={tool.icon} alt={tool.title} title={tool.title} />
 		</picture>
 
-		<h2 class="xfill">{tool.title}</h2>
+		<h2 class="wfull">{tool.title}</h2>
 		<p>{tool.desc}</p>
 
 		{#if tool.soon}
@@ -21,6 +21,7 @@
 	article {
 		position: relative;
 		width: 250px;
+		height: 300px;
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
@@ -39,6 +40,7 @@
 		background-color: hsl(var(--a-neutral), 0.6);
 		backdrop-filter: blur(50px) saturate(0.5);
 		color: var(--text-accent);
+		text-decoration: none;
 		border: 1px solid var(--c-neutral-200);
 		border-radius: 0.5em;
 		padding: 20px;
@@ -55,7 +57,6 @@
 	}
 
 	h2 {
-		font-size: 2em;
 		margin-bottom: 10px;
 		line-height: 1;
 

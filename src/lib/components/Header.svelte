@@ -2,7 +2,7 @@
 	import { searchTerm } from '$lib/stores';
 </script>
 
-<header class="col acenter xfill">
+<header class="col acenter wfull">
 	<h1>Herramientas gratuitas para autónomos y pymes</h1>
 	<!-- <p>
 		La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos,
@@ -11,21 +11,14 @@
 		y gratis.
 	</p> -->
 
-	<div class="input-wrapper row acenter nowrap">
-		<input class="grow" type="text" placeholder="🔍 ¿Que quieres hacer?" bind:value={$searchTerm} />
-		<button class="accent round"><b>BUSCAR</b></button>
-	</div>
+	<input class="wfull" type="text" placeholder="🔍 ¿Que quieres hacer?" bind:value={$searchTerm} />
 </header>
 
 <style lang="postcss">
 	header {
 		background: radial-gradient(ellipse at top, var(--c-accent-300), var(--c-neutral) 75%);
 		text-align: center;
-		padding: 60px 40px;
-
-		@media (--mobile) {
-			padding: 40px 20px;
-		}
+		padding: clamp(120px, 10%, 10%) 40px 60px 40px;
 	}
 
 	h1 {
@@ -34,7 +27,7 @@
 		line-height: 1.2;
 		margin-bottom: 40px;
 
-		@media (--mobile) {
+		@media (--sm) {
 			font-size: 5vh;
 			margin-bottom: 20px;
 		}
@@ -46,26 +39,12 @@
 		color: var(--c-neutral);
 		margin-bottom: 20px;
 
-		@media (--mobile) {
+		@media (--sm) {
 			font-size: 14px;
 		}
 	} */
 
-	.input-wrapper {
-		width: 550px;
-		gap: 0.5em;
-		background-color: var(--c-neutral);
-		border: 1px solid var(--c-neutral-100);
-		border-radius: 0.5em;
-		padding: 0.25em;
-
-		& input {
-			padding: 0;
-			padding-left: 0.5em;
-		}
-
-		& button {
-			padding: 0.5em 1em;
-		}
+	input {
+		max-width: 550px;
 	}
 </style>
