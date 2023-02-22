@@ -1,23 +1,33 @@
 <script>
+	import { onMount } from 'svelte';
 	import { tools } from '$lib/tools';
 
 	import Image from '$lib/components/Image.svelte';
+	import Logo from '$lib/icons/Logo.svelte';
+
+	let visible = false;
+
+	onMount(() => {
+		const scrollbar = document.querySelector('.scrollbar');
+		scrollbar.addEventListener('scroll', (e) => {
+			const { scrollTop } = e.target;
+			visible = scrollTop > 100 ? true : false;
+		});
+	});
 </script>
 
 <nav class="col acenter wfull">
-	<main class="row acenter wfull">
+	<main class="row acenter wfull" class:visible>
 		<a class="row" href="/">
-			<Image width="200px" src="/logo.svg" alt="Facturasgratis" />
+			<Logo width="150px" />
 		</a>
 
-		<button>
-			<p>Herramientas</p>
-		</button>
+		<button class="unstyled">Herramientas</button>
 
 		<a class="btn" href="/ajustes">Tus datos</a>
 	</main>
 
-	<ul class="row wrap wfull">
+	<ul class="row jcenter wrap wfull">
 		{#each tools as { slug, title, icon }}
 			<li>
 				<a class="row wfull" href={slug}>
@@ -46,26 +56,30 @@
 
 	main {
 		gap: 2em;
-		background-color: hsl(var(--base-900-hsl), 0.8);
-		backdrop-filter: blur(1em);
-		border-bottom: 1px solid hsl(var(--base-hsl), 0.1);
-		padding: 1em 2em;
+		padding: 1em calc(50% - var(--media-xl) / 2);
 		z-index: 2;
 		pointer-events: all;
+		transition: background 150ms;
 
 		& span {
 			cursor: pointer;
 		}
 	}
 
+	.visible {
+		background-color: hsl(var(--base-900-hsl), 0.8);
+		backdrop-filter: blur(1em);
+		border-bottom: 1px solid hsl(var(--base-hsl), 0.1);
+	}
+
 	ul {
-		max-width: var(--media-xl);
+		max-width: var(--media-lg);
 		background-color: hsl(var(--base-900-hsl), 0.8);
 		backdrop-filter: blur(1em);
 		border: 1px solid hsl(var(--base-hsl), 0.1);
-		border-top: none;
-		border-radius: 0 0 0.5em 0.5em;
+		border-radius: 0.5em;
 		padding: 1em;
+		margin-top: 0.25em;
 		transform: translateY(-50px);
 		opacity: 0;
 		pointer-events: none;
@@ -96,5 +110,6 @@
 
 	a.btn {
 		margin-left: auto;
+		padding: 1em 4em;
 	}
 </style>

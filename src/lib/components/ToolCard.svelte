@@ -1,12 +1,12 @@
 <script>
+	import Image from '$lib/components/Image.svelte';
+
 	export let tool;
 </script>
 
-<article class="col acenter full" style="background-image: url('{tool.icon}')">
-	<a class="full" href={tool.slug}>
-		<picture>
-			<img width="50" height="50" src={tool.icon} alt={tool.title} title={tool.title} />
-		</picture>
+<article class="col full" style="background-image: url('{tool.icon}')">
+	<a class="col jend full" href={tool.slug}>
+		<Image width="60" src={tool.icon} alt={tool.title} title />
 
 		<h2 class="wfull">{tool.title}</h2>
 		<p>{tool.desc}</p>
@@ -25,8 +25,8 @@
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
+		border: 1px solid var(--base-800);
 		border-radius: 0.5em;
-		padding: 0;
 		overflow: hidden;
 
 		@media (--mobile) {
@@ -37,52 +37,39 @@
 	}
 
 	a {
-		background-color: hsl(var(--a-neutral), 0.6);
-		backdrop-filter: blur(50px) saturate(0.5);
+		background-color: hsl(var(--base-900-hsl), 0.9);
+		backdrop-filter: blur(50px);
 		color: var(--text-accent);
-		text-decoration: none;
-		border: 1px solid var(--c-neutral-200);
+		text-decoration: none !important;
 		border-radius: 0.5em;
-		padding: 20px;
-		transition: 150ms;
+		padding: 1.25em;
 		overflow: hidden;
+		transition: 150ms;
 
 		&:hover {
-			background-color: var(--c-accent);
+			background-color: hsl(var(--base-900-hsl), 0.8);
 		}
-	}
-
-	picture {
-		margin-bottom: 10px;
 	}
 
 	h2 {
-		margin-bottom: 10px;
+		font-size: var(--font-lg);
 		line-height: 1;
-
-		@media (--mobile) {
-			font-size: 18px;
-		}
+		margin: 1em 0 0.25em 0;
 	}
 
 	p {
-		font-size: 16px;
-
-		@media (--mobile) {
-			font-size: 12px;
-		}
+		font-size: var(--font-xs);
 	}
 
 	span {
 		position: absolute;
 		top: 10px;
 		right: 10px;
-		background: var(--c-error);
+		background: var(--error);
 		font-size: 10px;
 		text-transform: uppercase;
-		color: var(--c-neutral);
-		border-radius: 5px;
-		padding: 2px 5px;
-		z-index: 9;
+		border-radius: 0.25em;
+		padding: 0.25em 0.75em;
+		z-index: 1;
 	}
 </style>

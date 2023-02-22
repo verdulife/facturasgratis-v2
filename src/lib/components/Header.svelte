@@ -3,7 +3,7 @@
 </script>
 
 <header class="col acenter wfull">
-	<h1>Herramientas gratuitas para autónomos y pymes</h1>
+	<h1>Herramientas de gestión para autónomos y pymes</h1>
 	<!-- <p>
 		La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos,
 		albaranes, clientes, proveedores, productos y servicios. Si eres <strong>autónomo</strong> o
@@ -16,7 +16,7 @@
 
 <style lang="postcss">
 	header {
-		background: radial-gradient(ellipse at top, var(--c-accent-300), var(--c-neutral) 75%);
+		background: radial-gradient(ellipse at top right, hsl(var(--accent-hsl), 0.2), transparent 70%);
 		text-align: center;
 		padding: clamp(120px, 10%, 10%) 40px 60px 40px;
 	}
@@ -45,6 +45,6 @@
 	} */
 
 	input {
-		max-width: 550px;
+		max-width: var(--media-md);
 	}
 </style>

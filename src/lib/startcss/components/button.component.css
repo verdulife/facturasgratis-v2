@@ -27,7 +27,7 @@
 	-webkit-user-drag: none;
 	padding: var(--button-padding);
 	transition: 150ms;
-
+	
 	&:hover,
 	&:focus {
 		background-color: hsl(var(--base-hsl), 0.1);
@@ -44,13 +44,35 @@
 	cursor: not-allowed;
 	background: var(--base-600);
 	color: var(--base-700);
-
+	
 	@media (--dark) {
 		background: var(--base-700);
 		color: var(--base-800);
 	}
-
+	
 	&.outline {
 		color: var(--base-700);
+	}
+}
+
+:--button.unstyled {
+	background-color: unset;
+	backdrop-filter: unset;
+	color: var(--base-500);
+	font-size: var(--font-sm);
+	font-weight: lighter;
+	border: unset;
+	padding: unset;
+	
+	&:hover {
+		color: var(--base-800);
+	}
+
+	@media (--dark) {
+		color: var(--base-200);
+
+		&:hover {
+			color: var(--base);
+		}
 	}
 }

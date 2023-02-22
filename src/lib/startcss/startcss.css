@@ -19,8 +19,8 @@
 
 @import './components/base.component.css';
 @import './components/scrollbar.component.css';
-@import './components/anchor.component.css';
 @import './components/button.component.css';
+@import './components/anchor.component.css';
 @import './components/text.component.css';
 @import './components/heading.component.css';
 @import './components/code.component.css';

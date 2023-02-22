@@ -13,18 +13,13 @@
 /* ⚡ startcss reset ⚡ */
 
 :--input {
-	background-color: var(--base);
-	border: 1px solid var(--base-200);
-	border-radius: 0.5em;
+	background-color: hsl(var(--base-900-hsl), 0.6);
+	backdrop-filter: blur(5px);
+	border: 1px solid hsl(var(--base-hsl), 0.05);
+	border-radius: 0.6em;
 	font-weight: normal;
 	padding: var(--input-padding);
 	transition: 150ms;
-
-	@media (--dark) {
-		background-color: var(--base-900);
-		color: var(--base-100);
-		border: 1px solid var(--base-700);
-	}
 
 	&:focus,
 	&:active:not(:disabled) {
