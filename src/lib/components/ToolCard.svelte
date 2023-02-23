@@ -2,9 +2,16 @@
 	import Image from '$lib/components/Image.svelte';
 
 	export let tool;
+
+	function handleInner(e) {
+		const { clientX, currentTarget } = e;
+		const percentageX =
+			((clientX - currentTarget.offsetLeft) / currentTarget.clientWidth) * 100 + '%';
+		currentTarget.style.setProperty('--inner-x', percentageX);
+	}
 </script>
 
-<article class="col full" style="background-image: url('{tool.icon}')">
+<article class="col full" on:mousemove={handleInner}>
 	<a class="col jend full" href={tool.slug}>
 		<Image width="60" src={tool.icon} alt={tool.title} title />
 
@@ -19,6 +26,8 @@
 
 <style lang="postcss">
 	article {
+		--inner-x: 0;
+
 		position: relative;
 		width: 250px;
 		height: 300px;
@@ -26,8 +35,20 @@
 		background-repeat: no-repeat;
 		background-size: cover;
 		border: 1px solid var(--base-200);
-		border-radius: 0.5em;
+		border-radius: 0.3em;
 		overflow: hidden;
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: var(--inner-x);
+			transform: translate(-50%, -50%);
+			width: 60%;
+			height: 150%;
+			background-color: var(--base-200);
+			border-radius: 50%;
+		}
 
 		@media (--dark) {
 			border: 1px solid var(--base-800);
@@ -41,23 +62,23 @@
 	}
 
 	a {
-		background-color: hsl(var(--base-hsl), 0.7);
+		background-color: var(--base);
 		backdrop-filter: blur(50px);
 		text-decoration: none !important;
-		border-radius: 0.5em;
+		border-radius: 0.3em;
 		padding: 1.25em;
-		overflow: hidden;
 		transition: 150ms;
+		z-index: 1;
 
 		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.9);
+			background-color: var(--base-800);
 		}
 
 		&:hover {
-			background-color: hsl(var(--base-hsl), 0.5);
+			background-color: hsl(var(--base-hsl), 0.6);
 
 			@media (--dark) {
-				background-color: hsl(var(--base-900-hsl), 0.8);
+				background-color: hsl(var(--base-800-hsl), 0.95);
 			}
 		}
 	}

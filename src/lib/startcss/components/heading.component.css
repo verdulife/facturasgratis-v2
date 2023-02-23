@@ -12,7 +12,13 @@
 /* ⚡ startcss reset ⚡ */
 
 :--heading {
-	font-family: var(--font-title);
+	font-family: var(--font-base);
+
+	& strong,
+	& b {
+		font-family: var(--font-title);
+		text-shadow: 0 0 0.1em currentColor;
+	}
 }
 
 h1 {

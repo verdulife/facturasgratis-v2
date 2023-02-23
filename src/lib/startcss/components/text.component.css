@@ -23,11 +23,11 @@
 	}
 
 	&::selection {
-		background-color: var(--alt);
+		background-color: var(--base-800);
 		color: var(--base-100);
 
 		@media (--dark) {
-			background-color: var(--accent);
+			background-color: var(--base-100);
 			color: var(--base-800);
 		}
 	}
@@ -35,19 +35,14 @@
 	& strong,
 	& b {
 		font-weight: bold;
-		color: var(--base-600);
-
-		@media (--dark) {
-			color: var(--accent);
-		}
 
 		&::selection {
-			background-color: var(--alt);
-			color: var(--accent);
+			background-color: var(--base-800);
+			color: var(--base-100);
 
 			@media (--dark) {
-				background-color: var(--accent);
-				color: var(--alt);
+				background-color: var(--base-100);
+				color: var(--base-800);
 			}
 		}
 	}

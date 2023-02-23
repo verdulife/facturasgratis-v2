@@ -22,7 +22,7 @@
 			<Logo width="150px" />
 		</a>
 
-		<button class="unstyled">Herramientas</button>
+		<button class="row fcenter unstyled">Herramientas<span>↘</span></button>
 
 		<a class="btn" href="/ajustes">Tus datos</a>
 	</main>
@@ -47,10 +47,20 @@
 		z-index: 2;
 		pointer-events: none;
 
-		&:has(button:focus-within) ul {
-			transform: translateY(0);
-			opacity: 1;
-			pointer-events: all;
+		& button > span {
+			transition: 150ms;
+		}
+
+		&:has(button:focus-within) {
+			& button > span {
+				transform: rotate(-90deg);
+			}
+
+			& ul {
+				transform: translateY(0);
+				opacity: 1;
+				pointer-events: all;
+			}
 		}
 	}
 
@@ -88,7 +98,7 @@
 		background-color: hsl(var(--base-hsl), 0.8);
 		backdrop-filter: blur(1em);
 		border: 1px solid hsl(var(--base-900-hsl), 0.1);
-		border-radius: 0.5em;
+		border-radius: 0.3em;
 		padding: 1em;
 		margin-top: 0.25em;
 		transform: translateY(-50px);
@@ -99,7 +109,7 @@
 
 		@media (--dark) {
 			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-bottom: 1px solid hsl(var(--base-hsl), 0.1);
+			border: 1px solid hsl(var(--base-hsl), 0.1);
 		}
 
 		& li {
@@ -110,15 +120,15 @@
 			height: 80px;
 			gap: 1em;
 			text-decoration: none;
-			border-radius: 0.5em;
+			border-radius: 0.3em;
 			padding: 1em;
 			transition: 150ms;
 
 			&:hover {
-				background-color: hsl(var(--accent-hsl), 0.8);
+				background-color: hsl(var(--base-900-hsl), 0.05);
 
-				& p {
-					color: var(--base-900);
+				@media (--dark) {
+					background-color: hsl(var(--base-hsl), 0.05);
 				}
 			}
 

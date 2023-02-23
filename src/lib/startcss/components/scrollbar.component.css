@@ -26,13 +26,13 @@
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background-color: var(--alt);
+		background-color: var(--base-900);
 		background-clip: padding-box;
 		border: 6px solid transparent;
 		border-radius: 20px;
 
 		@media (--dark) {
-			background-color: var(--accent);
+			background-color: var(--base);
 		}
 	}
 }

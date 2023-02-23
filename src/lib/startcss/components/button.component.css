@@ -17,30 +17,30 @@
 	background-color: hsl(var(--base-900-hsl), 0.05);
 	backdrop-filter: blur(5px);
 	color: var(--base-900);
+	font-family: var(--font-title);
 	font-size: var(--font-xs);
 	font-weight: bold;
 	text-align: center;
 	text-decoration: none;
 	border: 1px solid hsl(var(--base-900-hsl), 0.05);
-	border-radius: 0.6em;
+	border-radius: 0.3em;
 	user-select: none;
 	-webkit-user-drag: none;
 	padding: var(--button-padding);
 	transition: 150ms;
-	
+
 	@media (--dark) {
 		background-color: hsl(var(--base-hsl), 0.05);
 		color: var(--accent);
 		border: 1px solid hsl(var(--base-hsl), 0.05);
 	}
-	
+
 	&:hover,
 	&:focus {
 		background-color: hsl(var(--base-900-hsl), 0.1);
-		
+
 		@media (--dark) {
-			background-color: hsl(var(--base-hsl), 0.05);
-			color: var(--accent);
+			background-color: hsl(var(--base-hsl), 0.1);
 			border: 1px solid hsl(var(--base-hsl), 0.05);
 		}
 	}
@@ -71,8 +71,6 @@
 	background-color: unset;
 	backdrop-filter: unset;
 	color: var(--base-500);
-	font-size: var(--font-sm);
-	font-weight: lighter;
 	border: unset;
 	padding: unset;
 
