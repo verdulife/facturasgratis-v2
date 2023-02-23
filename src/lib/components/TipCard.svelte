@@ -19,12 +19,12 @@
 		padding: 30px 20px;
 
 		& h3 {
-			font-size: 2em;
+			line-height: 1;
 			margin-bottom: 10px;
 		}
 
 		& p {
-			font-size: 14px;
+			font-size: var(--font-xs);
 			text-align: left;
 			margin: 0;
 		}

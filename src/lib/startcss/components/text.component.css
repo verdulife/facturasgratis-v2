@@ -35,7 +35,7 @@
 	& strong,
 	& b {
 		font-weight: bold;
-		color: var(--alt);
+		color: var(--base-600);
 
 		@media (--dark) {
 			color: var(--accent);

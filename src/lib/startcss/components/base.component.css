@@ -10,7 +10,7 @@
 /* 🎨 custom properties 🎨 */
 
 body {
-	--background: var(--base);
+	--background: var(--base-100);
 	--color: var(--base-900);
 	--font-family: var(--font-base);
 	--border-radius: 0.5em;

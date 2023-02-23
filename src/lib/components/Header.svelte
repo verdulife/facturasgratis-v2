@@ -1,24 +1,43 @@
 <script>
+	import { onMount } from 'svelte';
 	import { searchTerm } from '$lib/stores';
+
+	onMount(() => {
+		window.addEventListener('mousemove', (e) => {
+			const { clientX } = e;
+			const xPercentage = `${(clientX / window.innerWidth) * 100}%`;
+			const header = document.querySelector('header');
+
+			header.style.setProperty('--x-gradient', xPercentage);
+		});
+	});
 </script>
 
 <header class="col acenter wfull">
-	<h1>Herramientas de gestión para autónomos y pymes</h1>
-	<!-- <p>
-		La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos,
-		albaranes, clientes, proveedores, productos y servicios. Si eres <strong>autónomo</strong> o
-		tienes una <strong>pequeña empresa</strong> esta es tu herramienta. Empieza ahora, sin registrarte
-		y gratis.
-	</p> -->
+	<h1>Herramientas de gestión para <strong>autónomos</strong> y <strong>pymes</strong></h1>
 
-	<input class="wfull" type="text" placeholder="🔍 ¿Que quieres hacer?" bind:value={$searchTerm} />
+	<input class="wfull" type="text" placeholder="¿Que quieres hacer?" bind:value={$searchTerm} />
 </header>
 
 <style lang="postcss">
 	header {
-		background: radial-gradient(ellipse at top right, hsl(var(--accent-hsl), 0.2), transparent 70%);
+		--x-gradient: 100%;
+
+		background: radial-gradient(
+			ellipse at var(--x-gradient) 0,
+			hsl(var(--accent-hsl), 0.8),
+			transparent 70%
+		);
 		text-align: center;
 		padding: clamp(120px, 10%, 10%) 40px 60px 40px;
+
+		@media (--dark) {
+			background: radial-gradient(
+				ellipse at var(--x-gradient) 0,
+				hsl(var(--accent-hsl), 0.2),
+				transparent 70%
+			);
+		}
 	}
 
 	h1 {

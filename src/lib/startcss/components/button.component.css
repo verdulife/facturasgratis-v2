@@ -14,23 +14,35 @@
 :--button {
 	cursor: pointer;
 	display: block;
-	background-color: hsl(var(--base-hsl), 0.05);
+	background-color: hsl(var(--base-900-hsl), 0.05);
 	backdrop-filter: blur(5px);
-	color: var(--accent);
+	color: var(--base-900);
 	font-size: var(--font-xs);
 	font-weight: bold;
 	text-align: center;
 	text-decoration: none;
-	border: 1px solid hsl(var(--base-hsl), 0.05);
+	border: 1px solid hsl(var(--base-900-hsl), 0.05);
 	border-radius: 0.6em;
 	user-select: none;
 	-webkit-user-drag: none;
 	padding: var(--button-padding);
 	transition: 150ms;
 	
+	@media (--dark) {
+		background-color: hsl(var(--base-hsl), 0.05);
+		color: var(--accent);
+		border: 1px solid hsl(var(--base-hsl), 0.05);
+	}
+	
 	&:hover,
 	&:focus {
-		background-color: hsl(var(--base-hsl), 0.1);
+		background-color: hsl(var(--base-900-hsl), 0.1);
+		
+		@media (--dark) {
+			background-color: hsl(var(--base-hsl), 0.05);
+			color: var(--accent);
+			border: 1px solid hsl(var(--base-hsl), 0.05);
+		}
 	}
 
 	&.outline {
@@ -44,12 +56,12 @@
 	cursor: not-allowed;
 	background: var(--base-600);
 	color: var(--base-700);
-	
+
 	@media (--dark) {
 		background: var(--base-700);
 		color: var(--base-800);
 	}
-	
+
 	&.outline {
 		color: var(--base-700);
 	}
@@ -63,7 +75,7 @@
 	font-weight: lighter;
 	border: unset;
 	padding: unset;
-	
+
 	&:hover {
 		color: var(--base-800);
 	}

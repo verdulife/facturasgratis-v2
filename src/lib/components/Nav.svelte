@@ -61,22 +61,33 @@
 		pointer-events: all;
 		transition: background 150ms;
 
-		& span {
-			cursor: pointer;
+		& a:first-of-type {
+			margin-left: 2em;
+		}
+
+		& a:last-of-type {
+			margin-left: auto;
+			margin-right: 2em;
+			padding: 1em 4em;
 		}
 	}
 
 	.visible {
-		background-color: hsl(var(--base-900-hsl), 0.8);
+		background-color: hsl(var(--base-hsl), 0.8);
 		backdrop-filter: blur(1em);
-		border-bottom: 1px solid hsl(var(--base-hsl), 0.1);
+		border-bottom: 1px solid hsl(var(--base-900-hsl), 0.1);
+
+		@media (--dark) {
+			background-color: hsl(var(--base-900-hsl), 0.8);
+			border-bottom: 1px solid hsl(var(--base-hsl), 0.1);
+		}
 	}
 
 	ul {
 		max-width: var(--media-lg);
-		background-color: hsl(var(--base-900-hsl), 0.8);
+		background-color: hsl(var(--base-hsl), 0.8);
 		backdrop-filter: blur(1em);
-		border: 1px solid hsl(var(--base-hsl), 0.1);
+		border: 1px solid hsl(var(--base-900-hsl), 0.1);
 		border-radius: 0.5em;
 		padding: 1em;
 		margin-top: 0.25em;
@@ -85,6 +96,11 @@
 		pointer-events: none;
 		transition: 150ms;
 		z-index: 1;
+
+		@media (--dark) {
+			background-color: hsl(var(--base-900-hsl), 0.8);
+			border-bottom: 1px solid hsl(var(--base-hsl), 0.1);
+		}
 
 		& li {
 			width: 220px;
@@ -99,17 +115,16 @@
 			transition: 150ms;
 
 			&:hover {
-				background-color: hsl(var(--base-hsl), 0.05);
+				background-color: hsl(var(--accent-hsl), 0.8);
+
+				& p {
+					color: var(--base-900);
+				}
 			}
 
 			& p {
 				font-size: var(--font-xs);
 			}
 		}
-	}
-
-	a.btn {
-		margin-left: auto;
-		padding: 1em 4em;
 	}
 </style>
