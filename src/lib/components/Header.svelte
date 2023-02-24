@@ -43,10 +43,6 @@
 		max-width: 900px;
 		font-size: var(--font-2xl);
 		line-height: 1.2;
-
-		& strong {
-			font-weight: lighter;
-		}
 	}
 
 	input {
@@ -55,10 +51,10 @@
 
 	.ydiv {
 		height: 8em;
-		background: linear-gradient(to bottom, transparent, var(--base-200), transparent);
+		background: linear-gradient(to bottom, transparent, var(--base-300), transparent);
 
 		@media (--dark) {
-			background: linear-gradient(to bottom, transparent, var(--base-800), transparent);
+			background: linear-gradient(to bottom, transparent, var(--base-700), transparent);
 		}
 	}
 </style>

@@ -9,14 +9,27 @@
 
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
 
+/* 🎨 dynamic properties 🎨 */
+
+:--heading {
+	color: var(--base-900);
+
+	@media (--dark) {
+		--color: var(--base);
+	}
+}
+
 /* ⚡ startcss reset ⚡ */
 
 :--heading {
+	color: var(--color);
 	font-family: var(--font-base);
+	font-weight: normal;
 
 	& strong,
 	& b {
 		font-family: var(--font-title);
+		font-weight: normal;
 		text-shadow: 0 0 0.1em currentColor;
 	}
 }

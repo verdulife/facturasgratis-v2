@@ -19,20 +19,20 @@
 <nav class="col acenter wfull">
 	<main class="row acenter wfull" class:visible>
 		<a class="row" href="/">
-			<Logo width="150px" />
+			<Logo width="175px" />
 		</a>
 
-		<button class="row fcenter unstyled">Herramientas<span>↘</span></button>
+		<button class="unset row fcenter">Herramientas<span>↘</span></button>
 
-		<a class="btn" href="/ajustes">Tus datos</a>
+		<a role="button" href="/ajustes">Tus datos</a>
 	</main>
 
 	<ul class="row jcenter wrap wfull">
 		{#each tools as { slug, title, icon }}
 			<li>
-				<a class="row wfull" href={slug}>
+				<a class="row acenter wfull" href={slug}>
 					<Image src={icon} alt="title" width="30px" />
-					<p>{title}</p>
+					<p><b>{title}</b></p>
 				</a>
 			</li>
 		{/each}
@@ -84,7 +84,7 @@
 
 	.visible {
 		background-color: hsl(var(--base-hsl), 0.8);
-		backdrop-filter: blur(1em);
+		backdrop-filter: blur(6px);
 		border-bottom: 1px solid hsl(var(--base-900-hsl), 0.1);
 
 		@media (--dark) {
@@ -96,7 +96,7 @@
 	ul {
 		max-width: var(--media-lg);
 		background-color: hsl(var(--base-hsl), 0.8);
-		backdrop-filter: blur(1em);
+		backdrop-filter: blur(6px);
 		border: 1px solid hsl(var(--base-900-hsl), 0.1);
 		border-radius: 0.3em;
 		padding: 1em;
@@ -120,15 +120,16 @@
 			height: 80px;
 			gap: 1em;
 			text-decoration: none;
+			border: 3px solid transparent;
 			border-radius: 0.3em;
 			padding: 1em;
 			transition: 150ms;
 
 			&:hover {
-				background-color: hsl(var(--base-900-hsl), 0.05);
+				border-color: var(--base-200);
 
 				@media (--dark) {
-					background-color: hsl(var(--base-hsl), 0.05);
+					border-color: var(--base-800);
 				}
 			}
 

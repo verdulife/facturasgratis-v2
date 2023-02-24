@@ -7,17 +7,30 @@
 
 */
 
-/* 🎨 custom properties 🎨 */
+/* 🎨 dynamic properties 🎨 */
 
 body {
 	--background: var(--base-100);
 	--color: var(--base-900);
-	--font-family: var(--font-base);
-	--border-radius: 0.5em;
+	--border-radius: 0.75em;
 
 	@media (--dark) {
 		--background: var(--base-900);
 		--color: var(--base);
+	}
+
+	@media (--sm) {
+		--border-radius: 0.5em;
+	}
+}
+
+::selection {
+	--background-color: var(--base-800);
+	--color: var(--base-100);
+
+	@media (--dark) {
+		--background-color: var(--base-100);
+		--color: var(--base-800);
 	}
 }
 
@@ -50,23 +63,23 @@ body {
 
 html,
 body {
-	position: relative;
-	width: 100%;
 	height: 100%;
+	height: 100svh;
 	overflow-x: hidden;
 }
 
 html {
 	min-height: calc(100% + var(--safe-top));
+	min-height: calc(100svh + var(--safe-top));
 	background-color: #000;
-	font-size: 100%;
-	vertical-align: baseline;
 }
 
 body {
 	background: var(--background);
 	color: var(--color);
-	font-family: var(--font-family);
+	font-family: var(--font-base);
+	font-size: 100%;
+	vertical-align: baseline;
 
 	&[rounded] {
 		border-radius: var(--border-radius);
@@ -89,4 +102,9 @@ select {
 
 textarea {
 	resize: none;
+}
+
+::selection {
+	background-color: var(--background-color);
+	color: var(--color);
 }

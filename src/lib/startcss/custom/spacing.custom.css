@@ -23,10 +23,6 @@
 	--spacing-3xl: 2.5em;
 	--spacing-4xl: 4em;
 
-	--button-padding: var(--spacing-md) var(--spacing-2xl);
-	--input-padding: var(--spacing-sm);
-	--label-padding: var(--spacing-2xs) var(--spacing-xs);
-
 	--safe-top: env(safe-area-inset-top);
 	--safe-right: env(safe-area-inset-right);
 	--safe-bottom: env(safe-area-inset-bottom);

@@ -7,43 +7,29 @@
 
 */
 
-@custom-selector :--text p, a, span, input, textarea, select, option, optgroup, :--heading;
+@custom-selector :--text p, span, input, textarea, select, option, optgroup;
+
+/* 🎨 dynamic properties 🎨 */
+
+:--text {
+	--color: var(--base-800);
+
+	@media (--dark) {
+		--color: var(--base-100);
+	}
+}
 
 /* ⚡ startcss reset ⚡ */
 
 :--text {
-	font-family: var(--font-base);
 	font-size: var(--font-sm);
 	font-weight: normal;
 	line-height: 1.6;
-	color: var(--base-800);
-
-	@media (--dark) {
-		color: var(--base-100);
-	}
-
-	&::selection {
-		background-color: var(--base-800);
-		color: var(--base-100);
-
-		@media (--dark) {
-			background-color: var(--base-100);
-			color: var(--base-800);
-		}
-	}
+	color: var(--color);
 
 	& strong,
 	& b {
-		font-weight: bold;
-
-		&::selection {
-			background-color: var(--base-800);
-			color: var(--base-100);
-
-			@media (--dark) {
-				background-color: var(--base-100);
-				color: var(--base-800);
-			}
-		}
+		font-family: var(--font-title);
+		text-shadow: 0 0 0.1em currentColor;
 	}
 }

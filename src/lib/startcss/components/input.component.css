@@ -10,52 +10,77 @@
 @custom-selector :--input-ui [type='checkbox'], [type='radio'], [type='range'], progress;
 @custom-selector :--input input:not(:--input-ui), select, textarea;
 
-/* ⚡ startcss reset ⚡ */
+/* 🎨 dynamic properties 🎨 */
 
 :--input {
-	background-color: hsl(var(--base-hsl), 0.4);
-	backdrop-filter: blur(5px);
-	border: 1px solid hsl(var(--base-900-hsl), 0.1);
-	border-radius: 0.3em;
-	font-family: var(--font-title);
-	font-weight: normal;
-	padding: var(--input-padding);
-	transition: 150ms;
+	--background-color: hsl(var(--base-hsl), 0.4);
+	--border: 1px solid hsl(var(--base-900-hsl), 0.1);
 
 	@media (--dark) {
-		background-color: hsl(var(--base-900-hsl), 0.6);
-		border: 1px solid hsl(var(--base-hsl), 0.05);
+		--background-color: hsl(var(--base-900-hsl), 0.6);
+		--border: 1px solid hsl(var(--base-hsl), 0.05);
 	}
 
 	&:focus,
 	&:active:not(:disabled) {
-		box-shadow: inset 0 -10px 0 -6px var(--base-900);
-
-		@media (--dark) {
-			box-shadow: inset 0 -10px 0 -6px var(--accent);
-		}
+		--box-shadow: inset 0 -10px 0 -6px var(--accent);
 	}
 
 	&::placeholder {
-		color: var(--base-400);
+		--color: var(--base-400);
 
 		@media (--dark) {
-			color: var(--base-500);
+			--color: var(--base-500);
 		}
 	}
-}
 
-:--input:disabled {
-	cursor: not-allowed;
-	background: var(--base-200);
-	border-color: var(--base-300);
+	&:disabled {
+		--background-color: var(--base-200);
+		--border-color: var(--base-300);
 
-	@media (--dark) {
-		background: var(--base-700);
-		border-color: var(--base-600);
+		@media (--dark) {
+			--background-color: var(--base-700);
+			--border-color: var(--base-600);
+		}
 	}
 }
 
 :--input-ui {
-	accent-color: var(--accent);
+	--accent-color: var(--alt);
+
+	@media (--dark) {
+		--accent-color: var(--accent);
+	}
+}
+
+/* ⚡ startcss reset ⚡ */
+
+:--input {
+	background-color: var(--background-color);
+	backdrop-filter: blur(5px);
+	border: var(--border);
+	border-radius: 0.3em;
+	font-family: var(--font-title);
+	font-weight: normal;
+	padding: var(--spacing-sm);
+	transition: 150ms;
+
+	&:focus,
+	&:active:not(:disabled) {
+		box-shadow: var(--box-shadow);
+	}
+
+	&::placeholder {
+		color: var(--color);
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+		background-color: var(--background-color);
+		border-color: var(--border-color);
+	}
+}
+
+:--input-ui {
+	accent-color: var(--accent-color);
 }

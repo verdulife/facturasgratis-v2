@@ -1,88 +1,86 @@
 /* 
           __             __                
     _____/ /_____ ______/ /________________
-		/ ___/ __/ __ `/ ___/ __/ ___/ ___/ ___/
-		(__  ) /_/ /_/ / /  / /_/ /__(__  |__  ) 
-		/____/\__/\__,_/_/   \__/\___/____/____/  v0.0.1 
-		
-		*/
+   / ___/ __/ __ `/ ___/ __/ ___/ ___/ ___/
+  (__  ) /_/ /_/ / /  / /_/ /__(__  |__  ) 
+ /____/\__/\__,_/_/   \__/\___/____/____/  v0.0.1 
 
-@custom-selector :--button button, a.btn;
+*/
+
+@custom-selector :--button button, a[role='button'];
+
+/* 🎨 dynamic properties 🎨 */
+
+:--button {
+	--background-color: hsl(var(--base-900-hsl), 0.05);
+	--color: var(--base-900);
+	--border: 1px solid hsl(var(--base-900-hsl), 0.05);
+
+	@media (--dark) {
+		--background-color: hsl(var(--base-hsl), 0.05);
+		--color: var(--accent);
+		--border: 1px solid hsl(var(--base-hsl), 0.05);
+	}
+
+	&:hover,
+	&:focus {
+		--background-color: hsl(var(--base-900-hsl), 0.1);
+
+		@media (--dark) {
+			--background-color: hsl(var(--base-hsl), 0.1);
+			--border: 1px solid hsl(var(--base-hsl), 0.05);
+		}
+	}
+}
+
+:--button[disabled] {
+	--background-color: var(--base-600);
+	--color: var(--base-700);
+
+	@media (--dark) {
+		--background-color: var(--base-700);
+		--color: var(--base-800);
+	}
+}
+
+:--button.unset {
+	--background-color: unset;
+	--color: unset;
+	--border: unset;
+}
 
 /* ⚡ startcss reset ⚡ */
 
 :--button {
 	cursor: pointer;
 	display: block;
-	background-color: hsl(var(--base-900-hsl), 0.05);
+	background-color: var(--background-color);
 	backdrop-filter: blur(5px);
-	color: var(--base-900);
+	color: var(--color);
 	font-family: var(--font-title);
 	font-size: var(--font-xs);
 	font-weight: bold;
 	text-align: center;
 	text-decoration: none;
-	border: 1px solid hsl(var(--base-900-hsl), 0.05);
+	border: var(--border);
 	border-radius: 0.3em;
+	text-shadow: 0 0 0.1em currentColor;
 	user-select: none;
 	-webkit-user-drag: none;
-	padding: var(--button-padding);
+	padding: var(--spacing-md) var(--spacing-2xl);
 	transition: 150ms;
-
-	@media (--dark) {
-		background-color: hsl(var(--base-hsl), 0.05);
-		color: var(--accent);
-		border: 1px solid hsl(var(--base-hsl), 0.05);
-	}
-
-	&:hover,
-	&:focus {
-		background-color: hsl(var(--base-900-hsl), 0.1);
-
-		@media (--dark) {
-			background-color: hsl(var(--base-hsl), 0.1);
-			border: 1px solid hsl(var(--base-hsl), 0.05);
-		}
-	}
-
-	&.outline {
-		background-color: transparent !important;
-		color: var(--accent);
-		border-color: currentColor;
-	}
 }
 
-:--button:disabled {
+:--button[disabled] {
 	cursor: not-allowed;
-	background: var(--base-600);
+	background-color: var(--base-600);
 	color: var(--base-700);
-
-	@media (--dark) {
-		background: var(--base-700);
-		color: var(--base-800);
-	}
-
-	&.outline {
-		color: var(--base-700);
-	}
 }
 
-:--button.unstyled {
-	background-color: unset;
+:--button.unset {
+	background-color: var(--backgrond-color);
 	backdrop-filter: unset;
-	color: var(--base-500);
-	border: unset;
+	color: var(--color);
+	border: var(--border);
 	padding: unset;
-
-	&:hover {
-		color: var(--base-800);
-	}
-
-	@media (--dark) {
-		color: var(--base-200);
-
-		&:hover {
-			color: var(--base);
-		}
-	}
 }

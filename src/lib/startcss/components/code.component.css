@@ -9,24 +9,29 @@
 
 @custom-selector :--code code, pre;
 
-/* 🎨 custom properties 🎨 */
+/* 🎨 dynamic properties 🎨 */
 
 :--code {
-	--sm: 640px;
-	--md: 768px;
-	--lg: 1024px;
-	--xl: 1280px;
-	--xxl: 1536px;
+	--color: var(--base-600);
+
+	@media (--dark) {
+		--color: var(--base-400);
+	}
+
+	& b {
+		color: var(--alt);
+
+		@media (--dark) {
+			--color: var(--accent);
+		}
+	}
 }
 
 /* ⚡ startcss reset ⚡ */
 
 :--code {
-	color: var(--accent);
+	color: var(--color);
+	font-family: var(--code-ui);
 	font-size: var(--font-md);
-	padding: var(--label-padding);
-
-	& > b {
-		color: var(--base-400);
-	}
+	padding: var(--spacing-2xs) var(--spacing-xs);
 }

@@ -7,18 +7,27 @@
 
 */
 
-@custom-selector :--button button, a.btn;
+/* 🎨 dynamic properties 🎨 */
+
+.scrollbar {
+	--width: 20px;
+	--background-color: var(--base-900);
+
+	@media (--dark) {
+		--background-color: var(--base);
+	}
+
+	@media (--touch) {
+		--width: 0;
+	}
+}
 
 /* ⚡ startcss reset ⚡ */
 
 .scrollbar {
 	&::-webkit-scrollbar {
-		width: 20px;
+		width: var(--width);
 		background-color: transparent;
-
-		@media (--touch) {
-			width: 0;
-		}
 	}
 
 	&::-webkit-scrollbar-track {
@@ -26,13 +35,9 @@
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background-color: var(--base-900);
+		background-color: var(--background-color);
 		background-clip: padding-box;
 		border: 6px solid transparent;
-		border-radius: 20px;
-
-		@media (--dark) {
-			background-color: var(--base);
-		}
+		border-radius: var(--width);
 	}
 }
