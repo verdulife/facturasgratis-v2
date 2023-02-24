@@ -2,7 +2,7 @@
 	import { tools } from '$lib/tools';
 	import { searchTerm } from '$lib/stores';
 
-	import ToolCard from '$lib/components/ToolCard.svelte';
+	import ToolCard from '$lib/components/home/ToolCard.svelte';
 
 	$: filteredTools = tools.filter((t) => {
 		const tool = t.title.toLowerCase();

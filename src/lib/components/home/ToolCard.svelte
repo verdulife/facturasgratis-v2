@@ -22,7 +22,6 @@
 		position: relative;
 		width: 250px;
 		height: 300px;
-		backdrop-filter: blur(50px);
 		border: 1px solid var(--base-200);
 		border-radius: 0.3em;
 		padding: 1.25em;

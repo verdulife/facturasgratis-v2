@@ -1,6 +1,6 @@
 <script>
 	import { tips } from '$lib/tips';
-	import TipCard from '$lib/components/TipCard.svelte';
+	import TipCard from '$lib/components/home/TipCard.svelte';
 </script>
 
 <section class="col acenter wfull">

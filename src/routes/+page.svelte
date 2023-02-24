@@ -1,9 +1,9 @@
 <script>
 	import { home } from '$lib/meta';
 
-	import Header from '$lib/components/Header.svelte';
-	import ToolsList from '$lib/components/ToolsList.svelte';
-	import TipsList from '$lib/components/TipsList.svelte';
+	import Header from '$lib/components/home/Header.svelte';
+	import ToolsList from '$lib/components/home/ToolsList.svelte';
+	import TipsList from '$lib/components/home/TipsList.svelte';
 </script>
 
 <svelte:head>

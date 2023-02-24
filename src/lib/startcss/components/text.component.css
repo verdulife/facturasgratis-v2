@@ -30,6 +30,7 @@
 	& strong,
 	& b {
 		font-family: var(--font-title);
+		font-weight: normal;
 		text-shadow: 0 0 0.1em currentColor;
 	}
 }

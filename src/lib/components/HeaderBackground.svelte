@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { searchTerm } from '$lib/stores';
 
 	onMount(() => {
 		window.addEventListener('mousemove', (e) => {
@@ -14,10 +13,7 @@
 </script>
 
 <header class="col acenter wfull">
-	<h1>Herramientas de gestión para <strong>autónomos</strong> y <strong>pymes</strong></h1>
-
-	<input class="wfull" type="text" placeholder="¿Que quieres hacer?" bind:value={$searchTerm} />
-
+	<slot />
 	<span class="ydiv" />
 </header>
 
@@ -26,7 +22,11 @@
 		--x-gradient: 100%;
 
 		gap: 2em;
-		background: radial-gradient(ellipse at var(--x-gradient) 0, hsl(var(--base-900-hsl), 0.2), transparent 70%);
+		background: radial-gradient(
+			ellipse at var(--x-gradient) 0,
+			hsl(var(--base-900-hsl), 0.2),
+			transparent 70%
+		);
 		text-align: center;
 		padding: clamp(120px, 12%, 12%) 40px 0 40px;
 
@@ -37,16 +37,6 @@
 				transparent 70%
 			);
 		}
-	}
-
-	h1 {
-		max-width: 900px;
-		font-size: var(--font-2xl);
-		line-height: 1.2;
-	}
-
-	input {
-		max-width: var(--media-md);
 	}
 
 	.ydiv {

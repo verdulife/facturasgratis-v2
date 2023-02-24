@@ -7,8 +7,9 @@
 <main class="scrollbar">
 	<Nav />
 	<slot />
-	<Cookies />
 </main>
+
+<Cookies />
 
 <style lang="postcss">
 	main {
