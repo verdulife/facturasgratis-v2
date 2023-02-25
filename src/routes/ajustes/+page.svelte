@@ -4,7 +4,10 @@
 
 	import Header from '$lib/components/ajustes/Header.svelte';
 	import LogoUploader from '$lib/components/ajustes/LogoUploader.svelte';
-	import LegalData from '../../lib/components/ajustes/LegalData.svelte';
+	import LegalData from '$lib/components/ajustes/LegalData.svelte';
+	import LegalAddress from '$lib/components/ajustes/LegalAddress.svelte';
+	import LegalContact from '$lib/components/ajustes/LegalContact.svelte';
+	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
 
 	$: user = $User;
 
@@ -155,123 +158,14 @@
 		bind:legal_id={user.legal_id}
 		bind:legal_initials={user.legal_initials}
 	/>
-
-	<div class="box round col xfill">
-		<h2>Dirección fiscal</h2>
-		<p class="notice">Los campos marcados con un 👈 son obligatorios.</p>
-
-		<div class="row xfill">
-			<div class="input-wrapper col xhalf">
-				<label for="street">Dirección fiscal 👈</label>
-				<input
-					type="text"
-					id="street"
-					bind:value={user.street}
-					class="xfill"
-					placeholder="Ej. Calle Mayor, 18"
-					required
-				/>
-			</div>
-
-			<div class="input-wrapper col xhalf">
-				<label for="cp">Código postal 👈</label>
-				<input
-					type="text"
-					id="cp"
-					bind:value={user.cp}
-					class="xfill"
-					placeholder="Ej. 08818"
-					required
-				/>
-			</div>
-		</div>
-
-		<div class="row xfill">
-			<div class="input-wrapper col xhalf">
-				<label for="city">Población 👈</label>
-				<input
-					type="text"
-					id="city"
-					bind:value={user.city}
-					class="xfill"
-					placeholder="Ej. Barcelona"
-					required
-				/>
-			</div>
-
-			<div class="input-wrapper col xhalf">
-				<label for="country">País 👈</label>
-				<input
-					type="text"
-					id="country"
-					bind:value={user.country}
-					class="xfill"
-					placeholder="Ej. España"
-					required
-				/>
-			</div>
-		</div>
-	</div>
-
-	<div class="box round col xfill">
-		<h2>Contacto</h2>
-		<p class="notice">Puedes rellenar ambos campos, pero con uno es suficiente.</p>
-
-		<div class="input-wrapper col xfill">
-			<label for="phone">Teléfono</label>
-			<input
-				type="text"
-				id="phone"
-				bind:value={user.phone}
-				class="xfill"
-				placeholder="Ej. 600 600 600"
-			/>
-		</div>
-
-		<div class="input-wrapper col xfill">
-			<label for="email">Correo electrónico</label>
-			<input
-				type="text"
-				id="email"
-				bind:value={user.email}
-				class="xfill"
-				placeholder="Ej. hola@facturagratis.com"
-			/>
-		</div>
-	</div>
-
-	<div class="box round col xfill">
-		<h2>Moneda e impuestos</h2>
-		<p class="notice">Si no rellenas el campo del IRPF, no lo aplicaremos.</p>
-
-		<div class="input-wrapper col xfill">
-			<label for="currency">Moneda</label>
-			<select id="currency" bind:value={user.currency} class="out xfill" required>
-				<option value="€">€</option>
-				<option value="$">$</option>
-				<option value="£">£</option>
-				<option value="¥">¥</option>
-				<option value="₹">₹</option>
-			</select>
-		</div>
-
-		<div class="input-wrapper col xfill">
-			<label for="iva">IVA %</label>
-			<input
-				type="number"
-				id="iva"
-				bind:value={user.iva}
-				class="xfill"
-				placeholder="Ej. 21"
-				required
-			/>
-		</div>
-
-		<div class="input-wrapper col xfill">
-			<label for="ret">IRPF %</label>
-			<input type="number" id="ret" bind:value={user.ret} class="xfill" placeholder="Ej. 15" />
-		</div>
-	</div>
+	<LegalAddress
+		bind:street={user.street}
+		bind:cp={user.cp}
+		bind:city={user.city}
+		bind:country={user.country}
+	/>
+	<LegalContact bind:phone={user.phone} bind:email={user.email} />
+	<LegalTaxes bind:currency={user.currency} bind:iva={user.iva} bind:ret={user.ret} />
 
 	<div class="box round col xfill">
 		<h2>Notas</h2>
