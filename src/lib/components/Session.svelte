@@ -1,29 +1,147 @@
 <script>
 	import Image from '$lib/components/Image.svelte';
-	import { User } from '$lib/stores';
+	import {
+		User,
+		Sessions,
+		Bills,
+		Budgets,
+		Deliveries,
+		Clients,
+		Products,
+		Providers,
+		Proforma_bills
+	} from '$lib/stores';
+
+	$: currentSession = {
+		db_userData: $User,
+		db_bills: $Bills,
+		db_budgets: $Budgets,
+		db_deliveries: $Deliveries,
+		db_clients: $Clients,
+		db_products: $Products,
+		db_providers: $Providers,
+		db_proforma_bills: $Proforma_bills
+	};
+
+	function clearData() {
+		$User = {};
+		$Bills = [];
+		$Budgets = [];
+		$Deliveries = [];
+		$Clients = [];
+		$Products = [];
+		$Providers = [];
+		$Proforma_bills = [];
+	}
+
+	function exportData() {
+		const dataStr =
+			'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(currentSession));
+		const link = document.createElement('a');
+
+		link.href = dataStr;
+		link.download = `${$User.legal_name}.facturasgratis`;
+		link.click();
+	}
+
+	function addSession() {
+		if (!$User.legal_name) return;
+
+    //change to loaded data to proper checking
+		const sessionExists = $Sessions.find(
+			(session) => session.db_userData.legal_name === currentSession.db_userData.legal_name
+		);
+
+		if (!sessionExists) {
+			$Sessions = [...$Sessions, currentSession];
+			return;
+		}
+
+		const check = confirm('Ya existe esta sesión. ¿Quieres sobrescribirla?');
+		if (!check) return;
+
+		const sessionToOverwrite = $Sessions.indexOf(sessionExists);
+		$Sessions[sessionToOverwrite] = currentSession;
+	}
+
+	function importData() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = '.facturasgratis';
+		input.click();
+
+		input.onchange = () => {
+			let reader = new FileReader();
+			reader.readAsText(input.files[0]);
+
+			reader.onload = (e) => {
+				const {
+					db_userData,
+					db_bills,
+					db_budgets,
+					db_clients,
+					db_deliveries,
+					db_products,
+					db_proforma_bills,
+					db_providers
+				} = JSON.parse(e.target.result);
+
+				const check = confirm(`
+¿Quieres cargar esta sesión?
+
+${db_userData.legal_name.toUpperCase()}
+Última modificación: ${Intl.DateTimeFormat('es-ES').format(new Date(db_userData._updated))}.
+          `);
+				if (!check) return;
+
+				if ($User.legal_name) addSession();
+
+				clearData();
+				$User = db_userData || {};
+				$Bills = db_bills || [];
+				$Budgets = db_budgets || [];
+				$Deliveries = db_deliveries || [];
+				$Clients = db_clients || [];
+				$Products = db_products || [];
+				$Providers = db_providers || [];
+				$Proforma_bills = db_proforma_bills || [];
+			};
+		};
+	}
 </script>
 
 <nav class="row acenter">
 	<aside class="row">
-		<button class="unset row acenter" title="Cargar sessíon">
+		<button class="unset row acenter" title="Cargar datos" on:click={importData}>
 			<b>↑</b>
-			<small>Cargar</small>
+			<small>Cargar datos</small>
 		</button>
 
-		{#if $User}
-			<button class="unset row acenter" title="Descargar sessión">
+		{#if $User.legal_name}
+			<button class="unset row acenter" title="Descargar datos" on:click={exportData}>
 				<b>↓</b>
 				<small>Descargar</small>
 			</button>
 		{/if}
 	</aside>
 
-	<a role="button" class="row acenter" href="/ajustes" title="Sesión actual: {$User.legal_name}">
-		<picture avatar>
-			<Image src={$User.logo} alt={$User.legal_name} />
-		</picture>
+	<a
+		role="button"
+		class="row acenter"
+		href="/ajustes"
+		title="Sesión actual: {$User.legal_name || 'Sin datos'}"
+	>
+		{#if $User.legal_name}
+			{#if $User.logo}
+				<picture avatar>
+					<Image src={$User.logo} alt={$User.legal_name} />
+				</picture>
+			{/if}
 
-		{$User.legal_name}
+			<span class="clamp">{$User.legal_name}</span>
+		{:else}
+			<span>Tus datos</span>
+		{/if}
 	</a>
 </nav>
 
@@ -61,6 +179,7 @@
 	}
 
 	a {
+		max-width: 200px;
 		background-color: hsl(var(--base-900-hsl), 0.5);
 		gap: 0.5em;
 		padding: 0.5em 1em;
@@ -69,6 +188,10 @@
 			width: 32px;
 			border: none;
 			border-radius: 0.3em;
+		}
+
+		& span {
+			font-size: var(--font-xs);
 		}
 	}
 </style>

@@ -11,8 +11,12 @@ const defaultCookies = { _created: new Date(), visited: false };
 export const Cookies = writable((browser && parseStorage("cookies")) || defaultCookies);
 Cookies.subscribe((value) => browser && (localStorage.cookies = JSON.stringify(value)));
 
-export const User = writable((browser && parseStorage("User")) || {});
-User.subscribe((value) => browser && (localStorage.User = JSON.stringify(value)));
+
+export const User = writable((browser && parseStorage("userData")) || {});
+User.subscribe((value) => browser && (localStorage.userData = JSON.stringify(value)));
+
+export const Sessions = writable((browser && parseStorage("Sessions")) || []);
+Sessions.subscribe((value) => browser && (localStorage.Sessions = JSON.stringify(value)));
 
 export const Bills = writable((browser && parseStorage("bills")) || []);
 Bills.subscribe((value) => browser && (localStorage.bills = JSON.stringify(value)));
@@ -34,6 +38,3 @@ Products.subscribe((value) => browser && (localStorage.products = JSON.stringify
 
 export const Providers = writable((browser && parseStorage("providers")) || []);
 Providers.subscribe((value) => browser && (localStorage.providers = JSON.stringify(value)));
-
-export const Expenses = writable((browser && parseStorage("expenses")) || []);
-Expenses.subscribe((value) => browser && (localStorage.expenses = JSON.stringify(value)));

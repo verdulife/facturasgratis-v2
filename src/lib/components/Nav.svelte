@@ -54,8 +54,8 @@
 			transition: 150ms;
 		}
 
-		&:has(button:focus-within) {
-			& button > span {
+		&:has(main > aside > button:focus-within) {
+			& > span {
 				transform: rotate(-90deg);
 			}
 

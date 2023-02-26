@@ -1,6 +1,6 @@
 <script>
 	import { ajustes } from '$lib/meta';
-	import { User, Bills, Budgets, Deliveries, Clients, Products, Providers } from '$lib/stores';
+	import { User } from '$lib/stores';
 
 	import Header from '$lib/components/ajustes/Header.svelte';
 	import LogoUploader from '$lib/components/ajustes/LogoUploader.svelte';
@@ -10,8 +10,7 @@
 	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 
-	let user = $User;
-	$: console.log(user);
+	$: user = $User;
 
 	function saveUserData() {
 		user._updated = new Date();
@@ -67,7 +66,7 @@
 	<LegalTaxes bind:currency={user.currency} bind:iva={user.iva} bind:ret={user.ret} />
 	<LegalNotes
 		bind:bill_note={user.bill_note}
-		bind:butget_note={user.butget_note}
+		bind:budget_note={user.budget_note}
 		bind:delivery_note={user.delivery_note}
 		bind:proforma_note={user.proforma_note}
 	/>
