@@ -69,6 +69,10 @@
 	nav {
 		gap: 2em;
 		margin-top: 2em;
+
+		& button > label {
+			cursor: pointer;
+		}
 	}
 
 	picture {

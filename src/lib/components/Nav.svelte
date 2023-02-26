@@ -4,6 +4,7 @@
 
 	import Image from '$lib/components/Image.svelte';
 	import Logo from '$lib/icons/Logo.svelte';
+	import Session from '$lib/components/Session.svelte';
 
 	let visible = false;
 
@@ -17,14 +18,16 @@
 </script>
 
 <nav class="col acenter wfull">
-	<main class="row acenter wfull" class:visible>
-		<a class="row" href="/">
-			<Logo width="175px" />
-		</a>
+	<main class="row jbetween acenter wfull" class:visible>
+		<aside class="row acenter center">
+			<a class="row" href="/">
+				<Logo width="175px" />
+			</a>
 
-		<button class="unset row fcenter">Herramientas<span>↘</span></button>
+			<button class="unset row fcenter">Herramientas<span>↘</span></button>
+		</aside>
 
-		<a role="button" href="/ajustes">Tus datos</a>
+		<Session />
 	</main>
 
 	<ul class="row jcenter wrap wfull">
@@ -71,14 +74,9 @@
 		pointer-events: all;
 		transition: background 150ms;
 
-		& a:first-of-type {
+		& aside {
+			gap: 4em;
 			margin-left: 2em;
-		}
-
-		& a:last-of-type {
-			margin-left: auto;
-			margin-right: 2em;
-			padding: 1em 4em;
 		}
 	}
 
