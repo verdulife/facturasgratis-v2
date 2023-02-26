@@ -1,10 +1,8 @@
 <script>
 	import { resizeImage } from '$lib/utils';
-
 	import Image from '$lib/components/Image.svelte';
 
 	export let logo;
-
 	let files;
 
 	function processImage() {
@@ -75,7 +73,7 @@
 
 	picture {
 		height: 200px;
-    background: conic-gradient(from 70deg, var(--base), var(--base-100));
+		background: conic-gradient(from 70deg, var(--base), var(--base-100));
 		border: 1px solid var(--base-200);
 		border-radius: 0.3em;
 		margin-top: 1em;

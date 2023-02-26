@@ -8,118 +8,17 @@
 	import LegalAddress from '$lib/components/ajustes/LegalAddress.svelte';
 	import LegalContact from '$lib/components/ajustes/LegalContact.svelte';
 	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
+	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 
-	$: user = $User;
-
-	function exportData() {
-		const localDb = {
-			db_userData: $User,
-			db_bills: $Bills,
-			db_budgets: $Budgets,
-			db_deliveries: $Deliveries,
-			db_clients: $Clients,
-			db_products: $Products,
-			db_providers: $Providers
-		};
-
-		const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(localDb));
-		const link = document.createElement('a');
-
-		link.href = dataStr;
-		link.download = `${user.legal_name}.facturasgratis`;
-		link.click();
-	}
-
-	function importData() {
-		const input = document.createElement('input');
-		input.type = 'file';
-		input.accept = '.facturasgratis';
-		input.click();
-
-		input.onchange = () => {
-			let reader = new FileReader();
-
-			reader.onload = (e) => {
-				const {
-					db_userData,
-					db_bills,
-					db_budgets,
-					db_deliveries,
-					db_clients,
-					db_products,
-					db_providers
-				} = JSON.parse(e.target.result);
-
-				$User = db_userData;
-				$Bills = db_bills;
-				$Budgets = db_budgets;
-				$Deliveries = db_deliveries;
-				$Clients = db_clients;
-				$Products = db_products;
-				$Providers = db_providers;
-
-				alert('Datos cargados correctamente ✔');
-			};
-
-			reader.readAsText(input.files[0]);
-		};
-	}
-
-	function clearData() {
-		const check = prompt('Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar.');
-
-		if (check.toUpperCase() !== $User.legal_id.toUpperCase()) {
-			alert('⚠ La verficación de seguridad para el borrado ha fallado');
-		} else {
-			localStorage.clear();
-			$User = {};
-			$Bills = [];
-			$Budgets = [];
-			$Deliveries = [];
-			$Clients = [];
-			$Products = [];
-			$Providers = [];
-
-			alert('Datos borrados correctamente ✔');
-		}
-	}
-
-	function downloadData() {
-		exportData();
-	}
-
-	function uploadData() {
-		if ($User.legal_id) {
-			const check = confirm('¿Quieres descargar tus datos antes de cargar unos nuevos?');
-			if (check) exportData();
-
-			clearData();
-			importData();
-		} else {
-			importData();
-		}
-	}
-
-	function pushUser() {
-		if (user.phone || user.email) {
-			user._updated = new Date();
-
-			if (user.legal_initials) {
-				user.legal_initials = user.legal_initials.toUpperCase();
-			}
-
-			$User = user;
-
-			alert('✔ Datos guardados correctamente');
-		} else alert('⚠ No has añadido un método de contacto');
-	}
-
-	function maxLength(e) {
-		const el = e.target;
-		if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength);
-	}
-
+	let user = $User;
 	$: console.log(user);
+
+	function saveUserData() {
+		user._updated = new Date();
+		if (user.legal_initials) user.legal_initials = user.legal_initials.toUpperCase();
+		$User = user;
+		alert('✔ Datos guardados correctamente');
+	}
 </script>
 
 <svelte:head>
@@ -148,7 +47,7 @@
 
 <form
 	class="col acenter wfull"
-	on:submit|preventDefault={pushUser}
+	on:submit|preventDefault={saveUserData}
 	autocomplete="off"
 	spellcheck="false"
 >
@@ -166,71 +65,12 @@
 	/>
 	<LegalContact bind:phone={user.phone} bind:email={user.email} />
 	<LegalTaxes bind:currency={user.currency} bind:iva={user.iva} bind:ret={user.ret} />
-
-	<div class="box round col xfill">
-		<h2>Notas</h2>
-		<p class="notice">Añade notas a pie de tus facturas, presupuestos o albaranes.</p>
-
-		<div class="input-wrapper col xfill">
-			<label class="row jbetween acenter xfill" for="bill_note">
-				Facturas <span>{user.bill_note ? user.bill_note.length : 0} / 350</span>
-			</label>
-
-			<textarea
-				id="bill_note"
-				bind:value={user.bill_note}
-				class="xfill"
-				placeholder="Ej. Transporte no incluido"
-				maxlength="350"
-				on:keydown={(e) => maxLength(e)}
-			/>
-		</div>
-
-		<div class="input-wrapper col xfill">
-			<label class="row jbetween acenter xfill" for="budget_note">
-				Presupuestos <span>{user.budget_note ? user.budget_note.length : 0} / 350</span>
-			</label>
-
-			<textarea
-				id="budget_note"
-				bind:value={user.budget_note}
-				class="xfill"
-				placeholder="Ej. Transporte no incluido"
-				maxlength="350"
-				on:keydown={(e) => maxLength(e)}
-			/>
-		</div>
-
-		<div class="input-wrapper col xfill">
-			<label class="row jbetween acenter xfill" for="delivery_note">
-				Albaranes <span>{user.delivery_note ? user.delivery_note.length : 0} / 350</span>
-			</label>
-
-			<textarea
-				id="delivery_note"
-				bind:value={user.delivery_note}
-				class="xfill"
-				placeholder="Ej. Transporte no incluido"
-				maxlength="350"
-				on:keydown={(e) => maxLength(e)}
-			/>
-		</div>
-
-		<div class="input-wrapper col xfill">
-			<label class="row jbetween acenter xfill" for="proforma_note">
-				Proforma <span>{user.proforma_note ? user.proforma_note.length : 0} / 350</span>
-			</label>
-
-			<textarea
-				id="proforma_note"
-				bind:value={user.proforma_note}
-				class="xfill"
-				placeholder="Ej. Transporte no incluido"
-				maxlength="350"
-				on:keydown={(e) => maxLength(e)}
-			/>
-		</div>
-	</div>
+	<LegalNotes
+		bind:bill_note={user.bill_note}
+		bind:butget_note={user.butget_note}
+		bind:delivery_note={user.delivery_note}
+		bind:proforma_note={user.proforma_note}
+	/>
 
 	<div class="row jcenter xfill">
 		<button class="succ semi">GUARDAR DATOS</button>

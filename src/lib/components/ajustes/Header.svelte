@@ -6,7 +6,7 @@
 
 <HeaderBackground>
 	{#if user.legal_name}
-		<h1>Hola {user.legal_name}</h1>
+		<h1>Hola <b>{user.legal_name}</b></h1>
 	{:else}
 		<h1>Tus <strong>datos</strong> fiscales</h1>
 		<p>Estos datos se usaran para generar tus facturas, presupuestos, proformas y albaranes</p>

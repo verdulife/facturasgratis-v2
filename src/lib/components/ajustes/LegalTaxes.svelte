@@ -61,6 +61,7 @@
 			}
 		}
 
+		& select,
 		& input {
 			margin-top: 0.5em;
 		}

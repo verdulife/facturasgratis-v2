@@ -120,7 +120,7 @@
 			height: 80px;
 			gap: 1em;
 			text-decoration: none;
-			border: 3px solid transparent;
+			border: 1px solid transparent;
 			border-radius: 0.3em;
 			padding: 1em;
 			transition: 150ms;
