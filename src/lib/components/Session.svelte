@@ -2,7 +2,6 @@
 	import Image from '$lib/components/Image.svelte';
 	import {
 		User,
-		Sessions,
 		Bills,
 		Budgets,
 		Deliveries,
@@ -24,6 +23,14 @@
 	};
 
 	function clearData() {
+		const check = confirm(
+			`Puede que haya datos sin guardar en la session de:\n\n${$User.legal_name.toUpperCase()}\nÚltima modificación: ${Intl.DateTimeFormat(
+				'es-ES'
+			).format(new Date($User._updated))}\n\n¿Quieres descargar una copia?\n`
+		);
+
+		if (check) exportData();
+
 		$User = {};
 		$Bills = [];
 		$Budgets = [];
@@ -44,24 +51,17 @@
 		link.click();
 	}
 
-	function addSession() {
-		if (!$User.legal_name) return;
+	function setSession(session) {
+		clearData();
 
-    //change to loaded data to proper checking
-		const sessionExists = $Sessions.find(
-			(session) => session.db_userData.legal_name === currentSession.db_userData.legal_name
-		);
-
-		if (!sessionExists) {
-			$Sessions = [...$Sessions, currentSession];
-			return;
-		}
-
-		const check = confirm('Ya existe esta sesión. ¿Quieres sobrescribirla?');
-		if (!check) return;
-
-		const sessionToOverwrite = $Sessions.indexOf(sessionExists);
-		$Sessions[sessionToOverwrite] = currentSession;
+		$User = session.db_userData || {};
+		$Bills = session.db_bills || [];
+		$Budgets = session.db_budgets || [];
+		$Deliveries = session.db_deliveries || [];
+		$Clients = session.db_clients || [];
+		$Products = session.db_products || [];
+		$Providers = session.db_providers || [];
+		$Proforma_bills = session.db_proforma_bills || [];
 	}
 
 	function importData() {
@@ -75,36 +75,16 @@
 			reader.readAsText(input.files[0]);
 
 			reader.onload = (e) => {
-				const {
-					db_userData,
-					db_bills,
-					db_budgets,
-					db_clients,
-					db_deliveries,
-					db_products,
-					db_proforma_bills,
-					db_providers
-				} = JSON.parse(e.target.result);
+				const session = JSON.parse(e.target.result);
 
-				const check = confirm(`
-¿Quieres cargar esta sesión?
-
-${db_userData.legal_name.toUpperCase()}
-Última modificación: ${Intl.DateTimeFormat('es-ES').format(new Date(db_userData._updated))}.
-          `);
+				const check = confirm(
+					`\n¿Quieres cargar esta sesión?\n\n${session.db_userData.legal_name.toUpperCase()}\nÚltima modificación: ${Intl.DateTimeFormat(
+						'es-ES'
+					).format(new Date(session.db_userData._updated))}\n`
+				);
 				if (!check) return;
 
-				if ($User.legal_name) addSession();
-
-				clearData();
-				$User = db_userData || {};
-				$Bills = db_bills || [];
-				$Budgets = db_budgets || [];
-				$Deliveries = db_deliveries || [];
-				$Clients = db_clients || [];
-				$Products = db_products || [];
-				$Providers = db_providers || [];
-				$Proforma_bills = db_proforma_bills || [];
+				setSession(session);
 			};
 		};
 	}
@@ -186,6 +166,7 @@ ${db_userData.legal_name.toUpperCase()}
 
 		& picture {
 			width: 32px;
+			height: 32px;
 			border: none;
 			border-radius: 0.3em;
 		}

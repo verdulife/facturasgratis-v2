@@ -15,9 +15,6 @@ Cookies.subscribe((value) => browser && (localStorage.cookies = JSON.stringify(v
 export const User = writable((browser && parseStorage("userData")) || {});
 User.subscribe((value) => browser && (localStorage.userData = JSON.stringify(value)));
 
-export const Sessions = writable((browser && parseStorage("Sessions")) || []);
-Sessions.subscribe((value) => browser && (localStorage.Sessions = JSON.stringify(value)));
-
 export const Bills = writable((browser && parseStorage("bills")) || []);
 Bills.subscribe((value) => browser && (localStorage.bills = JSON.stringify(value)));
 
