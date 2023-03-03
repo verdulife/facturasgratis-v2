@@ -1,3 +1,14 @@
+import {
+  User,
+  Bills,
+  Budgets,
+  Deliveries,
+  Clients,
+  Products,
+  Providers,
+  Proforma_bills
+} from '$lib/stores';
+
 export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
   return new Promise((resolve) => {
     let img = new Image();
@@ -27,6 +38,17 @@ export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
       resolve(canvas.toDataURL());
     };
   });
+}
+
+export function clearLocalData() {
+  User.set({});
+  Bills.set([]);
+  Budgets.set([]);
+  Deliveries.set([]);
+  Clients.set([]);
+  Products.set([]);
+  Providers.set([]);
+  Proforma_bills.set([]);
 }
 
 export function capitalize(string) {

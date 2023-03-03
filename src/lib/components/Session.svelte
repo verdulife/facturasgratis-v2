@@ -1,5 +1,4 @@
 <script>
-	import Image from '$lib/components/Image.svelte';
 	import {
 		User,
 		Bills,
@@ -10,6 +9,9 @@
 		Providers,
 		Proforma_bills
 	} from '$lib/stores';
+	import { clearLocalData } from '$lib/utils';
+
+	import Image from '$lib/components/Image.svelte';
 
 	$: currentSession = {
 		db_userData: $User,
@@ -30,15 +32,7 @@
 		);
 
 		if (check) exportData();
-
-		$User = {};
-		$Bills = [];
-		$Budgets = [];
-		$Deliveries = [];
-		$Clients = [];
-		$Products = [];
-		$Providers = [];
-		$Proforma_bills = [];
+		clearLocalData();
 	}
 
 	function exportData() {
@@ -52,7 +46,7 @@
 	}
 
 	function setSession(session) {
-		clearData();
+		if ($User.legal_name) clearData();
 
 		$User = session.db_userData || {};
 		$Bills = session.db_bills || [];
@@ -160,9 +154,8 @@
 
 	a {
 		max-width: 200px;
-		background-color: hsl(var(--base-900-hsl), 0.5);
 		gap: 0.5em;
-		padding: 0.5em 1em;
+		padding: 0.5em 1.5em;
 
 		& picture {
 			width: 32px;

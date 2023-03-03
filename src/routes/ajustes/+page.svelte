@@ -1,6 +1,7 @@
 <script>
 	import { ajustes } from '$lib/meta';
 	import { User } from '$lib/stores';
+	import { clearLocalData } from '$lib/utils';
 
 	import Header from '$lib/components/ajustes/Header.svelte';
 	import LogoUploader from '$lib/components/ajustes/LogoUploader.svelte';
@@ -17,6 +18,23 @@
 		if (user.legal_initials) user.legal_initials = user.legal_initials.toUpperCase();
 		$User = user;
 		alert('✔ Datos guardados correctamente');
+	}
+
+	function clearSession() {
+		if (!$User.legal_name) return;
+
+		const check = confirm(
+			`Se borraran todos los datos de la sesión de:\n\n${$User.legal_name.toUpperCase()}\nÚltima modificaión: ${Intl.DateTimeFormat(
+				'es-ES'
+			).format(new Date($User._updated))}\n\n¿Desea continuar?\n`
+		);
+
+		if (!check) return;
+
+		const verify = prompt('Para borrar todos los datos de la sesion, añade el NIF/CIF');
+
+		if (verify !== $User.legal_id) return;
+		clearLocalData();
 	}
 </script>
 
@@ -71,10 +89,10 @@
 		bind:proforma_note={user.proforma_note}
 	/>
 
-	<div class="row jcenter xfill">
-		<button class="succ semi">GUARDAR DATOS</button>
-		<a href="/" class="btn out semi">CANCELAR</a>
-	</div>
+	<footer class="row jcenter wfull">
+		<button type="submit" class="grow">GUARDAR DATOS</button>
+		<button type="button" class="error " on:click={clearSession}>BORRAR PERFIL</button>
+	</footer>
 </form>
 
 <style lang="postcss">
@@ -83,79 +101,9 @@
 		gap: 2em;
 		margin: 0 auto;
 		padding: 2em;
-	}
 
-	.box {
-		margin-top: 4em;
-		max-width: 900px;
-		margin-bottom: 40px;
-		padding: 20px;
-
-		& .notice {
-			font-size: 14px;
-			margin-bottom: 40px;
+		& footer {
+			gap: 1em;
 		}
-
-		& .input-wrapper {
-			margin-bottom: 30px;
-		}
-
-		& label {
-			text-transform: uppercase;
-			font-size: 12px;
-			padding: 0 15px;
-		}
-
-		& input,
-		& select,
-		& textarea {
-			font-size: 16px;
-			border-radius: 0;
-		}
-
-		& textarea {
-			resize: none;
-		}
-
-		& input[type='file'] {
-			display: none;
-		}
-
-		& .logo-wrapper {
-			border-radius: 0.5em;
-
-			& img {
-				max-width: 100%;
-				height: 250px;
-				object-fit: contain;
-				object-position: center;
-			}
-		}
-
-		& .file-btn {
-			cursor: pointer;
-			text-align: center;
-			font-size: 12px;
-			font-weight: bold;
-			border: 2px solid transparent;
-			border-radius: 0.4em;
-			padding: 0.9em 2em;
-			margin: 0 10px 10px 0;
-			user-select: none;
-			-webkit-user-drag: none;
-			transition: 200ms;
-
-			&:hover {
-				transform: scale(0.95);
-			}
-		}
-
-		& .remove-btn {
-			background: transparent;
-		}
-	}
-
-	button {
-		margin-right: 10px;
 	}
 </style>

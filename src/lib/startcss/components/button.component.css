@@ -82,3 +82,21 @@
 	border: var(--border);
 	padding: unset;
 }
+
+:--button.error {
+	background-color: hsl(var(--error-hsl), 0.2);
+	color: var(--error);
+	border: var(--border);
+
+	&:hover {
+		background-color: hsl(var(--error-hsl), 0.3);
+	}
+
+	@media (--dark) {
+		background-color: hsl(var(--error-hsl), 0.1);
+
+		&:hover {
+			background-color: hsl(var(--error-hsl), 0.2);
+		}
+	}
+}
