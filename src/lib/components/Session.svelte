@@ -107,8 +107,8 @@
 	>
 		{#if $User.legal_name}
 			{#if $User.logo}
-				<picture avatar>
-					<Image src={$User.logo} alt={$User.legal_name} />
+				<picture class="row">
+					<Image width="100%" height="100%" src={$User.logo} alt={$User.legal_name} />
 				</picture>
 			{/if}
 
@@ -155,17 +155,16 @@
 	a {
 		max-width: 200px;
 		gap: 0.5em;
-		padding: 0.5em 1.5em;
+		padding: 0.25em;
 
 		& picture {
-			width: 32px;
-			height: 32px;
-			border: none;
+			height: 36px;
 			border-radius: 0.3em;
 		}
 
 		& span {
 			font-size: var(--font-xs);
+			padding: 0.5em;
 		}
 	}
 </style>

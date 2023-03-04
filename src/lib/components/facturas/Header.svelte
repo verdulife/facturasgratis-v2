@@ -1,19 +1,23 @@
 <script>
 	import HeaderBackground from '$lib/components/HeaderBackground.svelte';
+	import Image from '$lib/components/Image.svelte';
 
-	export let user;
+	export let data;
 </script>
 
 <HeaderBackground>
-	{#if user.legal_name}
-		<h1>Hola <b>{user.legal_name}</b></h1>
-	{:else}
-		<h1>Tus <strong>datos</strong> fiscales</h1>
-		<p>Estos datos se usaran para generar tus facturas, presupuestos, proformas y albaranes</p>
-	{/if}
+	<picture class="row acenter">
+		<Image width="80px" src={data.icon} />
+		<h1><b>{data.title}</b></h1>
+	</picture>
+	<p>{data.desc}</p>
 </HeaderBackground>
 
 <style lang="postcss">
+	picture {
+		gap: 1em;
+	}
+
 	h1 {
 		max-width: 900px;
 		font-size: var(--font-2xl);

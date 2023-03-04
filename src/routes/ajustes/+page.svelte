@@ -3,6 +3,7 @@
 	import { User } from '$lib/stores';
 	import { clearLocalData } from '$lib/utils';
 
+	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/ajustes/Header.svelte';
 	import LogoUploader from '$lib/components/ajustes/LogoUploader.svelte';
 	import LegalData from '$lib/components/ajustes/LegalData.svelte';
@@ -38,27 +39,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{ajustes.title}</title>
-	<meta name="description" content={ajustes.description} />
-	<meta name="keywords" content={ajustes.keywords} />
-
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content={ajustes.url} />
-	<meta property="og:title" content={ajustes.title} />
-	<meta property="og:description" content={ajustes.description} />
-	<meta property="og:image" content={ajustes.image} />
-	<meta property="og:image:secure_url" content={ajustes.image} />
-	<meta property="og:image:type" content="image/jpeg" />
-
-	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:site" content={ajustes.url} />
-	<meta name="twitter:title" content={ajustes.title} />
-	<meta name="twitter:description" content={ajustes.description} />
-	<meta name="twitter:image" content={ajustes.image} />
-</svelte:head>
+<Meta data={ajustes} />
 
 <Header {user} />
 

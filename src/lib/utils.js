@@ -1,3 +1,4 @@
+import { get } from 'svelte/store';
 import {
   User,
   Bills,
@@ -51,6 +52,8 @@ export function clearLocalData() {
   Proforma_bills.set([]);
 }
 
+export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
 export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -75,6 +78,24 @@ export function sortByNumber(a, b) {
 
 export function roundWithTwoDecimals(num) {
   return Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
+export function currency(num) {
+  const { currency } = get(User);
+
+  const currency_lib = {
+    "€": "EUR",
+    "$": "USD",
+    "£": "GBP",
+    "¥": "CNY",
+    "₹": "INR"
+  }
+
+  return Intl.NumberFormat('es-ES', { style: 'currency', currencyDisplay: "narrowSymbol", currency: currency_lib[currency] }).format(num);
+}
+
+export function dateObjectFormat(obj) {
+  return `${obj.day}/${obj.month}/${obj.year}`
 }
 
 export function numerationFormat(num, year) {

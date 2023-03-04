@@ -5,7 +5,7 @@
 
 <HeaderBackground>
 	<h1>Herramientas de gestión para <strong>autónomos</strong> y <strong>pymes</strong></h1>
-	<input class="wfull" type="text" placeholder="¿Que quieres hacer?" bind:value={$searchTerm} />
+	<input class="wfull" type="search" placeholder="¿Que quieres hacer?" bind:value={$searchTerm} />
 </HeaderBackground>
 
 <style lang="postcss">

@@ -8,7 +8,7 @@
 */
 
 @custom-selector :--input-ui [type='checkbox'], [type='radio'], [type='range'], progress;
-@custom-selector :--input input:not(:--input-ui), select, textarea;
+@custom-selector :--input input, input, select, textarea;
 
 /* 🎨 dynamic properties 🎨 */
 
