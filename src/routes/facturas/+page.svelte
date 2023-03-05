@@ -1,7 +1,7 @@
 <script>
 	import { facturas as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { Bills } from '$lib/stores';
+	import { User, Bills } from '$lib/stores';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import FirstSteps from '$lib/components/FirstSteps.svelte';
@@ -14,7 +14,7 @@
 
 <Header data={facturas} />
 <section class="col acenter wfull">
-	{#if $Bills.length > 0}
+	{#if $User.legal_name}
 		<Tools data={$Bills} />
 
 		<ul class="col wfull">

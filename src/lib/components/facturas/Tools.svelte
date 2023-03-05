@@ -6,7 +6,7 @@
 	export let data;
 
 	const currentYear = new Date().getFullYear();
-	const billYears = [...new Set(data.map((bill) => bill.date.year))];
+	const billYears = [...new Set([...data.map((bill) => bill.date.year), currentYear])];
 
 	let searchTerm, monthFilter;
 	let yearFilter = currentYear;

@@ -10,7 +10,7 @@
 		<Image width="80px" src={data.icon} />
 		<h1><b>{data.title}</b></h1>
 	</picture>
-	<p>{data.desc}</p>
+	<p>{data.description}</p>
 </HeaderBackground>
 
 <style lang="postcss">

@@ -9,7 +9,7 @@
 		<Image width="40" src={tool.icon} alt={tool.title} title />
 
 		<h2 class="wfull"><b>{tool.title}</b></h2>
-		<p>{tool.desc}</p>
+		<p>{tool.description}</p>
 
 		{#if tool.soon}
 			<span>PRONTO</span>

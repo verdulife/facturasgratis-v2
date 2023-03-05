@@ -158,6 +158,9 @@
 		padding: 0.25em;
 
 		& picture {
+			width: 36px;
+			min-width: 36px;
+			max-width: 36px;
 			height: 36px;
 			border-radius: 0.3em;
 		}
