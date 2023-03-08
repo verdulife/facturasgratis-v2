@@ -29,9 +29,17 @@
 		border-bottom: 1px solid var(--base-200);
 		padding: 1em 2em;
 		transition: 150ms;
-
+		
 		&:hover {
 			background: linear-gradient(to right, transparent, var(--base-200), transparent);
+		}
+		
+		@media (--dark) {
+			border-bottom: 1px solid var(--base-800);
+
+			&:hover {
+				background: linear-gradient(to right, transparent, var(--base-800), transparent);
+			}
 		}
 
 		& aside {

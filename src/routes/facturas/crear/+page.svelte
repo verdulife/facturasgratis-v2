@@ -1,10 +1,12 @@
 <script>
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
+	import { User, Clients } from '$lib/stores';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
-	import Numeration from '$lib/components/facturas/Numeration.svelte';
+	import NumerationInput from '$lib/components/facturas/NumerationInput.svelte';
+	import ClientInput from '$lib/components/facturas/ClientInput.svelte';
 
 	const currentDate = new Date();
 
@@ -14,7 +16,8 @@
 			day: currentDate.getDate(),
 			month: currentDate.getMonth() + 1,
 			year: currentDate.getFullYear()
-		}
+		},
+		client: {}
 	};
 
 	function saveBillData() {}
@@ -30,7 +33,12 @@
 	autocomplete="off"
 	spellcheck="false"
 >
-	<Numeration bind:number={bill.number} bind:date={bill.date} />
+	<NumerationInput
+		bind:number={bill.number}
+		bind:date={bill.date}
+		bind:legal_initials={$User.legal_initials}
+	/>
+	<ClientInput clientsData={$Clients} bind:client={bill.client} />
 </form>
 
 <style lang="postcss">
@@ -39,9 +47,5 @@
 		gap: 2em;
 		margin: 0 auto;
 		padding: 2em;
-
-		& footer {
-			gap: 1em;
-		}
 	}
 </style>

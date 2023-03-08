@@ -1,5 +1,6 @@
 <script>
-	export let number, date;
+	import { twoDigitYear } from '$lib/utils';
+	export let number, date, legal_initials;
 </script>
 
 <article class="col wfull">
@@ -8,17 +9,21 @@
 
 	<label class="col wfull" for="number">
 		<small>Número</small>
-		<input
-			class="wfull"
-			id="number"
-			type="number"
-			inputmode="numeric"
-			bind:value={number}
-			required
-		/>
+		<span class="row jstart acenter wfull">
+			<input type="text" value="{legal_initials}/{twoDigitYear(date.year)}" disabled />
+			<span><b>-</b></span>
+			<input
+				class="grow"
+				id="number"
+				type="number"
+				inputmode="numeric"
+				bind:value={number}
+				required
+			/>
+		</span>
 	</label>
 
-	<div class="row wfull">
+	<div class="date row wfull">
 		<label class="col wfull" for="day">
 			<small>Día</small>
 			<input
@@ -89,10 +94,35 @@
 
 		& input {
 			margin-top: 0.5em;
+
+			&:disabled {
+				width: 90px;
+			}
 		}
 	}
 
 	div {
 		gap: 2em;
+
+		&.date {
+			gap: 0;
+
+			& label {
+				& input {
+					border-radius: 0;
+				}
+
+				&:first-of-type input {
+					border-radius: 0.3em 0 0 0.3em;
+				}
+				&:last-of-type input {
+					border-radius: 0 0.3em 0.3em 0;
+				}
+			}
+		}
+	}
+
+	span {
+		gap: 0.5em;
 	}
 </style>

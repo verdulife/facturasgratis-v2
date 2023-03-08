@@ -70,6 +70,11 @@
 		border-radius: 0.3em;
 		margin: 0 auto;
 		padding: 1em;
+
+		@media (--dark) {
+			background-color: hsl(var(--base-900-hsl), 0.8);
+			border: 1px solid hsl(var(--base-hsl), 0.1);
+		}
 	}
 
 	article {
@@ -78,6 +83,10 @@
 				background-color: var(--base-100);
 				border-radius: 0.3em 0 0 0.3em;
 				padding: 0.5em;
+
+				@media (--dark) {
+					background-color: var(--base-800);
+				}
 			}
 
 			& input {
@@ -108,6 +117,10 @@
 
 	span {
 		background-color: var(--base-100);
+
+		@media (--dark) {
+			background-color: var(--base-800);
+		}
 	}
 
 	footer {

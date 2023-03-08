@@ -98,9 +98,14 @@ export function dateObjectFormat(obj) {
   return `${obj.day}/${obj.month}/${obj.year}`
 }
 
+export function twoDigitYear(year) {
+  if (!year) year = new Date().getFullYear();
+  return year.toString().slice(-2);
+}
+
 export function numerationFormat(num, year) {
   const length = `${num}`.length;
-  const prefix = year.toString().slice(-2);
+  const prefix = twoDigitYear(year);
 
   if (length === 1) return `${prefix}-0000${num}`;
   if (length === 2) return `${prefix}-000${num}`;
