@@ -1,12 +1,12 @@
 <script>
 	import { tools } from '$lib/tools';
-	import { searchTerm } from '$lib/stores';
-
 	import ToolCard from '$lib/components/home/ToolCard.svelte';
+
+	export let searchTerm;
 
 	$: filteredTools = tools.filter((t) => {
 		const tool = t.title.toLowerCase();
-		const term = $searchTerm.toLowerCase();
+		const term = searchTerm.toLowerCase();
 
 		return tool.includes(term);
 	});
@@ -18,8 +18,8 @@
 			<li class="row hfull">
 				<ToolCard {tool} />
 			</li>
-			{:else}
-				<p>No hay conincidencias</p>
+		{:else}
+			<p>No hay conincidencias</p>
 		{/each}
 	</ul>
 </section>

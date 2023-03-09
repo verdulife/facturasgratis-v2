@@ -5,8 +5,6 @@ function parseStorage(storage) {
   return JSON.parse(localStorage.getItem(storage));
 }
 
-export const searchTerm = writable("");
-
 const defaultCookies = { _created: new Date(), visited: false };
 export const Cookies = writable((browser && parseStorage("cookies")) || defaultCookies);
 Cookies.subscribe((value) => browser && (localStorage.cookies = JSON.stringify(value)));

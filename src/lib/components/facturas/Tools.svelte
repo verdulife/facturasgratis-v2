@@ -1,18 +1,14 @@
 <script>
-	import { months, currency } from '$lib/utils';
-
+	import { months, currency, currentYear } from '$lib/utils';
 	import Search from '$lib/icons/Search.svelte';
 
-	export let data;
+	export let filteredBills;
+	export let idFilter, monthFilter, yearFilter;
 
-	const currentYear = new Date().getFullYear();
-	const billYears = [...new Set([...data.map((bill) => bill.date.year), currentYear])];
-
-	let searchTerm, monthFilter;
-	let yearFilter = currentYear;
+	const billYears = [...new Set([...filteredBills.map((bill) => bill.date.year), currentYear])];
 
 	function getAmount(kind) {
-		return currency(data.reduce((acc, bill) => acc + bill.totals[kind], 0));
+		return currency(filteredBills.reduce((acc, bill) => acc + bill.totals[kind], 0));
 	}
 </script>
 
@@ -23,13 +19,13 @@
 				<picture class="row fcenter">
 					<Search width="1.5em" />
 				</picture>
-				<input id="search" type="search" bind:value={searchTerm} placeholder="Nombre/Número" />
+				<input id="search" type="search" bind:value={idFilter} placeholder="Nombre/Número" />
 			</label>
 
 			<select id="month" bind:value={monthFilter}>
 				<option value="">Todos los meses</option>
 				{#each months as month, i}
-					<option value={i}>{month}</option>
+					<option value={i + 1}>{month}</option>
 				{/each}
 			</select>
 
@@ -46,7 +42,7 @@
 	<span class="xdiv" />
 
 	<footer class="row jbetween wfull">
-		<p><b>Facturas:</b> {data.length}</p>
+		<p><b>Facturas:</b> {filteredBills.length}</p>
 
 		<aside class="row">
 			<p><b>Base:</b> {getAmount('base')}</p>

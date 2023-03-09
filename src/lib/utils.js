@@ -126,3 +126,5 @@ export function autoNumeration(arr) {
 
   return currYearsArr.length <= 0 ? 1 : Math.max(...currYearsArr.map((n) => n.number)) + 1;
 }
+
+export const currentYear = new Date().getFullYear();
