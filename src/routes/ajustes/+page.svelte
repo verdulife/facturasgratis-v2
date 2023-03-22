@@ -2,6 +2,7 @@
 	import { ajustes } from '$lib/meta';
 	import { User } from '$lib/stores';
 	import { clearLocalData } from '$lib/utils';
+	import { signIn, auth } from '$lib/database/config';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/ajustes/Header.svelte';
@@ -37,11 +38,23 @@
 		if (verify !== $User.legal_id) return;
 		clearLocalData();
 	}
+
+	async function login() {
+		await signIn();
+	}
+
+	$: if (auth.currentUser) {
+		console.log(auth.currentUser);
+	}
 </script>
 
 <Meta data={ajustes} />
 
 <Header {user} />
+
+<div class="col acenter wfull">
+	<button on:click={login}>login</button>
+</div>
 
 <form
 	class="col acenter wfull"
