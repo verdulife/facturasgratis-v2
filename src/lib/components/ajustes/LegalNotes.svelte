@@ -9,10 +9,10 @@
 
 <article class="col wfull">
 	<h2><b>Datos legales</b></h2>
-	<p class="notice">Añade notas a pie de tus facturas, presupuestos o albaranes.</p>
+	<p>Añade notas a pie de tus facturas, presupuestos o albaranes.</p>
 
 	<label class="col wfull" for="bill_note">
-		<small class="row jbetween wfull"
+		<small class="row jbetween aend wfull"
 			>Facturas <span>{bill_note ? bill_note.length : 0} / 350</span></small
 		>
 
@@ -27,7 +27,7 @@
 	</label>
 
 	<label class="col wfull" for="budget_note">
-		<small class="row jbetween wfull"
+		<small class="row jbetween aend wfull"
 			>Presupuestos <span>{budget_note ? budget_note.length : 0} / 350</span></small
 		>
 
@@ -40,9 +40,9 @@
 			placeholder="Ej. Transporte no incluido"
 		/>
 	</label>
-	
+
 	<label class="col wfull" for="delivery_note">
-		<small class="row jbetween wfull"
+		<small class="row jbetween aend wfull"
 			>Albaranes <span>{delivery_note ? delivery_note.length : 0} / 350</span></small
 		>
 
@@ -55,9 +55,9 @@
 			placeholder="Ej. Transporte no incluido"
 		/>
 	</label>
-	
+
 	<label class="col wfull" for="proforma_note">
-		<small class="row jbetween wfull"
+		<small class="row jbetween aend wfull"
 			>Proformas <span>{proforma_note ? proforma_note.length : 0} / 350</span></small
 		>
 

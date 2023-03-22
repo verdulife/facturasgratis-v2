@@ -4,7 +4,7 @@
 
 <article class="col wfull">
 	<h2><b>Contacto</b></h2>
-	<p class="notice">Los campos marcados con un → son obligatorios.</p>
+	<p>Los campos marcados con un → son obligatorios.</p>
 
 	<label class="col wfull" for="phone">
 		<small class="wfull">→ Teléfono</small>

@@ -4,7 +4,7 @@
 
 <article class="col wfull">
 	<h2><b>Datos legales</b></h2>
-	<p class="notice">Los campos marcados con un → son obligatorios.</p>
+	<p>Los campos marcados con un → son obligatorios.</p>
 
 	<label class="col wfull" for="legal_name">
 		<small class="wfull">→ Nombre fiscal</small>
@@ -68,21 +68,21 @@
 	label {
 		margin-top: 2em;
 
-    & small {
-      color: var(--base-500);
-      padding: 0 1em;
-      
-      @media (--dark) {
-        color: var(--base-600);
-      }
-    }
+		& small {
+			color: var(--base-500);
+			padding: 0 1em;
+
+			@media (--dark) {
+				color: var(--base-600);
+			}
+		}
 
 		& input {
 			margin-top: 0.5em;
 		}
 	}
 
-  div {
-    gap: 2em;
-  }
+	div {
+		gap: 2em;
+	}
 </style>

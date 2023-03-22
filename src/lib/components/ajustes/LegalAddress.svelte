@@ -4,7 +4,7 @@
 
 <article class="col wfull">
 	<h2><b>Dirección fiscal</b></h2>
-	<p class="notice">Los campos marcados con un → son obligatorios.</p>
+	<p>Los campos marcados con un → son obligatorios.</p>
 
 	<label class="col wfull" for="street">
 		<small class="wfull">→ Dirección</small>
