@@ -1,40 +1,11 @@
 <script>
-	import { auth } from '$lib/database/config';
-	import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
-	import { onMount } from 'svelte';
-
-	const provider = new GoogleAuthProvider();
-
-	onMount(() => {
-		signInWithRedirect(auth, provider);
-	});
-
-	/* const auth = getAuth(app);
-	
+	import { signInWithRedirect, signOut } from 'firebase/auth';
+	import { auth, provider } from '$lib/database/config';
+	import { Firebase } from '$lib/stores';
 
 	function signIn() {
 		signInWithRedirect(auth, provider);
-	} */
-
-	/* async function redirectResult() {
-		try {
-			const result = await getRedirectResult(auth);
-			const credential = GoogleAuthProvider.credentialFromResult(result);
-			const token = credential.accessToken;
-			const user = result.user;
-
-			console.log(user);
-		} catch (error) {
-			const errorCode = error.code;
-			const errorMessage = error.message;
-			const email = error.customData.email;
-			const credential = GoogleAuthProvider.credentialFromError(error);
-
-			console.log(errorMessage);
-		}
 	}
-
-	redirectResult(); */
 </script>
 
 <section class="col wfull">
@@ -44,7 +15,11 @@
 			<p>Inicia sesión para utilizar facturasgratis en la nube</p>
 		</aside>
 
-		<!-- <button on:click={signIn}>Iniciar session</button> -->
+		{#if $Firebase.user}
+			<button on:click={() => signOut(auth)}>Cerrar session</button>
+		{:else}
+			<button on:click={signIn}>Iniciar session</button>
+		{/if}
 	</article>
 </section>
 
