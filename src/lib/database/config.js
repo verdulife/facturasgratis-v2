@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, doc, getDoc, setDoc, getDocs, addDoc } from "firebase/firestore/lite";
-import { Firebase, User, Bills, Budgets } from "$lib/stores";
+import { Firebase, User, Documents } from "$lib/stores";
 import { clearLocalData } from "$lib/utils";
 
 
@@ -51,12 +51,11 @@ async function syncDocumentsData({ uid, documents, documentsStore }) {
       })
     })
   } else {
+    documentsStore.set([]);
+
     documentsSnap.forEach(doc => {
       const documentData = doc.data();
-      documentsStore.update(value => {
-        console.log("snap: " + documentData, "local: " + value);
-        /* value = [documentData, ...value]; */
-      })
+      documentsStore.update(value => value = [documentData, ...value]);
     })
   }
 }
@@ -71,35 +70,10 @@ onAuthStateChanged(auth, async (user) => {
   Firebase.update(value => value = { user: true, uid });
 
   await syncUserData(uid);
-  await syncDocumentsData({ uid, documents: "bills", documentsStore: Bills })
-  await syncDocumentsData({ uid, documents: "budgets", documentsStore: Budgets })
 
-  /* if (userSnap.exists()) {
-    const userData = userSnap.data();
-    User.update(value => value = userData);
-
-    const billsRef = collection(db, `users/${user.uid}/bills`)
-    const billsSnap = await getDocs(billsRef);
-
-    if (billsSnap.empty) {
-      console.log("no docs");
-      Bills.subscribe(value => {
-        console.log(value);
-
-        value.forEach(async bill => {
-          await addDoc(billsRef, bill);
-        })
-      })
-    } else {
-      billsSnap.forEach(doc => {
-        console.log(doc.id, " => ", doc.data());
-      })
-    }
-
+  for (let key in Documents) {
+    const documents = key.toLowerCase();
+    const documentsStore = Documents[key];
+    await syncDocumentsData({ uid, documents, documentsStore })
   }
-  else {
-    User.subscribe(async value => {
-      await setDoc(userRef, value);
-    });
-  } */
 });

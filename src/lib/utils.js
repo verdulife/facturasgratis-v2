@@ -1,15 +1,5 @@
 import { get } from 'svelte/store';
-import {
-  Firebase,
-  User,
-  Bills,
-  Budgets,
-  Deliveries,
-  Clients,
-  Products,
-  Providers,
-  Proforma_bills
-} from '$lib/stores';
+import { Firebase, User, Documents } from '$lib/stores';
 
 export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
   return new Promise((resolve) => {
@@ -45,13 +35,11 @@ export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
 export function clearLocalData() {
   Firebase.set({ user: false, uid: "" });
   User.set({});
-  Bills.set([]);
-  Budgets.set([]);
-  Deliveries.set([]);
-  Clients.set([]);
-  Products.set([]);
-  Providers.set([]);
-  Proforma_bills.set([]);
+
+  for (let key in Documents) {
+    const document = Documents[key];
+    document.set([])
+  }
 }
 
 export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
