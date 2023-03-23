@@ -1,5 +1,6 @@
 import { get } from 'svelte/store';
 import {
+  Firebase,
   User,
   Bills,
   Budgets,
@@ -42,6 +43,7 @@ export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
 }
 
 export function clearLocalData() {
+  Firebase.set({ user: false, uid: "" });
   User.set({});
   Bills.set([]);
   Budgets.set([]);
