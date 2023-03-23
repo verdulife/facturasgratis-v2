@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore/lite";
-import { Firebase, User } from "$lib/stores";
+import { getFirestore, collection, doc, getDoc, setDoc, getDocs, addDoc } from "firebase/firestore/lite";
+import { Firebase, User, Bills } from "$lib/stores";
 
 
 const firebaseConfig = {
@@ -33,10 +33,27 @@ onAuthStateChanged(auth, async (user) => {
   const userSnap = await getDoc(userRef);
 
   if (userSnap.exists()) {
-    console.log(userSnap.data());
-    /* const billsRef = collection(db, "users");
+    const userData = userSnap.data();
+    User.update(value => value = userData);
+
+    const billsRef = collection(db, `users/${user.uid}/bills`)
     const billsSnap = await getDocs(billsRef);
-    console.log(billsSnap); */
+
+    if (billsSnap.empty) {
+      console.log("no docs");
+      Bills.subscribe(value => {
+        console.log(value);
+
+        value.forEach(async bill => {
+          await addDoc(billsRef, bill);
+        })
+      })
+    } else {
+      billsSnap.forEach(doc => {
+        console.log(doc.id, " => ", doc.data());
+      })
+    }
+
   }
   else {
     User.subscribe(async value => {
