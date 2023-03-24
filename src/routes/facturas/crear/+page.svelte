@@ -1,7 +1,7 @@
 <script>
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { User, Clients } from '$lib/stores';
+	import { User, Clients, Bills } from '$lib/stores';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
@@ -10,8 +10,13 @@
 
 	const currentDate = new Date();
 
+	function getLastNumeration() {
+		const currentNumeration = Math.max(...$Bills.map((bill) => bill.number));
+		return currentNumeration + 1;
+	}
+
 	$: bill = {
-		number: 1,
+		number: getLastNumeration(),
 		date: {
 			day: currentDate.getDate(),
 			month: currentDate.getMonth() + 1,
@@ -38,7 +43,7 @@
 		bind:date={bill.date}
 		bind:legal_initials={$User.legal_initials}
 	/>
-	<ClientInput clientsData={$Clients} bind:client={bill.client} />
+	<ClientInput bind:client={bill.client} />
 </form>
 
 <style lang="postcss">

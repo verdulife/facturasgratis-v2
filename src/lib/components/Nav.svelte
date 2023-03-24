@@ -24,7 +24,7 @@
 				<Logo width="175px" />
 			</a>
 
-			<button class="unset row fcenter">Herramientas<span>↘</span></button>
+			<button class="unset row fcenter">Herramientas</button>
 		</aside>
 
 		<Session />
@@ -50,20 +50,16 @@
 		z-index: 2;
 		pointer-events: none;
 
-		& button > span {
-			transition: 150ms;
+		&:has(aside > button:focus-within) > ul {
+			transform: translateY(0);
+			opacity: 1;
+			pointer-events: all;
 		}
 
-		&:has(main > aside > button:focus-within) {
-			& > span {
-				transform: rotate(-90deg);
-			}
-
-			& ul {
-				transform: translateY(0);
-				opacity: 1;
-				pointer-events: all;
-			}
+		& ul:has(a:focus-within) {
+			transform: translateY(0);
+			opacity: 1;
+			pointer-events: all;
 		}
 	}
 

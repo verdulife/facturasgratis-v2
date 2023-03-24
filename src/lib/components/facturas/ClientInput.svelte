@@ -1,6 +1,7 @@
 <script>
 	import { es } from '$lib/postal-codes';
-	export let clientsData, client;
+	export let client;
+	let clientsData = [];
 
 	function autocompleteByPostalCode() {
 		const { cp } = client;
@@ -13,6 +14,54 @@
 
 		client.city = autocomplete.city;
 		client.country = 'España';
+	}
+
+	async function getBusinessData() {
+		const SEARCH_API =
+			'https://zerd3zwis9.execute-api.eu-west-1.amazonaws.com/v1/services?country=ESP&lang=es&query_type=multimatch&term_looked=';
+
+		const res = await fetch(SEARCH_API + client.legal_name);
+		const json = await res.json();
+		const { hits } = json.hits;
+
+		const businessData = hits.map((h) => {
+			const { idprovider, nreg, denomination } = h._source;
+			const { fullName } = denomination;
+			return {
+				id: idprovider,
+				legal_id: nreg,
+				legal_name: fullName
+			};
+		});
+
+		clientsData = businessData.length > 0 ? businessData : clientsData;
+	}
+
+	async function autocompleteClient() {
+		if (clientsData.length > 1 || clientsData === 0) return;
+
+		const [data] = clientsData;
+		const ID_API =
+			'https://zerd3zwis9.execute-api.eu-west-1.amazonaws.com/v1/services?country=ESP&lang=es&query_type=detail&term_looked=';
+
+		const res = await fetch(ID_API + data.id);
+		const json = await res.json();
+		const { hits } = json.hits;
+
+		const clientData = hits.map((h) => {
+			const { _source: data } = h;
+
+			return {
+				legal_name: data.denomination.fullName || '',
+				legal_id: data.nreg || '',
+				contact: data.telephone || '',
+				cp: data.address.postcode || '',
+				address: data.address.fullAddress || ''
+			};
+		});
+
+		client = clientData[0];
+		autocompleteByPostalCode();
 	}
 </script>
 
@@ -28,10 +77,13 @@
 			id="legal_name"
 			type="text"
 			bind:value={client.legal_name}
+			on:input={getBusinessData}
+			on:change={autocompleteClient}
 		/>
+
 		<datalist id="clients_data">
-			{#each clientsData as { legal_id, legal_name }}
-				<option value={legal_name}>{legal_id}</option>
+			{#each clientsData as client}
+				<option value={client.legal_name}>{client.legal_id}</option>
 			{/each}
 		</datalist>
 	</label>
