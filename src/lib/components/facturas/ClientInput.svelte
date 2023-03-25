@@ -17,6 +17,8 @@
 	}
 
 	async function getBusinessData() {
+		if (client.legal_name === '') return;
+
 		const SEARCH_API =
 			'https://zerd3zwis9.execute-api.eu-west-1.amazonaws.com/v1/services?country=ESP&lang=es&query_type=multimatch&term_looked=';
 
@@ -37,9 +39,7 @@
 		clientsData = businessData.length > 0 ? businessData : clientsData;
 	}
 
-	async function autocompleteClient() {
-		if (clientsData.length > 1 || clientsData === 0) return;
-
+	async function getClientData() {
 		const [data] = clientsData;
 		const ID_API =
 			'https://zerd3zwis9.execute-api.eu-west-1.amazonaws.com/v1/services?country=ESP&lang=es&query_type=detail&term_looked=';
@@ -63,11 +63,17 @@
 		client = clientData[0];
 		autocompleteByPostalCode();
 	}
+
+	async function autocompleteClient() {
+		if (clientsData === 0) return;
+
+		setTimeout(getClientData, 250);
+	}
 </script>
 
 <article class="col wfull">
 	<h2><b>Datos del cliente</b></h2>
-	<p class="notice">Los cambios que realices aqui, no se guardaran en la ficha del cliente</p>
+	<p>Los cambios que realices aqui, no se guardaran en la ficha del cliente</p>
 
 	<label class="col wfull" for="legal_name">
 		<small>Nombre fiscal</small>

@@ -5,7 +5,7 @@
 
 <article class="col wfull">
 	<h2><b>Datos de la factura</b></h2>
-	<p class="notice">La numeración y fecha se rellenan automatiamente, pero puedes modificarlas.</p>
+	<p>La numeración y fecha se rellenan automatiamente, pero puedes modificarlas.</p>
 
 	<label class="col wfull" for="number">
 		<small>Número</small>

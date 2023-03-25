@@ -1,12 +1,13 @@
 <script>
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { User, Clients, Bills } from '$lib/stores';
+	import { User, Bills } from '$lib/stores';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
 	import NumerationInput from '$lib/components/facturas/NumerationInput.svelte';
 	import ClientInput from '$lib/components/facturas/ClientInput.svelte';
+	import ItemsListInput from '../../../lib/components/facturas/ItemsListInput.svelte';
 
 	const currentDate = new Date();
 
@@ -22,7 +23,8 @@
 			month: currentDate.getMonth() + 1,
 			year: currentDate.getFullYear()
 		},
-		client: {}
+		client: {},
+		items: []
 	};
 
 	function saveBillData() {}
@@ -41,9 +43,12 @@
 	<NumerationInput
 		bind:number={bill.number}
 		bind:date={bill.date}
-		bind:legal_initials={$User.legal_initials}
+		legal_initials={$User.legal_initials}
 	/>
+
 	<ClientInput bind:client={bill.client} />
+
+	<ItemsListInput bind:items={bill.items} currency={$User.currency} />
 </form>
 
 <style lang="postcss">
