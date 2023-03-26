@@ -7,7 +7,8 @@
 	import Header from '$lib/components/facturas/Header.svelte';
 	import NumerationInput from '$lib/components/facturas/NumerationInput.svelte';
 	import ClientInput from '$lib/components/facturas/ClientInput.svelte';
-	import ItemsListInput from '../../../lib/components/facturas/ItemsListInput.svelte';
+	import ItemsListInput from '$lib/components/facturas/ItemsListInput.svelte';
+	import Totals from '$lib/components/facturas/Totals.svelte';
 
 	const currentDate = new Date();
 
@@ -24,7 +25,8 @@
 			year: currentDate.getFullYear()
 		},
 		client: {},
-		items: []
+		items: [],
+		totals: {}
 	};
 
 	function saveBillData() {}
@@ -48,7 +50,13 @@
 
 	<ClientInput bind:client={bill.client} />
 
-	<ItemsListInput bind:items={bill.items} currency={$User.currency} />
+	<ItemsListInput
+		bind:items={bill.items}
+		currency={$User.currency}
+		taxes={{ iva: $User.iva, ret: $User.ret }}
+	/>
+
+	<Totals bind:totals={bill.totals} items={bill.items} taxes={{ iva: $User.iva, ret: $User.ret }} />
 </form>
 
 <style lang="postcss">

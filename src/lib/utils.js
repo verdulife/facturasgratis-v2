@@ -81,7 +81,7 @@ export function currency(num) {
     "₹": "INR"
   }
 
-  return Intl.NumberFormat('es-ES', { style: 'currency', currencyDisplay: "narrowSymbol", currency: currency_lib[currency] }).format(num);
+  return Intl.NumberFormat('es-ES', { style: 'currency', currencyDisplay: "narrowSymbol", currency: currency_lib[currency] || "EUR" }).format(num);
 }
 
 export function dateObjectFormat(obj) {

@@ -1,11 +1,27 @@
 <script>
-	export let items, currency;
+	import ItemInput from './ItemInput.svelte';
 
-	let newItem = {};
+	export let items, currency, taxes;
+
+	const { iva } = taxes;
+
+	function scrollToItem() {
+		const scroll = document.querySelector('.scrollbar');
+		const button = document.querySelector('button[type="button"]');
+
+		scroll.scrollTo({
+			top: scroll.scrollTop + button.offsetTop
+		});
+	}
 
 	function addItem() {
-		items = [newItem, ...items];
-		newItem = {};
+		items = [...items, { amount: 1, dto: 0 }];
+		setTimeout(scrollToItem);
+	}
+
+	function deleteItem(i) {
+		items.splice(i, 1);
+		items = items;
 	}
 </script>
 
@@ -13,39 +29,19 @@
 	<h2><b>Conceptos</b></h2>
 	<p>Todos los productos o servicios a facturar</p>
 
-	<div class="row wfull">
-		<label class="col wfull" for="city">
-			<small>Concepto</small>
-			<input class="grow" id="city" type="text" bind:value={newItem.label} />
-		</label>
+	{#if items.length > 0}
+		<ul class="col wfull">
+			{#each items as item, i}
+				<li>
+					<ItemInput bind:item {currency} deleteItem={() => deleteItem(i)} {iva} />
+				</li>
+			{/each}
+		</ul>
+	{/if}
 
-		<label class="col wfull" for="country">
-			<small>Cantidad</small>
-			<input class="wfull" id="country" type="number" bind:value={newItem.amount} />
-		</label>
-
-		<label class="col wfull" for="country">
-			<small>Descuento %</small>
-			<input class="wfull" id="country" type="number" bind:value={newItem.dto} />
-		</label>
-
-		<label class="col wfull" for="country">
-			<small>Precio {currency}</small>
-			<input class="wfull" id="country" type="number" bind:value={newItem.price} />
-		</label>
-
-		<label class="col wfull" for="country">
-			<small>PVP {currency}</small>
-			<input class="wfull" id="country" type="number" bind:value={newItem.pvp} />
-		</label>
-
-		<label class="col wfull" for="country">
-			<small>Total {currency}</small>
-			<input class="wfull" id="country" type="number" bind:value={newItem.total} disabled />
-		</label>
+	<div class="row">
+		<button type="button" on:click={addItem}>Añadir concepto</button>
 	</div>
-
-	<button>Añadir concepto</button>
 </article>
 
 <style lang="postcss">
@@ -66,33 +62,12 @@
 		font-size: var(--font-xs);
 	}
 
-	label {
+	ul {
+		gap: 0.5em;
 		margin-top: 2em;
-
-		& small {
-			color: var(--base-500);
-			padding: 0 1em;
-
-			@media (--dark) {
-				color: var(--base-600);
-			}
-		}
-
-		& input {
-			border-radius: 0;
-			margin-top: 0.5em;
-		}
-
-		&:first-of-type input {
-			border-radius: 0.3em 0 0 0.3em;
-		}
-
-		&:last-of-type input {
-			border-radius: 0 0.3em 0.3em 0;
-		}
 	}
 
-	div {
-		gap: 0.1em;
+	button {
+		margin-top: 2em;
 	}
 </style>
