@@ -8,7 +8,6 @@
 	import NumerationInput from '$lib/components/facturas/NumerationInput.svelte';
 	import ClientInput from '$lib/components/facturas/ClientInput.svelte';
 	import ItemsListInput from '$lib/components/facturas/ItemsListInput.svelte';
-	import Totals from '$lib/components/facturas/Totals.svelte';
 
 	const currentDate = new Date();
 
@@ -52,11 +51,10 @@
 
 	<ItemsListInput
 		bind:items={bill.items}
+		totals={bill.totals}
 		currency={$User.currency}
 		taxes={{ iva: $User.iva, ret: $User.ret }}
 	/>
-
-	<Totals bind:totals={bill.totals} items={bill.items} taxes={{ iva: $User.iva, ret: $User.ret }} />
 </form>
 
 <style lang="postcss">

@@ -14,7 +14,7 @@
 
 :--input {
 	--background-color: hsl(var(--base-hsl), 0.4);
-	--border: 1px solid hsl(var(--base-900-hsl), 0.1);
+	--border: 1px solid var(--base-200);
 
 	@media (--dark) {
 		--background-color: hsl(var(--base-800-hsl), 0.1);
@@ -59,7 +59,7 @@
 	background-color: var(--background-color);
 	backdrop-filter: blur(5px);
 	border: var(--border);
-	border-radius: 0.3em;
+	border-radius: 0.2rem;
 	font-weight: normal;
 	padding: var(--spacing-xs);
 	transition: 150ms;

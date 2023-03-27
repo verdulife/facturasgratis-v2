@@ -1,5 +1,9 @@
 <script>
 	import { es } from '$lib/postal-codes';
+	import Container from '$lib/components/Forms/Container.svelte';
+	import Title from '$lib/components/Forms/Title.svelte';
+	import Label from '$lib/components/Forms/Label.svelte';
+
 	export let client;
 	let clientsData = [];
 
@@ -71,12 +75,12 @@
 	}
 </script>
 
-<article class="col wfull">
-	<h2><b>Datos del cliente</b></h2>
+<Container>
+	<Title>Datos del cliente</Title>
 
 	<div class="row wfull">
 		<label class="col wfull" for="legal_name">
-			<small>Nombre fiscal</small>
+			<Label>Nombre fiscal</Label>
 			<input
 				class="wfull"
 				list="clients_data"
@@ -95,24 +99,24 @@
 		</label>
 
 		<label class="col grow" for="legal_id">
-			<small>CIF/NIF</small>
+			<Label>CIF/NIF</Label>
 			<input class="wfull" id="legal_id" type="text" bind:value={client.legal_id} />
 		</label>
 
 		<label class="col grow" for="contact">
-			<small>Contacto</small>
+			<Label>Contacto</Label>
 			<input class="wfull" id="contact" type="text" bind:value={client.contact} />
 		</label>
 	</div>
 
 	<label class="col wfull" for="address">
-		<small>Calle, número y piso</small>
+		<Label>Calle, número y piso</Label>
 		<input class="wfull" id="address" type="text" bind:value={client.address} />
 	</label>
 
 	<div class="row wfull">
 		<label class="col wfull" for="cp">
-			<small>Código postal</small>
+			<Label>Código postal</Label>
 			<input
 				class="wfull"
 				list="postal_codes"
@@ -130,58 +134,18 @@
 		</label>
 
 		<label class="col wfull" for="city">
-			<small>Ciudad</small>
+			<Label>Ciudad</Label>
 			<input class="wfull" id="city" type="text" bind:value={client.city} />
 		</label>
 
 		<label class="col wfull" for="country">
-			<small>País</small>
+			<Label>País</Label>
 			<input class="wfull" id="country" type="text" bind:value={client.country} />
 		</label>
 	</div>
-</article>
+</Container>
 
 <style lang="postcss">
-	article {
-		background-color: hsl(var(--base-hsl), 0.8);
-		border: 1px solid var(--base-200);
-		border-radius: 0.3em;
-		padding: 1.75em;
-		overflow: hidden;
-
-		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-color: var(--base-800);
-		}
-	}
-
-	h2 {
-		background-color: var(--accent);
-		color: var(--base-900);
-		font-size: var(--font-xs);
-		border-radius: 0 0 0.3em 0.3em;
-		box-shadow: 0 0 20px hsl(var(--accent-hsl), 0.4);
-		transform: translate(1em, -1.75rem);
-		padding: 0.25em 1em;
-	}
-
-	label {
-		margin-top: 1.25em;
-
-		& small {
-			background-color: var(--base-800);
-			color: var(--base-500);
-			font-family: var(--font-title);
-			border-radius: 0.3em 0.3em 0 0;
-			transform: translateX(1em);
-			padding: 0.25em 0.5em;
-
-			@media (--dark) {
-				color: var(--base-300);
-			}
-		}
-	}
-
 	div {
 		gap: 0.5em;
 	}

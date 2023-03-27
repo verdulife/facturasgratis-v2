@@ -1,7 +1,10 @@
 <script>
-	import ItemInput from './ItemInput.svelte';
+	import Container from '$lib/components/Forms/Container.svelte';
+	import Title from '$lib/components/Forms/Title.svelte';
+	import ItemInput from '$lib/components/facturas/ItemInput.svelte';
+	import Totals from '$lib/components/facturas/Totals.svelte';
 
-	export let items, currency, taxes;
+	export let items, currency, taxes, totals;
 
 	const { iva } = taxes;
 
@@ -15,7 +18,16 @@
 	}
 
 	function addItem() {
-		items = [...items, { amount: 1, dto: 0 }];
+		const emptyItem = {
+			label: '',
+			amount: 1,
+			price: 0,
+			pvp: 0,
+			dto: 0,
+			total: 0
+		};
+
+		items = [...items, emptyItem];
 		setTimeout(scrollToItem);
 	}
 
@@ -25,9 +37,8 @@
 	}
 </script>
 
-<article class="col wfull">
-	<h2><b>Conceptos</b></h2>
-	<p>Todos los productos o servicios a facturar</p>
+<Container class="col wfull">
+	<Title>Conceptos</Title>
 
 	{#if items.length > 0}
 		<ul class="col wfull">
@@ -42,32 +53,12 @@
 	<div class="row">
 		<button type="button" on:click={addItem}>Añadir concepto</button>
 	</div>
-</article>
+
+	<Totals bind:totals {items} {taxes} />
+</Container>
 
 <style lang="postcss">
-	article {
-		background-color: hsl(var(--base-hsl), 0.8);
-		border: 1px solid var(--base-200);
-		border-radius: 0.3em;
-		padding: 1.25em;
-		overflow: hidden;
-
-		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-color: var(--base-800);
-		}
-	}
-
-	p {
-		font-size: var(--font-xs);
-	}
-
 	ul {
-		gap: 0.5em;
-		margin-top: 2em;
-	}
-
-	button {
-		margin-top: 2em;
+		gap: 1em;
 	}
 </style>

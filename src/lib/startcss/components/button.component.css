@@ -12,23 +12,24 @@
 /* 🎨 dynamic properties 🎨 */
 
 :--button {
-	--background-color: hsl(var(--base-900-hsl), 0.05);
-	--color: var(--base-800);
-	--border: 1px solid hsl(var(--base-900-hsl), 0.05);
+	--background-color: var(--base-800);
+	--color: var(--base-200);
+	--border: 1px solid var(--base-900);
 
 	@media (--dark) {
-		--background-color: hsl(var(--base-hsl), 0.05);
+		--background-color: var(--base-900);
 		--color: var(--base-100);
-		--border: 1px solid hsl(var(--base-hsl), 0.05);
+		--border: 1px solid var(--base-800);
 	}
 
 	&:hover,
 	&:focus {
-		--background-color: hsl(var(--base-900-hsl), 0.1);
+		--background-color: var(--base-700);
+		--border: 1px solid var(--base-800);
 
 		@media (--dark) {
-			--background-color: hsl(var(--base-hsl), 0.1);
-			--border: 1px solid hsl(var(--base-hsl), 0.05);
+			--background-color: var(--base-800);
+			--border: 1px solid var(--base-700);
 		}
 	}
 }

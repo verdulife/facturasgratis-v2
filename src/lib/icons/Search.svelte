@@ -5,11 +5,7 @@
 <svg {width} {height} viewBox="0 0 1024 1024">
 	<style>
 		path {
-			fill: var(--base-900);
-
-			@media (--dark) {
-				fill: var(--base);
-			}
+			fill: currentColor;
 		}
 	</style>
 	<path

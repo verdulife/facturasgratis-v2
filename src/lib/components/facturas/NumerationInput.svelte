@@ -1,14 +1,17 @@
 <script>
 	import { twoDigitYear } from '$lib/utils';
+	import Container from '$lib/components/Forms/Container.svelte';
+	import Title from '$lib/components/Forms/Title.svelte';
+	import Label from '$lib/components/Forms/Label.svelte';
 	export let number, date, legal_initials;
 </script>
 
-<article class="col wfull">
-	<h2><b>Datos de la factura</b></h2>
+<Container>
+	<Title>Datos de la factura</Title>
 
 	<div class="date row wfull">
 		<label class="col wfull" for="number">
-			<small>Número</small>
+			<Label>Número</Label>
 			<span class="row jstart acenter wfull">
 				<input type="text" value="{legal_initials}/{twoDigitYear(date.year)}" disabled />
 				<input
@@ -23,7 +26,7 @@
 		</label>
 
 		<label class="col wfull" for="day">
-			<small>Día</small>
+			<Label>Día</Label>
 			<input
 				class="wfull"
 				id="day"
@@ -35,7 +38,7 @@
 		</label>
 
 		<label class="col wfull" for="month">
-			<small>Mes</small>
+			<Label>Mes</Label>
 			<input
 				class="wfull"
 				id="month"
@@ -47,7 +50,7 @@
 		</label>
 
 		<label class="col wfull" for="year">
-			<small>Año</small>
+			<Label>Año</Label>
 			<input
 				class="wfull"
 				id="year"
@@ -58,64 +61,26 @@
 			/>
 		</label>
 	</div>
-</article>
+</Container>
 
 <style lang="postcss">
-	article {
-		background-color: hsl(var(--base-hsl), 0.8);
-		border: 1px solid var(--base-200);
-		border-radius: 0.3em;
-		padding: 1.25em;
-		overflow: hidden;
-
-		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-color: var(--base-800);
-		}
-	}
-
-	h2 {
-		background-color: var(--base-800);
-		font-size: var(--font-xs);
-		border: 1px solid var(--base-700);
-		border-radius: 0.3em;
-		padding: 0.25em 0.5em;
-	}
-
-	label {
-		margin-top: 1.25em;
-
-		& span {
-			gap: 0;
-
-			& input {
-				border-radius: 0;
-
-				&:first-of-type {
-					border-radius: 0.3em 0 0 0.3em;
-				}
-
-				&:last-of-type {
-					border-radius: 0 0.3em 0.3em 0;
-				}
-			}
-		}
-
-		& small {
-			color: var(--base-500);
-			padding: 0 1em;
-
-			@media (--dark) {
-				color: var(--base-600);
-			}
-		}
+	label span {
+		gap: 0;
 
 		& input {
-			margin-top: 0.5em;
+			border-radius: 0;
 
-			&:disabled {
-				width: 90px;
+			&:first-of-type {
+				border-radius: 0.3em 0 0 0.3em;
 			}
+
+			&:last-of-type {
+				border-radius: 0 0.3em 0.3em 0;
+			}
+		}
+
+		& input:disabled {
+			width: 90px;
 		}
 	}
 

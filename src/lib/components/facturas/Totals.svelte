@@ -1,11 +1,13 @@
 <script>
 	import { roundWithTwoDecimals, currency } from '$lib/utils';
 
-	export let totals, items, taxes;
+	export let totals = {},
+		items,
+		taxes;
 	const { iva, ret } = taxes;
 
 	$: base = items.reduce((acc, item) => {
-		const amountPrice = (item.price || 0) * item.amount;
+		const amountPrice = item.price * item.amount;
 		const dtoPrice = (amountPrice * item.dto) / 100;
 		return roundWithTwoDecimals(acc + (amountPrice - dtoPrice));
 	}, 0);
@@ -16,35 +18,37 @@
 
 		totals = {
 			base,
-			iva: ivaValue,
-			ret: retValue,
-			total: base + ivaValue - retValue
+			iva: roundWithTwoDecimals(ivaValue),
+			ret: roundWithTwoDecimals(retValue),
+			total: roundWithTwoDecimals(base + ivaValue - retValue)
 		};
+
+		console.log(totals);
 	}
 
 	$: base, calcTotals();
 </script>
 
-<article class="row wfull">
+<article class="row fcenter wfull">
 	<div class="row w1/2">
 		<div class="col">
-			<b>Base</b>
-			<h3>{currency(totals.base)}</h3>
+			<small>Base</small>
+			<h3>{currency(base)}</h3>
 		</div>
 
 		<div class="col">
-			<b>{iva}% IVA</b>
+			<small>{iva}% IVA</small>
 			<h3>{currency(totals.iva)}</h3>
 		</div>
 
 		<div class="col">
-			<b>{ret}% IRPF</b>
+			<small>{ret}% IRPF</small>
 			<h3>-{currency(totals.ret)}</h3>
 		</div>
+	</div>
 
-		<div class="col">
-			<b>Total</b>
-			<h3>{currency(totals.total)}</h3>
-		</div>
+	<div class="col">
+		<small>Total</small>
+		<h3>{currency(totals.total)}</h3>
 	</div>
 </article>

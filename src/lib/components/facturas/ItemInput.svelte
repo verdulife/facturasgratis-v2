@@ -1,8 +1,10 @@
 <script>
 	import { currency as formatCurrency, roundWithTwoDecimals } from '$lib/utils';
+	import Container from '$lib/components/Forms/Container.svelte';
+	import Label from '$lib/components/Forms/Label.svelte';
+	import Remove from '$lib/icons/Remove.svelte';
 
 	export let item, currency, deleteItem, iva;
-
 	const ivaOperator = (100 + iva) / 100;
 
 	function calcWithTaxes() {
@@ -22,22 +24,22 @@
 	$: item, calcTotal();
 </script>
 
-<article class="col wfull">
+<Container class="col wfull">
 	<div class="row wfull">
 		<label class="col w3/4">
-			<small>Concepto</small>
-			<input class="wfull" type="text" bind:value={item.label} autofocus required />
+			<Label>Concepto</Label>
+			<input class="wfull" type="text" bind:value={item.label} required />
 		</label>
 
 		<label class="col grow">
-			<small>Cantidad</small>
+			<Label>Cantidad</Label>
 			<input class="wfull" type="number" bind:value={item.amount} required />
 		</label>
 	</div>
 
-	<div class="row acenter wfull">
+	<div class="row aend wfull">
 		<label class="col wfull">
-			<small>Precio {currency}</small>
+			<Label>Precio {currency}</Label>
 			<input
 				class="wfull"
 				type="number"
@@ -48,7 +50,7 @@
 		</label>
 
 		<label class="col wfull">
-			<small>PVP {currency}</small>
+			<Label>PVP {currency}</Label>
 			<input
 				class="wfull"
 				type="number"
@@ -59,49 +61,35 @@
 		</label>
 
 		<label class="col wfull">
-			<small>Descuento %</small>
+			<Label>Descuento %</Label>
 			<input class="wfull" type="number" bind:value={item.dto} required />
 		</label>
 
+		<label class="col wfull">
+			<Label>Total {currency}</Label>
+			<input class="wfull" type="number" bind:value={item.total} disabled />
+		</label>
+
 		<div class="col aend wfull">
-			<small>Total {currency}</small>
-			<h3>{formatCurrency(item.total || 0)}</h3>
-			<button type="button" on:click={deleteItem}>Borrar</button>
+			<button type="button" class="unset row fcenter" on:click={deleteItem}>
+				<Remove width="1.5em" /> Borrar
+			</button>
 		</div>
 	</div>
-</article>
+</Container>
 
 <style lang="postcss">
-	article {
-		gap: 1em;
-		background-color: hsl(var(--base-hsl), 0.8);
-		border: 1px solid var(--base-200);
-		border-radius: 0.3em;
-		padding: 1.25em;
-		overflow: hidden;
-
-		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-color: var(--base-800);
-		}
-	}
-
-	label {
-		& small {
-			color: var(--base-500);
-			padding: 0 1em;
-
-			@media (--dark) {
-				color: var(--base-600);
-			}
-		}
-
-		& input {
-			margin-top: 0.5em;
-		}
-	}
-
-	div {
+	div,
+	button {
 		gap: 0.5em;
+	}
+
+	button {
+		color: hsl(var(--error-hsl), 0.7);
+
+		&:hover,
+		&:focus {
+			color: hsl(var(--error-hsl), 1);
+		}
 	}
 </style>
