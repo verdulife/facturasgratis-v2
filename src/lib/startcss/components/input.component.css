@@ -17,8 +17,8 @@
 	--border: 1px solid hsl(var(--base-900-hsl), 0.1);
 
 	@media (--dark) {
-		--background-color: hsl(var(--base-900-hsl), 0.6);
-		--border: 1px solid hsl(var(--base-hsl), 0.05);
+		--background-color: hsl(var(--base-800-hsl), 0.1);
+		--border: 1px solid var(--base-800);
 	}
 
 	&:focus,
@@ -61,7 +61,7 @@
 	border: var(--border);
 	border-radius: 0.3em;
 	font-weight: normal;
-	padding: var(--spacing-sm);
+	padding: var(--spacing-xs);
 	transition: 150ms;
 
 	&:focus,

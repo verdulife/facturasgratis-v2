@@ -5,25 +5,23 @@
 
 <article class="col wfull">
 	<h2><b>Datos de la factura</b></h2>
-	<p>La numeración y fecha se rellenan automatiamente, pero puedes modificarlas.</p>
-
-	<label class="col wfull" for="number">
-		<small>Número</small>
-		<span class="row jstart acenter wfull">
-			<input type="text" value="{legal_initials}/{twoDigitYear(date.year)}" disabled />
-			<span><b>-</b></span>
-			<input
-				class="grow"
-				id="number"
-				type="number"
-				inputmode="numeric"
-				bind:value={number}
-				required
-			/>
-		</span>
-	</label>
 
 	<div class="date row wfull">
+		<label class="col wfull" for="number">
+			<small>Número</small>
+			<span class="row jstart acenter wfull">
+				<input type="text" value="{legal_initials}/{twoDigitYear(date.year)}" disabled />
+				<input
+					class="grow"
+					id="number"
+					type="number"
+					inputmode="numeric"
+					bind:value={number}
+					required
+				/>
+			</span>
+		</label>
+
 		<label class="col wfull" for="day">
 			<small>Día</small>
 			<input
@@ -76,12 +74,32 @@
 		}
 	}
 
-	p {
+	h2 {
+		background-color: var(--base-800);
 		font-size: var(--font-xs);
+		border: 1px solid var(--base-700);
+		border-radius: 0.3em;
+		padding: 0.25em 0.5em;
 	}
 
 	label {
-		margin-top: 2em;
+		margin-top: 1.25em;
+
+		& span {
+			gap: 0;
+
+			& input {
+				border-radius: 0;
+
+				&:first-of-type {
+					border-radius: 0.3em 0 0 0.3em;
+				}
+
+				&:last-of-type {
+					border-radius: 0 0.3em 0.3em 0;
+				}
+			}
+		}
 
 		& small {
 			color: var(--base-500);
@@ -102,24 +120,7 @@
 	}
 
 	div {
-		gap: 2em;
-
-		&.date {
-			gap: 0;
-
-			& label {
-				& input {
-					border-radius: 0;
-				}
-
-				&:first-of-type input {
-					border-radius: 0.3em 0 0 0.3em;
-				}
-				&:last-of-type input {
-					border-radius: 0 0.3em 0.3em 0;
-				}
-			}
-		}
+		gap: 0.5em;
 	}
 
 	span {

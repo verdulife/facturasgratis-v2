@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
 function parseStorage(storage) {
+  if (localStorage.getItem(storage) === "undefined") return;
   return JSON.parse(localStorage.getItem(storage));
 }
 

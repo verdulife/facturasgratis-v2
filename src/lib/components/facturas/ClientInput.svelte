@@ -73,34 +73,33 @@
 
 <article class="col wfull">
 	<h2><b>Datos del cliente</b></h2>
-	<p>Los cambios que realices aqui, no se guardaran en la ficha del cliente</p>
-
-	<label class="col wfull" for="legal_name">
-		<small>Nombre fiscal</small>
-		<input
-			class="wfull"
-			list="clients_data"
-			id="legal_name"
-			type="text"
-			bind:value={client.legal_name}
-			on:input={getBusinessData}
-			on:change={autocompleteClient}
-		/>
-
-		<datalist id="clients_data">
-			{#each clientsData as client}
-				<option value={client.legal_name}>{client.legal_id}</option>
-			{/each}
-		</datalist>
-	</label>
 
 	<div class="row wfull">
-		<label class="col wfull" for="legal_id">
+		<label class="col wfull" for="legal_name">
+			<small>Nombre fiscal</small>
+			<input
+				class="wfull"
+				list="clients_data"
+				id="legal_name"
+				type="text"
+				bind:value={client.legal_name}
+				on:input={getBusinessData}
+				on:change={autocompleteClient}
+			/>
+
+			<datalist id="clients_data">
+				{#each clientsData as client}
+					<option value={client.legal_name}>{client.legal_id}</option>
+				{/each}
+			</datalist>
+		</label>
+
+		<label class="col grow" for="legal_id">
 			<small>CIF/NIF</small>
 			<input class="wfull" id="legal_id" type="text" bind:value={client.legal_id} />
 		</label>
 
-		<label class="col wfull" for="contact">
+		<label class="col grow" for="contact">
 			<small>Contacto</small>
 			<input class="wfull" id="contact" type="text" bind:value={client.contact} />
 		</label>
@@ -111,25 +110,25 @@
 		<input class="wfull" id="address" type="text" bind:value={client.address} />
 	</label>
 
-	<label class="col wfull" for="cp">
-		<small>Código postal</small>
-		<input
-			class="wfull"
-			list="postal_codes"
-			id="cp"
-			type="text"
-			bind:value={client.cp}
-			on:input={autocompleteByPostalCode}
-		/>
-
-		<datalist id="postal_codes">
-			{#each es as { zipcode, city }}
-				<option value={zipcode}>{city}</option>
-			{/each}
-		</datalist>
-	</label>
-
 	<div class="row wfull">
+		<label class="col wfull" for="cp">
+			<small>Código postal</small>
+			<input
+				class="wfull"
+				list="postal_codes"
+				id="cp"
+				type="text"
+				bind:value={client.cp}
+				on:input={autocompleteByPostalCode}
+			/>
+
+			<datalist id="postal_codes">
+				{#each es as { zipcode, city }}
+					<option value={zipcode}>{city}</option>
+				{/each}
+			</datalist>
+		</label>
+
 		<label class="col wfull" for="city">
 			<small>Ciudad</small>
 			<input class="wfull" id="city" type="text" bind:value={client.city} />
@@ -147,7 +146,7 @@
 		background-color: hsl(var(--base-hsl), 0.8);
 		border: 1px solid var(--base-200);
 		border-radius: 0.3em;
-		padding: 1.25em;
+		padding: 1.75em;
 		overflow: hidden;
 
 		@media (--dark) {
@@ -156,28 +155,34 @@
 		}
 	}
 
-	p {
+	h2 {
+		background-color: var(--accent);
+		color: var(--base-900);
 		font-size: var(--font-xs);
+		border-radius: 0 0 0.3em 0.3em;
+		box-shadow: 0 0 20px hsl(var(--accent-hsl), 0.4);
+		transform: translate(1em, -1.75rem);
+		padding: 0.25em 1em;
 	}
 
 	label {
-		margin-top: 2em;
+		margin-top: 1.25em;
 
 		& small {
+			background-color: var(--base-800);
 			color: var(--base-500);
-			padding: 0 1em;
+			font-family: var(--font-title);
+			border-radius: 0.3em 0.3em 0 0;
+			transform: translateX(1em);
+			padding: 0.25em 0.5em;
 
 			@media (--dark) {
-				color: var(--base-600);
+				color: var(--base-300);
 			}
-		}
-
-		& input {
-			margin-top: 0.5em;
 		}
 	}
 
 	div {
-		gap: 2em;
+		gap: 0.5em;
 	}
 </style>
