@@ -1,13 +1,16 @@
 <script>
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { User, Bills } from '$lib/stores';
+	import { User, Bills, Firebase } from '$lib/stores';
+	import { goto } from '$app/navigation';
+	import { syncDocumentsData } from '$lib/database/config';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
 	import NumerationInput from '$lib/components/facturas/NumerationInput.svelte';
 	import ClientInput from '$lib/components/facturas/ClientInput.svelte';
 	import ItemsListInput from '$lib/components/facturas/ItemsListInput.svelte';
+	import NotesInput from '$lib/components/facturas/NotesInput.svelte';
 
 	const currentDate = new Date();
 
@@ -28,7 +31,27 @@
 		totals: {}
 	};
 
-	function saveBillData() {}
+	async function saveBillData() {
+		const numerationExists = $Bills.find((b) => b.number === bill.number);
+
+		if (bill.items.length === 0) {
+			alert('No has añadido ningun concepto');
+			return;
+		}
+
+		if (numerationExists) {
+			const check = confirm(
+				`Ya existe una factura con la siguiente numeración: ${bill.number}\n\n¿Guardar de todas formas?`
+			);
+		}
+
+		$Bills = [bill, ...$Bills];
+
+		if ($Firebase.uid)
+			await syncDocumentsData({ uid: $Firebase.uid, documents: 'bills', documentsStore: $Bills });
+
+		goto('/facturas');
+	}
 </script>
 
 <Meta data={meta} />
@@ -51,10 +74,17 @@
 
 	<ItemsListInput
 		bind:items={bill.items}
-		totals={bill.totals}
+		bind:totals={bill.totals}
 		currency={$User.currency}
 		taxes={{ iva: $User.iva, ret: $User.ret }}
 	/>
+
+	<NotesInput bind:note={$User.bill_note} />
+
+	<footer class="row jcenter wfull">
+		<button type="submit" class="grow">Crear factura</button>
+		<a role="button" class="error" href="/facturas">Cancelar</a>
+	</footer>
 </form>
 
 <style lang="postcss">
@@ -63,5 +93,9 @@
 		gap: 2em;
 		margin: 0 auto;
 		padding: 2em;
+
+		& footer {
+			gap: 1em;
+		}
 	}
 </style>

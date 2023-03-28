@@ -38,7 +38,7 @@ async function syncUserData(uid) {
   }
 }
 
-async function syncDocumentsData({ uid, documents, documentsStore }) {
+export async function syncDocumentsData({ uid, documents, documentsStore }) {
   if (!uid) return;
 
   const documentsRef = collection(db, `users/${uid}/${documents}`)
@@ -51,6 +51,8 @@ async function syncDocumentsData({ uid, documents, documentsStore }) {
       })
     })
   } else {
+
+    //TODO: not set if is only update data
     documentsStore.set([]);
 
     documentsSnap.forEach(doc => {

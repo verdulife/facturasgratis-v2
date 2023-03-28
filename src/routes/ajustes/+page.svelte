@@ -75,7 +75,7 @@
 
 	<footer class="row jcenter wfull">
 		<button type="submit" class="grow">GUARDAR DATOS</button>
-		<button type="button" class="error " on:click={clearSession}>BORRAR PERFIL</button>
+		<button type="button" class="error" on:click={clearSession}>BORRAR PERFIL</button>
 	</footer>
 </form>
 

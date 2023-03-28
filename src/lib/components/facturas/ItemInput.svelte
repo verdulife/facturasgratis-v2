@@ -33,7 +33,7 @@
 
 		<label class="col grow">
 			<Label>Cantidad</Label>
-			<input class="wfull" type="number" bind:value={item.amount} required />
+			<input class="wfull" type="number" step="0.01" bind:value={item.amount} required />
 		</label>
 	</div>
 
@@ -43,6 +43,7 @@
 			<input
 				class="wfull"
 				type="number"
+				step="0.01"
 				bind:value={item.price}
 				on:input={calcWithTaxes}
 				required
@@ -54,6 +55,7 @@
 			<input
 				class="wfull"
 				type="number"
+				step="0.01"
 				bind:value={item.pvp}
 				on:input={calcWithoutTaxes}
 				required
@@ -62,12 +64,12 @@
 
 		<label class="col wfull">
 			<Label>Descuento %</Label>
-			<input class="wfull" type="number" bind:value={item.dto} required />
+			<input class="wfull" type="number" step="0.01" bind:value={item.dto} required />
 		</label>
 
 		<label class="col wfull">
 			<Label>Total {currency}</Label>
-			<input class="wfull" type="number" bind:value={item.total} disabled />
+			<input class="wfull" type="number" step="0.01" bind:value={item.total} disabled />
 		</label>
 
 		<div class="col aend wfull">

@@ -1,9 +1,7 @@
 <script>
 	import { roundWithTwoDecimals, currency } from '$lib/utils';
 
-	export let totals = {},
-		items,
-		taxes;
+	export let totals, items, taxes;
 	const { iva, ret } = taxes;
 
 	$: base = items.reduce((acc, item) => {
@@ -22,33 +20,33 @@
 			ret: roundWithTwoDecimals(retValue),
 			total: roundWithTwoDecimals(base + ivaValue - retValue)
 		};
-
-		console.log(totals);
 	}
 
-	$: base, calcTotals();
+	$: items, calcTotals();
 </script>
 
-<article class="row fcenter wfull">
-	<div class="row w1/2">
-		<div class="col">
-			<small>Base</small>
-			<h3>{currency(base)}</h3>
-		</div>
-
-		<div class="col">
-			<small>{iva}% IVA</small>
-			<h3>{currency(totals.iva)}</h3>
-		</div>
-
-		<div class="col">
-			<small>{ret}% IRPF</small>
-			<h3>-{currency(totals.ret)}</h3>
-		</div>
-	</div>
-
-	<div class="col">
-		<small>Total</small>
-		<h3>{currency(totals.total)}</h3>
-	</div>
+<article class="row fcenter">
+	<p><b>Base:</b> {currency(totals.base)}</p>
+	<p><b>IVA:</b> {currency(totals.iva)}</p>
+	<p><b>IRPF:</b> -{currency(totals.ret)}</p>
+	<p><b>Total:</b> {currency(totals.total)}</p>
 </article>
+
+<style lang="postcss">
+	article {
+		gap: 1em;
+
+		& p {
+			font-size: 12px;
+
+			&:last-of-type {
+				background-color: var(--accent);
+				color: var(--base-900);
+				font-size: var(--font-xs);
+				border-radius: 0.2rem;
+				box-shadow: 0 0 20px hsl(var(--accent-hsl), 0.4);
+				padding: 0.25em 0.75em;
+			}
+		}
+	}
+</style>

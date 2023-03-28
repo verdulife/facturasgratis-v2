@@ -50,11 +50,10 @@
 		</ul>
 	{/if}
 
-	<div class="row">
+	<div class="row jbetween acenter wfull">
 		<button type="button" on:click={addItem}>Añadir concepto</button>
+		<Totals bind:totals {items} {taxes} />
 	</div>
-
-	<Totals bind:totals {items} {taxes} />
 </Container>
 
 <style lang="postcss">

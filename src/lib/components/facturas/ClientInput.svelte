@@ -89,6 +89,7 @@
 				bind:value={client.legal_name}
 				on:input={getBusinessData}
 				on:change={autocompleteClient}
+				required
 			/>
 
 			<datalist id="clients_data">
@@ -100,18 +101,18 @@
 
 		<label class="col grow" for="legal_id">
 			<Label>CIF/NIF</Label>
-			<input class="wfull" id="legal_id" type="text" bind:value={client.legal_id} />
+			<input class="wfull" id="legal_id" type="text" bind:value={client.legal_id} required/>
 		</label>
 
 		<label class="col grow" for="contact">
 			<Label>Contacto</Label>
-			<input class="wfull" id="contact" type="text" bind:value={client.contact} />
+			<input class="wfull" id="contact" type="text" bind:value={client.contact} required/>
 		</label>
 	</div>
 
 	<label class="col wfull" for="address">
 		<Label>Calle, número y piso</Label>
-		<input class="wfull" id="address" type="text" bind:value={client.address} />
+		<input class="wfull" id="address" type="text" bind:value={client.address} required/>
 	</label>
 
 	<div class="row wfull">
@@ -124,6 +125,7 @@
 				type="text"
 				bind:value={client.cp}
 				on:input={autocompleteByPostalCode}
+				required
 			/>
 
 			<datalist id="postal_codes">
@@ -135,12 +137,12 @@
 
 		<label class="col wfull" for="city">
 			<Label>Ciudad</Label>
-			<input class="wfull" id="city" type="text" bind:value={client.city} />
+			<input class="wfull" id="city" type="text" bind:value={client.city} required/>
 		</label>
 
 		<label class="col wfull" for="country">
 			<Label>País</Label>
-			<input class="wfull" id="country" type="text" bind:value={client.country} />
+			<input class="wfull" id="country" type="text" bind:value={client.country} required/>
 		</label>
 	</div>
 </Container>
