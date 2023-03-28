@@ -3,7 +3,7 @@
 	import { facturas } from '$lib/tools';
 	import { User, Bills, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
-	import { syncDocumentsData } from '$lib/database/config';
+	import { updateCollection } from '$lib/database/config';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
@@ -15,6 +15,7 @@
 	const currentDate = new Date();
 
 	function getLastNumeration() {
+		if ($Bills.length === 0) return 1;
 		const currentNumeration = Math.max(...$Bills.map((bill) => bill.number));
 		return currentNumeration + 1;
 	}
@@ -43,12 +44,12 @@
 			const check = confirm(
 				`Ya existe una factura con la siguiente numeración: ${bill.number}\n\n¿Guardar de todas formas?`
 			);
+
+			if (!check) return;
 		}
 
 		$Bills = [bill, ...$Bills];
-
-		if ($Firebase.uid)
-			await syncDocumentsData({ uid: $Firebase.uid, documents: 'bills', documentsStore: $Bills });
+		if ($Firebase.user) await updateCollection({ collection: 'bills', data: bill });
 
 		goto('/facturas');
 	}

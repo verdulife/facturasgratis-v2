@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, doc, getDoc, setDoc, getDocs, addDoc } from "firebase/firestore/lite";
 import { Firebase, User, Documents } from "$lib/stores";
 import { clearLocalData } from "$lib/utils";
+import { get } from 'svelte/store';
 
 
 const firebaseConfig = {
@@ -20,62 +21,58 @@ export const auth = getAuth(firebaseApp);
 export const db = getFirestore(firebaseApp)
 export const provider = new GoogleAuthProvider();
 
-async function syncUserData(uid) {
-  if (!uid) return;
+function getCollectionRef(collectionName) {
+  if (!auth.currentUser) return;
 
+  const { uid } = auth.currentUser;
+  return collection(db, `users/${uid}/${collectionName}`)
+}
+
+async function syncUser() {
+  if (!auth.currentUser) return;
+
+  const { uid } = auth.currentUser;
   const usersRef = collection(db, "users");
   const userRef = doc(usersRef, uid);
-  const userSnap = await getDoc(userRef);
+  const user = await getDoc(userRef);
 
-  if (userSnap.exists()) {
-    const userData = userSnap.data();
-    User.update(value => value = userData)
-  }
-  else {
-    User.subscribe(async value => {
-      await setDoc(userRef, value);
-    });
+  if (user.exists()) User.set(user.data());
+  else User.subscribe(async value => await setDoc(userRef, value));
+}
+
+async function syncCollection({ collection, store }) {
+  const collectionRef = getCollectionRef(collection);
+  const docs = await getDocs(collectionRef);
+
+  if (docs.empty) {
+    const storeData = get(store);
+    storeData.forEach(async doc => await addDoc(collectionRef, doc));
+  } else {
+    let docsData = [];
+    docs.forEach(doc => docsData = [...docsData, doc.data()]);
+    store.set(docsData);
   }
 }
 
-export async function syncDocumentsData({ uid, documents, documentsStore }) {
-  if (!uid) return;
-
-  const documentsRef = collection(db, `users/${uid}/${documents}`)
-  const documentsSnap = await getDocs(documentsRef);
-
-  if (documentsSnap.empty) {
-    documentsStore.subscribe(value => {
-      value.forEach(async document => {
-        await addDoc(documentsRef, document);
-      })
-    })
-  } else {
-
-    //TODO: not set if is only update data
-    documentsStore.set([]);
-
-    documentsSnap.forEach(doc => {
-      const documentData = doc.data();
-      documentsStore.update(value => value = [documentData, ...value]);
-    })
-  }
+export async function updateCollection({ collection, data }) {
+  const collectionRef = getCollectionRef(collection);
+  await addDoc(collectionRef, data);
 }
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    clearLocalData();
-    return;
-  };
+  if (!user) return;
 
   const { uid } = user;
-  Firebase.update(value => value = { user: true, uid });
+  Firebase.set({ user: true, uid });
 
-  await syncUserData(uid);
+  //TODO: si firebase y localstorage ambos tienen datos, preguntar si se quiere descargar una copia local antes.
+
+  await syncUser();
 
   for (let key in Documents) {
-    const documents = key.toLowerCase();
-    const documentsStore = Documents[key];
-    await syncDocumentsData({ uid, documents, documentsStore })
+    const collection = key.toLowerCase();
+    const store = Documents[key];
+
+    syncCollection({ collection, store });
   }
 });

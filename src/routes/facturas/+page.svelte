@@ -2,7 +2,7 @@
 	import { facturas as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
 	import { User, Bills } from '$lib/stores';
-	import { currentYear } from '$lib/utils';
+	import { currentYear, sortByNumber } from '$lib/utils';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import FirstSteps from '$lib/components/FirstSteps.svelte';
@@ -14,7 +14,9 @@
 	$: monthFilter = '';
 	$: yearFilter = currentYear;
 
-	$: filteredBills = $Bills.filter((b) => {
+	const sortedBills = $Bills.sort(sortByNumber);
+
+	$: filteredBills = sortedBills.filter((b) => {
 		const billClientName = b.client.legal_name.toLowerCase();
 		const billNumber = b.number.toString();
 		const billDateMonth = b.date.month.toString();
