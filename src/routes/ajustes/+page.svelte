@@ -11,7 +11,6 @@
 	import LegalContact from '$lib/components/ajustes/LegalContact.svelte';
 	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
-	import CloudService from '$lib/components/ajustes/CloudService.svelte';
 	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
 
 	$: user = $User;
