@@ -1,5 +1,5 @@
 import { get } from 'svelte/store';
-import { Firebase, User, Documents } from '$lib/stores';
+import { Firebase, User, Stores } from '$lib/stores';
 
 export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
   return new Promise((resolve) => {
@@ -36,8 +36,8 @@ export function clearLocalData() {
   Firebase.set({ user: false, uid: "" });
   User.set({});
 
-  for (let key in Documents) {
-    const document = Documents[key];
+  for (let key in Stores) {
+    const document = Stores[key];
     document.set([])
   }
 }

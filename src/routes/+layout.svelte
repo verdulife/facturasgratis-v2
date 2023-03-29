@@ -2,6 +2,7 @@
 	import '$lib/startcss/startcss.css';
 	import Nav from '$lib/components/Nav.svelte';
 	import Cookies from '$lib/components/Cookies.svelte';
+	import { Toaster } from 'svelte-french-toast';
 </script>
 
 <main class="scrollbar">
@@ -10,6 +11,7 @@
 </main>
 
 <Cookies />
+<Toaster />
 
 <style lang="postcss">
 	main {

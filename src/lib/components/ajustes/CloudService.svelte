@@ -1,10 +1,15 @@
 <script>
-	import { signInWithRedirect, signOut } from 'firebase/auth';
+	import { signInWithPopup, signOut } from 'firebase/auth';
 	import { auth, provider } from '$lib/database/config';
 	import { Firebase } from '$lib/stores';
+	import { clearLocalData } from '$lib/utils';
 
-	function signIn() {
-		signInWithRedirect(auth, provider);
+	async function logIn() {
+		await signInWithPopup(auth, provider);
+	}
+
+	function logOut() {
+		signOut(auth).then(clearLocalData());
 	}
 </script>
 
@@ -16,9 +21,9 @@
 		</aside>
 
 		{#if $Firebase.user}
-			<button on:click={() => signOut(auth)}>Cerrar session</button>
+			<button on:click={logOut}>Cerrar session</button>
 		{:else}
-			<button on:click={signIn}>Iniciar session</button>
+			<button on:click={logIn}>Iniciar session</button>
 		{/if}
 	</article>
 </section>

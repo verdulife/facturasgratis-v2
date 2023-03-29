@@ -12,6 +12,7 @@
 	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 	import CloudService from '$lib/components/ajustes/CloudService.svelte';
+	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
 
 	$: user = $User;
 
@@ -44,14 +45,15 @@
 
 <Header {user} />
 
-<CloudService />
-
 <form
 	class="col acenter wfull"
 	on:submit|preventDefault={saveUserData}
 	autocomplete="off"
 	spellcheck="false"
 >
+	<CurrentSession/>
+	<CloudService />
+
 	<LogoUploader bind:logo={user.logo} />
 	<LegalData
 		bind:legal_name={user.legal_name}

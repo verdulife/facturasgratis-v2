@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, doc, getDoc, setDoc, getDocs, addDoc } from "firebase/firestore/lite";
-import { Firebase, User, Documents } from "$lib/stores";
-import { clearLocalData } from "$lib/utils";
+import { Firebase, User, Stores } from "$lib/stores";
 import { get } from 'svelte/store';
+import toast from "svelte-french-toast";
 
 
 const firebaseConfig = {
@@ -69,10 +69,12 @@ onAuthStateChanged(auth, async (user) => {
 
   await syncUser();
 
-  for (let key in Documents) {
+  for (let key in Stores) {
     const collection = key.toLowerCase();
-    const store = Documents[key];
+    const store = Stores[key];
 
     syncCollection({ collection, store });
   }
+
+  toast.success("Conectado")
 });
