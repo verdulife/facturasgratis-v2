@@ -20,6 +20,7 @@
 		id={$$props.id}
 		bind:value={note}
 		on:keydown={(e) => maxLength(e)}
+		rows="3"
 		maxlength="350"
 		placeholder="Ej. Transporte no incluido"
 	/>

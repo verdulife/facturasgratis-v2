@@ -12,6 +12,7 @@
 	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 
 	$: user = $User;
 
@@ -52,6 +53,7 @@
 >
 	<CurrentSession />
 	<LogoUploader bind:logo={user.logo} />
+
 	<LegalData
 		bind:legal_name={user.legal_name}
 		bind:legal_id={user.legal_id}

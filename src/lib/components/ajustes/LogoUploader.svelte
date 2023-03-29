@@ -1,5 +1,9 @@
 <script>
 	import { resizeImage } from '$lib/utils';
+
+	import Container from '$lib/components/Forms/Container.svelte';
+	import Title from '$lib/components/Forms/Title.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 	import Image from '$lib/components/Image.svelte';
 
 	export let logo;
@@ -25,50 +29,45 @@
 	$: if (files) processImage();
 </script>
 
-<article class="col wfull">
-	<h2><b>Logotipo</b></h2>
-	<p>Si usas logotipo en tus facturas, presupuestos o albaranes, aqui es el sitio.</p>
+<Container>
+	<Title>Logotipo</Title>
 
-	<nav class="row acenter wfull">
-		<button type="button">
-			<label for="logo">subir imagen</label>
-		</button>
+	<Row>
+		<nav class="col acenter wfull@md">
+			<button type="button" class="wfull@md">
+				<label for="logo">subir imagen</label>
+			</button>
 
-		{#if logo}
-			<button class="unset" on:click={removeLogo}>BORRAR IMÁGEN</button>
-		{/if}
-	</nav>
+			{#if logo}
+				<button class="unset" on:click={removeLogo}>BORRAR IMÁGEN</button>
+			{/if}
+		</nav>
 
-	<input id="logo" type="file" accept="image/png, image/jpeg" bind:files hidden />
+		<label class="grow" for="logo">
+			<input id="logo" type="file" accept="image/png, image/jpeg" bind:files required />
 
-	<picture class="row fcenter wfull">
-		{#if logo}
-			<Image height="100%" src={logo} alt="Logotipo" />
-		{/if}
-	</picture>
-</article>
+			<picture class="row fcenter wfull">
+				{#if logo}
+					<Image height="100%" src={logo} alt="Logotipo" />
+				{/if}
+			</picture>
+		</label>
+	</Row>
+</Container>
 
 <style lang="postcss">
-	article {
-		background-color: hsl(var(--base-hsl), 0.8);
-		border: 1px solid var(--base-200);
-		border-radius: 0.3em;
-		padding: 1.25em;
-		overflow: hidden;
-
-		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-color: var(--base-800);
-		}
+	div {
+		gap: 2em;
 	}
 
-	p {
-		font-size: var(--font-xs);
+	input[type='file'] {
+		position: absolute;
+		opacity: 0;
+		pointer-events: none;
 	}
 
 	nav {
 		gap: 2em;
-		margin-top: 2em;
 
 		& button > label {
 			cursor: pointer;
@@ -80,8 +79,7 @@
 		background: conic-gradient(from 70deg, var(--base), var(--base-100));
 		border: 1px solid var(--base-200);
 		border-radius: 0.3em;
-		margin-top: 1em;
-		padding: 1em;
+		padding: 1.5em;
 
 		@media (--dark) {
 			background: conic-gradient(from 70deg, var(--base-800), var(--base-900));

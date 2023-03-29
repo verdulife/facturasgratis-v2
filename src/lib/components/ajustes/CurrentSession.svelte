@@ -7,6 +7,7 @@
 
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 
 	let usedStores = [];
 
@@ -98,23 +99,23 @@
 <Container>
 	<Title>Session actual</Title>
 
-	<div class="row wfull">
+	<Row>
 		{#if $Firebase.user}
-			<button type="button" on:click={logOut}>Cerrar session</button>
+			<button type="button" class="grow" on:click={logOut}>Cerrar session</button>
 		{:else}
-			<button type="button" class="row acenter" title="Cargar datos" on:click={importData}>
+			<button type="button" class="row acenter grow" title="Cargar datos" on:click={importData}>
 				<b>↑</b>
 				<small>Cargar datos</small>
 			</button>
 
-			<button type="button" on:click={logIn}>Iniciar session</button>
+			<button type="button" class="grow" on:click={logIn}>Iniciar session</button>
 		{/if}
-	</div>
+	</Row>
 
 	<span class="wdiv" />
 
-	<div class="row jbetween wfull">
-		<ul class="row wrap w3/4">
+	<Row>
+		<ul class="row wrap grow">
 			{#each usedStores as { name, value }}
 				<li>
 					<p><b>{name}:</b> {value.length}</p>
@@ -123,9 +124,9 @@
 		</ul>
 
 		{#if $User.legal_name}
-			<button type="button" on:click={exportData}>Exportar</button>
+			<button class="grow" type="button" on:click={exportData}>Exportar</button>
 		{/if}
-	</div>
+	</Row>
 </Container>
 
 <style lang="postcss">

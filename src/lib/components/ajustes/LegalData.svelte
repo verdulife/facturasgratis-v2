@@ -2,6 +2,7 @@
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 
 	export let legal_name, legal_id, legal_initials;
 </script>
@@ -10,7 +11,7 @@
 	<Title>Datos legales</Title>
 	<p>Los campos marcados con un → son obligatorios.</p>
 
-	<div class="row wfull">
+	<Row>
 		<label class="col wfull" for="legal_name">
 			<Label class="wfull">→ Nombre fiscal</Label>
 
@@ -48,7 +49,7 @@
 				placeholder="Ej. FG"
 			/>
 		</label>
-	</div>
+	</Row>
 </Container>
 
 <style lang="postcss">

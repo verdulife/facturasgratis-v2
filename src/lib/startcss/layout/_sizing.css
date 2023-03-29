@@ -181,5 +181,14 @@
 		.grow\@$(media) {
 			flex-grow: 1;
 		}
+		.grow2\@$(media) {
+			flex-grow: 2;
+		}
+		.grow3\@$(media) {
+			flex-grow: 3;
+		}
+		.grow4\@$(media) {
+			flex-grow: 4;
+		}
 	}
 }

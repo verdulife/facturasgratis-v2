@@ -2,6 +2,7 @@
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 
 	export let phone, email;
 </script>
@@ -10,8 +11,8 @@
 	<Title>Contacto</Title>
 	<p>Los campos marcados con un → son obligatorios.</p>
 
-	<div class="row wfull">
-		<label class="col wfull" for="phone">
+	<Row>
+		<label class="col grow" for="phone">
 			<Label class="wfull">→ Teléfono</Label>
 
 			<input
@@ -24,7 +25,7 @@
 			/>
 		</label>
 
-		<label class="col wfull" for="email">
+		<label class="col grow" for="email">
 			<Label class="wfull">→ Email</Label>
 
 			<input
@@ -36,7 +37,7 @@
 				required
 			/>
 		</label>
-	</div>
+	</Row>
 </Container>
 
 <style lang="postcss">

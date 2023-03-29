@@ -4,6 +4,7 @@
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 
 	export let street, cp, city, country;
 
@@ -36,8 +37,8 @@
 		/>
 	</label>
 
-	<div class="row wfull">
-		<label class="col wfull" for="cp">
+	<Row>
+		<label class="col grow" for="cp">
 			<Label>→ Código postal</Label>
 			<input
 				class="wfull"
@@ -57,7 +58,7 @@
 			</datalist>
 		</label>
 
-		<label class="col wfull" for="city">
+		<label class="col grow" for="city">
 			<Label>→ Población</Label>
 			<input
 				class="wfull"
@@ -69,7 +70,7 @@
 			/>
 		</label>
 
-		<label class="col wfull" for="country">
+		<label class="col grow" for="country">
 			<Label>→ País</Label>
 			<input
 				class="wfull"
@@ -80,7 +81,7 @@
 				required
 			/>
 		</label>
-	</div>
+	</Row>
 </Container>
 
 <style lang="postcss">
