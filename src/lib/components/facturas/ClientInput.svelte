@@ -136,7 +136,7 @@
 		</label>
 
 		<label class="col wfull" for="city">
-			<Label>Ciudad</Label>
+			<Label>Población</Label>
 			<input class="wfull" id="city" type="text" bind:value={client.city} required/>
 		</label>
 

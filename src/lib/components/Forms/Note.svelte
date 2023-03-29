@@ -1,7 +1,7 @@
 <script>
 	import Label from '$lib/components/Forms/Label.svelte';
 
-	export let note, required = false;
+	export let note;
 
 	function maxLength(e) {
 		const el = e.target;
@@ -22,7 +22,6 @@
 		on:keydown={(e) => maxLength(e)}
 		maxlength="350"
 		placeholder="Ej. Transporte no incluido"
-		{required}
 	/>
 </label>
 

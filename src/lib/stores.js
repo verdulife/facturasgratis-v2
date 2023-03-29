@@ -37,3 +37,13 @@ export const Providers = writable((browser && parseStorage("providers")) || []);
 Providers.subscribe((value) => browser && (localStorage.providers = JSON.stringify(value)));
 
 export const Stores = { Bills, Budgets, Deliveries, Proforma_bills, Clients, Products, Providers };
+
+export const stores_lib = {
+  bills: 'Facturas',
+  budgets: 'Presupuestos',
+  deliveries: 'Albaranes',
+  proforma_bills: 'Proformas',
+  clients: 'Clientes',
+  products: 'Productos/Servicios',
+  providers: 'Proveedores'
+};

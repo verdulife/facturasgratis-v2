@@ -51,9 +51,7 @@
 	autocomplete="off"
 	spellcheck="false"
 >
-	<CurrentSession/>
-	<CloudService />
-
+	<CurrentSession />
 	<LogoUploader bind:logo={user.logo} />
 	<LegalData
 		bind:legal_name={user.legal_name}

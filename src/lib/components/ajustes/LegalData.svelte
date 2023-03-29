@@ -1,27 +1,31 @@
 <script>
+	import Container from '$lib/components/Forms/Container.svelte';
+	import Title from '$lib/components/Forms/Title.svelte';
+	import Label from '$lib/components/Forms/Label.svelte';
+
 	export let legal_name, legal_id, legal_initials;
 </script>
 
-<article class="col wfull">
-	<h2><b>Datos legales</b></h2>
+<Container>
+	<Title>Datos legales</Title>
 	<p>Los campos marcados con un → son obligatorios.</p>
 
-	<label class="col wfull" for="legal_name">
-		<small class="wfull">→ Nombre fiscal</small>
-
-		<input
-			class="wfull"
-			id="legal_name"
-			type="text"
-			bind:value={legal_name}
-			placeholder="Ej. Factura Gratis S.L."
-			required
-		/>
-	</label>
-
 	<div class="row wfull">
-		<label class="col wfull" for="legal_id">
-			<small>→ CIF/NIF</small>
+		<label class="col wfull" for="legal_name">
+			<Label class="wfull">→ Nombre fiscal</Label>
+
+			<input
+				class="wfull"
+				id="legal_name"
+				type="text"
+				bind:value={legal_name}
+				placeholder="Ej. Factura Gratis S.L."
+				required
+			/>
+		</label>
+
+		<label class="col grow" for="legal_id">
+			<Label>→ CIF/NIF</Label>
 			<input
 				class="wfull"
 				id="legal_id"
@@ -33,7 +37,7 @@
 		</label>
 
 		<label class="col grow" for="legal_initials">
-			<small>Iniciales</small>
+			<Label>Iniciales</Label>
 			<input
 				class="wfull"
 				id="legal_initials"
@@ -45,44 +49,14 @@
 			/>
 		</label>
 	</div>
-</article>
+</Container>
 
 <style lang="postcss">
-	article {
-		background-color: hsl(var(--base-hsl), 0.8);
-		border: 1px solid var(--base-200);
-		border-radius: 0.3em;
-		padding: 1.25em;
-		overflow: hidden;
-
-		@media (--dark) {
-			background-color: hsl(var(--base-900-hsl), 0.8);
-			border-color: var(--base-800);
-		}
-	}
-
 	p {
 		font-size: var(--font-xs);
 	}
 
-	label {
-		margin-top: 2em;
-
-		& small {
-			color: var(--base-500);
-			padding: 0 1em;
-
-			@media (--dark) {
-				color: var(--base-600);
-			}
-		}
-
-		& input {
-			margin-top: 0.5em;
-		}
-	}
-
 	div {
-		gap: 2em;
+		gap: 0.5em;
 	}
 </style>
