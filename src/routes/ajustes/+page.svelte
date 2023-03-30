@@ -2,6 +2,8 @@
 	import { ajustes } from '$lib/meta';
 	import { User } from '$lib/stores';
 	import { clearLocalData } from '$lib/utils';
+	import { updateUser } from '$lib/database/config';
+	import toast from 'svelte-french-toast';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/ajustes/Header.svelte';
@@ -12,15 +14,18 @@
 	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
 
 	$: user = $User;
 
-	function saveUserData() {
+	async function saveUserData() {
 		user._updated = new Date();
 		if (user.legal_initials) user.legal_initials = user.legal_initials.toUpperCase();
+
 		$User = user;
-		alert('✔ Datos guardados correctamente');
+		await updateUser(user);
+
+		toast.success('Datos guardados correctamente'); /* 
+		alert('✔ '); */
 	}
 
 	function clearSession() {
@@ -38,6 +43,8 @@
 
 		if (verify !== $User.legal_id) return;
 		clearLocalData();
+
+		//TODO: delete firebase user
 	}
 </script>
 

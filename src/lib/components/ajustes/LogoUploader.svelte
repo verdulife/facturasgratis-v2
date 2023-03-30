@@ -44,7 +44,7 @@
 		</nav>
 
 		<label class="grow" for="logo">
-			<input id="logo" type="file" accept="image/png, image/jpeg" bind:files required />
+			<input id="logo" type="file" accept="image/png, image/jpeg" bind:files />
 
 			<picture class="row fcenter wfull">
 				{#if logo}

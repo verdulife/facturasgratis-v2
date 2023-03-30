@@ -1,4 +1,8 @@
-<small>
+<script>
+	export let clean = false;
+</script>
+
+<small class:clean>
 	<slot />
 </small>
 
@@ -15,5 +19,9 @@
 			background-color: var(--base-800);
 			color: var(--base-300);
 		}
+	}
+
+	.clean {
+		margin-left: 0;
 	}
 </style>

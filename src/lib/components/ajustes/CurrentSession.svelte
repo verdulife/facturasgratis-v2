@@ -4,10 +4,13 @@
 	import { signInWithPopup, signOut } from 'firebase/auth';
 	import { auth, provider } from '$lib/database/config';
 	import { clearLocalData } from '$lib/utils';
+	import toast from 'svelte-french-toast';
 
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
+	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
+	import SubTitle from '$lib/components/Forms/SubTitle.svelte';
 
 	let usedStores = [];
 
@@ -68,12 +71,28 @@
 		};
 	}
 
-	async function logIn() {
-		await signInWithPopup(auth, provider);
+	function logIn() {
+		toast.promise(
+			signInWithPopup(auth, provider),
+			{
+				loading: 'Iniciando sesión...',
+				success: 'Sesión iniciada',
+				error: 'Error al iniciar sesión'
+			},
+			{
+				position: 'bottom-right'
+			}
+		);
 	}
 
 	function logOut() {
-		signOut(auth).then(clearLocalData());
+		signOut(auth).then(() => {
+			setTimeout(clearLocalData(), 500);
+		});
+
+		toast.success('Sesión cerrada', {
+			position: 'bottom-right'
+		});
 	}
 
 	function exportData() {
@@ -97,22 +116,36 @@
 </script>
 
 <Container>
-	<Title>Session actual</Title>
+	<Title>Sesión</Title>
 
 	<Row>
-		{#if $Firebase.user}
-			<button type="button" class="grow" on:click={logOut}>Cerrar session</button>
-		{:else}
-			<button type="button" class="row acenter grow" title="Cargar datos" on:click={importData}>
-				<b>↑</b>
-				<small>Cargar datos</small>
-			</button>
+		<label class="col acenter wfull">
+			<Label clean>Facturasgratis Cloud</Label>
+			{#if $Firebase.user}
+				<button type="button" class="wfull" on:click={logOut}>Cerrar session</button>
+			{:else}
+				<button type="button" class="wfull" on:click={logIn}>Iniciar session</button>
+			{/if}
+		</label>
 
-			<button type="button" class="grow" on:click={logIn}>Iniciar session</button>
-		{/if}
+		<label class="col acenter wfull">
+			<Label clean>Datos locales</Label>
+
+			{#if !$Firebase.user}
+				<button type="button" class="wfull" title="Cargar datos" on:click={importData}>
+					Cargar datos
+				</button>
+			{/if}
+
+			{#if $User.legal_name}
+				<button class="wfull" type="button" on:click={exportData}>Exportar</button>
+			{/if}
+		</label>
 	</Row>
 
 	<span class="wdiv" />
+
+	<SubTitle>Datos de la sesión</SubTitle>
 
 	<Row>
 		<ul class="row wrap grow">
@@ -122,10 +155,6 @@
 				</li>
 			{/each}
 		</ul>
-
-		{#if $User.legal_name}
-			<button class="grow" type="button" on:click={exportData}>Exportar</button>
-		{/if}
 	</Row>
 </Container>
 

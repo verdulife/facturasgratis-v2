@@ -3,7 +3,6 @@ import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, doc, getDoc, setDoc, getDocs, addDoc } from "firebase/firestore/lite";
 import { Firebase, User, Stores } from "$lib/stores";
 import { get } from 'svelte/store';
-import toast from "svelte-french-toast";
 
 
 const firebaseConfig = {
@@ -59,6 +58,15 @@ export async function updateCollection({ collection, data }) {
   await addDoc(collectionRef, data);
 }
 
+export async function updateUser(data) {
+  if (!auth.currentUser) return;
+
+  const { uid } = auth.currentUser;
+  const usersRef = collection(db, "users");
+  const userRef = doc(usersRef, uid);
+  await setDoc(userRef, data)
+}
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) return;
 
@@ -75,6 +83,4 @@ onAuthStateChanged(auth, async (user) => {
 
     syncCollection({ collection, store });
   }
-
-  toast.success("Conectado")
 });
