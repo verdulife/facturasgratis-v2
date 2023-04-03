@@ -9,7 +9,6 @@
 
 <Container>
 	<Title>Datos legales</Title>
-	<p>Los campos marcados con un → son obligatorios.</p>
 
 	<Row>
 		<label class="col wfull" for="legal_name">
@@ -23,6 +22,7 @@
 				placeholder="Ej. Factura Gratis S.L."
 				required
 			/>
+			<span />
 		</label>
 
 		<label class="col grow" for="legal_id">
@@ -35,6 +35,7 @@
 				placeholder="Ej. B00011100"
 				required
 			/>
+			<span />
 		</label>
 
 		<label class="col grow" for="legal_initials">
@@ -45,19 +46,23 @@
 				type="text"
 				bind:value={legal_initials}
 				maxlength="3"
-				minlength="2"
+				minlength="1"
 				placeholder="Ej. FG"
 			/>
+			<span />
 		</label>
 	</Row>
 </Container>
 
 <style lang="postcss">
-	p {
-		font-size: var(--font-xs);
+	input + span {
+		width: 100%;
+		font-size: 12px;
+		opacity: 0.2;
+		padding: 0 0.5em;
 	}
 
-	div {
-		gap: 0.5em;
+	input:invalid + span:before {
+		content: 'Campo olbigatorio';
 	}
 </style>

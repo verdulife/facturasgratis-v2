@@ -3,13 +3,14 @@
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 	export let number, date, legal_initials;
 </script>
 
 <Container>
 	<Title>Datos de la factura</Title>
 
-	<div class="date row wfull">
+	<Row>
 		<label class="col wfull" for="number">
 			<Label>Número</Label>
 			<span class="row jstart acenter wfull">
@@ -60,7 +61,7 @@
 				required
 			/>
 		</label>
-	</div>
+	</Row>
 </Container>
 
 <style lang="postcss">
@@ -82,10 +83,6 @@
 		& input:disabled {
 			width: 90px;
 		}
-	}
-
-	div {
-		gap: 0.5em;
 	}
 
 	span {

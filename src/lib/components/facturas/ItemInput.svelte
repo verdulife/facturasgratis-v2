@@ -2,6 +2,7 @@
 	import { currency as formatCurrency, roundWithTwoDecimals } from '$lib/utils';
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 	import Remove from '$lib/icons/Remove.svelte';
 
 	export let item, currency, deleteItem, iva;
@@ -25,8 +26,8 @@
 </script>
 
 <Container class="col wfull">
-	<div class="row wfull">
-		<label class="col w3/4">
+	<Row>
+		<label class="col wfull">
 			<Label>Concepto</Label>
 			<input class="wfull" type="text" bind:value={item.label} required />
 		</label>
@@ -35,10 +36,10 @@
 			<Label>Cantidad</Label>
 			<input class="wfull" type="number" step="0.01" bind:value={item.amount} required />
 		</label>
-	</div>
+	</Row>
 
-	<div class="row aend wfull">
-		<label class="col wfull">
+	<Row class="aend">
+		<label class="col grow">
 			<Label>Precio {currency}</Label>
 			<input
 				class="wfull"
@@ -50,7 +51,7 @@
 			/>
 		</label>
 
-		<label class="col wfull">
+		<label class="col grow">
 			<Label>PVP {currency}</Label>
 			<input
 				class="wfull"
@@ -62,22 +63,22 @@
 			/>
 		</label>
 
-		<label class="col wfull">
+		<label class="col grow">
 			<Label>Descuento %</Label>
 			<input class="wfull" type="number" step="0.01" bind:value={item.dto} required />
 		</label>
 
-		<label class="col wfull">
+		<label class="col grow">
 			<Label>Total {currency}</Label>
 			<input class="wfull" type="number" step="0.01" bind:value={item.total} disabled />
 		</label>
 
-		<div class="col aend wfull">
+		<div class="col aend grow">
 			<button type="button" class="unset row fcenter" on:click={deleteItem}>
 				<Remove width="1.5em" /> Borrar
 			</button>
 		</div>
-	</div>
+	</Row>
 </Container>
 
 <style lang="postcss">

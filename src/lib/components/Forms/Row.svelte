@@ -1,4 +1,4 @@
-<div class="row wrap@lg wfull">
+<div class="row wrap@lg wfull {$$props.class}">
 	<slot />
 </div>
 

@@ -3,6 +3,7 @@
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
+	import Row from '$lib/components/Forms/Row.svelte';
 
 	export let client;
 	let clientsData = [];
@@ -78,7 +79,7 @@
 <Container>
 	<Title>Datos del cliente</Title>
 
-	<div class="row wfull">
+	<Row>
 		<label class="col wfull" for="legal_name">
 			<Label>Nombre fiscal</Label>
 			<input
@@ -101,22 +102,22 @@
 
 		<label class="col grow" for="legal_id">
 			<Label>CIF/NIF</Label>
-			<input class="wfull" id="legal_id" type="text" bind:value={client.legal_id} required/>
+			<input class="wfull" id="legal_id" type="text" bind:value={client.legal_id} required />
 		</label>
 
 		<label class="col grow" for="contact">
 			<Label>Contacto</Label>
-			<input class="wfull" id="contact" type="text" bind:value={client.contact} required/>
+			<input class="wfull" id="contact" type="text" bind:value={client.contact} required />
 		</label>
-	</div>
+	</Row>
 
 	<label class="col wfull" for="address">
 		<Label>Calle, número y piso</Label>
-		<input class="wfull" id="address" type="text" bind:value={client.address} required/>
+		<input class="wfull" id="address" type="text" bind:value={client.address} required />
 	</label>
 
-	<div class="row wfull">
-		<label class="col wfull" for="cp">
+	<Row>
+		<label class="col grow" for="cp">
 			<Label>Código postal</Label>
 			<input
 				class="wfull"
@@ -135,20 +136,14 @@
 			</datalist>
 		</label>
 
-		<label class="col wfull" for="city">
+		<label class="col grow" for="city">
 			<Label>Población</Label>
-			<input class="wfull" id="city" type="text" bind:value={client.city} required/>
+			<input class="wfull" id="city" type="text" bind:value={client.city} required />
 		</label>
 
-		<label class="col wfull" for="country">
+		<label class="col grow" for="country">
 			<Label>País</Label>
-			<input class="wfull" id="country" type="text" bind:value={client.country} required/>
+			<input class="wfull" id="country" type="text" bind:value={client.country} required />
 		</label>
-	</div>
+	</Row>
 </Container>
-
-<style lang="postcss">
-	div {
-		gap: 0.5em;
-	}
-</style>
