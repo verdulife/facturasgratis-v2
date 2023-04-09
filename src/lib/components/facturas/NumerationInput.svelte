@@ -26,7 +26,7 @@
 			</span>
 		</label>
 
-		<label class="col wfull" for="day">
+		<label class="col grow" for="day">
 			<Label>Día</Label>
 			<input
 				class="wfull"
@@ -38,7 +38,7 @@
 			/>
 		</label>
 
-		<label class="col wfull" for="month">
+		<label class="col grow" for="month">
 			<Label>Mes</Label>
 			<input
 				class="wfull"
@@ -50,7 +50,7 @@
 			/>
 		</label>
 
-		<label class="col wfull" for="year">
+		<label class="col grow" for="year">
 			<Label>Año</Label>
 			<input
 				class="wfull"

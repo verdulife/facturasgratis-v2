@@ -1,5 +1,5 @@
 <script>
-	import { currency as formatCurrency, roundWithTwoDecimals } from '$lib/utils';
+	import { roundWithTwoDecimals } from '$lib/utils';
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
@@ -26,19 +26,16 @@
 </script>
 
 <Container class="col wfull">
-	<Row>
-		<label class="col wfull">
-			<Label>Concepto</Label>
-			<input class="wfull" type="text" bind:value={item.label} required />
-		</label>
+	<label class="col wfull">
+		<Label>Concepto</Label>
+		<input class="wfull" type="text" bind:value={item.label} required />
+	</label>
 
+	<Row class="aend">
 		<label class="col grow">
 			<Label>Cantidad</Label>
 			<input class="wfull" type="number" step="0.01" bind:value={item.amount} required />
 		</label>
-	</Row>
-
-	<Row class="aend">
 		<label class="col grow">
 			<Label>Precio {currency}</Label>
 			<input

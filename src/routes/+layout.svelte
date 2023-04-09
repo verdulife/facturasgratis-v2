@@ -1,8 +1,30 @@
 <script>
 	import '$lib/startcss/startcss.css';
-	import Nav from '$lib/components/Nav.svelte';
-	import Cookies from '$lib/components/Cookies.svelte';
+	import { onAuthStateChanged } from 'firebase/auth';
+	import { Firebase, Stores } from '$lib/stores';
+	import { auth, syncUser, syncCollection } from '$lib/database/config';
 	import { Toaster } from 'svelte-french-toast';
+
+	import Cookies from '$lib/components/Cookies.svelte';
+	import Nav from '$lib/components/Nav.svelte';
+
+	onAuthStateChanged(auth, async (user) => {
+		if (!user) return;
+
+		const { uid } = user;
+		Firebase.set({ user: true, uid });
+
+		//TODO: si firebase y localstorage ambos tienen datos, preguntar si se quiere descargar una copia local antes.
+
+		await syncUser();
+
+		for (let key in Stores) {
+			const collection = key.toLowerCase();
+			const store = Stores[key];
+
+			syncCollection({ collection, store });
+		}
+	});
 </script>
 
 <main class="scrollbar">

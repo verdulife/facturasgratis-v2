@@ -36,7 +36,7 @@
 			</select>
 		</div>
 
-		<a role="button" class="row fcenter" href="/facturas/crear">CREAR FACTURA</a>
+		<a role="button" class="row fcenter" href="/facturas/editar">CREAR FACTURA</a>
 	</article>
 
 	<span class="xdiv" />

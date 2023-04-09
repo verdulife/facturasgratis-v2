@@ -1,7 +1,7 @@
 <script>
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { User, Bills, Firebase } from '$lib/stores';
+	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { updateCollection } from '$lib/database/config';
 
@@ -12,6 +12,7 @@
 	import ItemsListInput from '$lib/components/facturas/ItemsListInput.svelte';
 	import NotesInput from '$lib/components/facturas/NotesInput.svelte';
 
+	export let data;
 	const currentDate = new Date();
 
 	function getLastNumeration() {
@@ -20,7 +21,7 @@
 		return currentNumeration + 1;
 	}
 
-	$: bill = {
+	$: bill = data.match || {
 		number: getLastNumeration(),
 		date: {
 			day: currentDate.getDate(),
@@ -31,6 +32,29 @@
 		items: [],
 		totals: {}
 	};
+
+	async function saveClientData() {
+		const { client } = bill;
+		const clientExists = $Clients.find((c) => c.legal_id === client.legal_id);
+
+		if (clientExists) return;
+
+		$Clients = [client, ...$Clients];
+		await updateCollection({ collection: 'clients', data: client });
+	}
+
+	async function saveProductData() {
+		const { items } = bill;
+		items.forEach(async (item) => {
+			const productExists = $Products.find((p) => p.label === item.label);
+
+			if (productExists) return;
+
+			const { amount, dto, total, ...product } = item;
+			$Products = [product, ...$Products];
+			await updateCollection({ collection: 'products', data: product });
+		});
+	}
 
 	async function saveBillData() {
 		const numerationExists = $Bills.find((b) => b.number === bill.number);
@@ -49,7 +73,12 @@
 		}
 
 		$Bills = [bill, ...$Bills];
-		if ($Firebase.user) await updateCollection({ collection: 'bills', data: bill });
+
+		if ($Firebase.user) {
+			await updateCollection({ collection: 'bills', data: bill });
+			await saveClientData();
+			await saveProductData();
+		}
 
 		goto('/facturas');
 	}

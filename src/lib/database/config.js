@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, collection, doc, getDoc, setDoc, getDocs, addDoc } from "firebase/firestore/lite";
-import { Firebase, User, Stores } from "$lib/stores";
+import { User } from "$lib/stores";
 import { get } from 'svelte/store';
 
 
@@ -27,7 +27,7 @@ function getCollectionRef(collectionName) {
   return collection(db, `users/${uid}/${collectionName}`)
 }
 
-async function syncUser() {
+export async function syncUser() {
   if (!auth.currentUser) return;
 
   const { uid } = auth.currentUser;
@@ -39,7 +39,16 @@ async function syncUser() {
   else User.subscribe(async value => await setDoc(userRef, value));
 }
 
-async function syncCollection({ collection, store }) {
+export async function updateUser(data) {
+  if (!auth.currentUser) return;
+
+  const { uid } = auth.currentUser;
+  const usersRef = collection(db, "users");
+  const userRef = doc(usersRef, uid);
+  await setDoc(userRef, data)
+}
+
+export async function syncCollection({ collection, store }) {
   const collectionRef = getCollectionRef(collection);
   const docs = await getDocs(collectionRef);
 
@@ -57,30 +66,3 @@ export async function updateCollection({ collection, data }) {
   const collectionRef = getCollectionRef(collection);
   await addDoc(collectionRef, data);
 }
-
-export async function updateUser(data) {
-  if (!auth.currentUser) return;
-
-  const { uid } = auth.currentUser;
-  const usersRef = collection(db, "users");
-  const userRef = doc(usersRef, uid);
-  await setDoc(userRef, data)
-}
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) return;
-
-  const { uid } = user;
-  Firebase.set({ user: true, uid });
-
-  //TODO: si firebase y localstorage ambos tienen datos, preguntar si se quiere descargar una copia local antes.
-
-  await syncUser();
-
-  for (let key in Stores) {
-    const collection = key.toLowerCase();
-    const store = Stores[key];
-
-    syncCollection({ collection, store });
-  }
-});
