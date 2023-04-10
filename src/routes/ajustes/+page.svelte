@@ -24,12 +24,10 @@
 		$User = user;
 		await updateUser(user);
 
-		toast.success('Datos guardados correctamente'); /* 
-		alert('✔ '); */
+		toast.success('Datos guardados correctamente');
 	}
 
 	function clearSession() {
-		console.log($User);
 		if (!$User.legal_name) return;
 
 		const check = confirm(

@@ -1,7 +1,7 @@
 <script>
 	import '$lib/startcss/startcss.css';
 	import { onAuthStateChanged } from 'firebase/auth';
-	import { Firebase, Stores, User } from '$lib/stores';
+	import { Firebase, Stores } from '$lib/stores';
 	import { auth, syncUser, syncCollection } from '$lib/database/config';
 	import { Toaster } from 'svelte-french-toast';
 
@@ -9,20 +9,20 @@
 	import Nav from '$lib/components/Nav.svelte';
 
 	onAuthStateChanged(auth, async (user) => {
-		if (!user) return;
+		if (user) {
+			const { uid } = user;
+			Firebase.set({ user: true, uid });
 
-		const { uid } = user;
-		Firebase.set({ user: true, uid });
+			//TODO: si firebase y localstorage ambos tienen datos, preguntar si se quiere descargar una copia local antes.
 
-		//TODO: si firebase y localstorage ambos tienen datos, preguntar si se quiere descargar una copia local antes.
+			await syncUser(uid);
 
-		await syncUser(uid);
+			for (let key in Stores) {
+				const collection = key.toLowerCase();
+				const store = Stores[key];
 
-		for (let key in Stores) {
-			const collection = key.toLowerCase();
-			const store = Stores[key];
-
-			syncCollection({ collection, store });
+				syncCollection({ collection, store });
+			}
 		}
 	});
 </script>
