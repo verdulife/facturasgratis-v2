@@ -29,12 +29,15 @@
 	}
 
 	function clearSession() {
+		console.log($User);
 		if (!$User.legal_name) return;
 
 		const check = confirm(
 			`Se borraran todos los datos de la sesión de:\n\n${$User.legal_name.toUpperCase()}\nÚltima modificaión: ${Intl.DateTimeFormat(
 				'es-ES'
-			).format(new Date($User._updated))}\n\n¿Desea continuar?\n`
+			).format(
+				new Date($User._updated.seconds ? $User._updated.seconds * 1000 : $User._updated)
+			)}\n\n¿Desea continuar?\n`
 		);
 
 		if (!check) return;

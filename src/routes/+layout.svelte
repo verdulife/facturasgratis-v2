@@ -1,7 +1,7 @@
 <script>
 	import '$lib/startcss/startcss.css';
 	import { onAuthStateChanged } from 'firebase/auth';
-	import { Firebase, Stores } from '$lib/stores';
+	import { Firebase, Stores, User } from '$lib/stores';
 	import { auth, syncUser, syncCollection } from '$lib/database/config';
 	import { Toaster } from 'svelte-french-toast';
 
@@ -16,7 +16,7 @@
 
 		//TODO: si firebase y localstorage ambos tienen datos, preguntar si se quiere descargar una copia local antes.
 
-		await syncUser();
+		await syncUser(uid);
 
 		for (let key in Stores) {
 			const collection = key.toLowerCase();

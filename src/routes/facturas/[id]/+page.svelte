@@ -3,7 +3,7 @@
 	import { facturas } from '$lib/tools';
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
-	import { updateCollection } from '$lib/database/config';
+	import { addDoc } from '$lib/database/config';
 
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
@@ -13,6 +13,7 @@
 	import NotesInput from '$lib/components/facturas/NotesInput.svelte';
 
 	export let data;
+	const { match } = data;
 	const currentDate = new Date();
 
 	function getLastNumeration() {
@@ -21,7 +22,7 @@
 		return currentNumeration + 1;
 	}
 
-	$: bill = data.match || {
+	$: bill = match || {
 		number: getLastNumeration(),
 		date: {
 			day: currentDate.getDate(),
@@ -40,7 +41,7 @@
 		if (clientExists) return;
 
 		$Clients = [client, ...$Clients];
-		await updateCollection({ collection: 'clients', data: client });
+		await addDoc({ collection: 'clients', data: client });
 	}
 
 	async function saveProductData() {
@@ -52,7 +53,7 @@
 
 			const { amount, dto, total, ...product } = item;
 			$Products = [product, ...$Products];
-			await updateCollection({ collection: 'products', data: product });
+			await addDoc({ collection: 'products', data: product });
 		});
 	}
 
@@ -75,7 +76,7 @@
 		$Bills = [bill, ...$Bills];
 
 		if ($Firebase.user) {
-			await updateCollection({ collection: 'bills', data: bill });
+			await addDoc({ collection: 'bills', data: bill });
 			await saveClientData();
 			await saveProductData();
 		}

@@ -26,7 +26,9 @@
 		const check = confirm(
 			`Puede que haya datos sin guardar en la session de:\n\n${$User.legal_name.toUpperCase()}\nÚltima modificación: ${Intl.DateTimeFormat(
 				'es-ES'
-			).format(new Date($User._updated))}\n\n¿Quieres descargar una copia?\n`
+			).format(
+				new Date($User._updated.seconds ? $User._updated.seconds * 1000 : $User._updated)
+			)}\n\n¿Quieres descargar una copia?\n`
 		);
 
 		if (check) exportData();
@@ -59,10 +61,18 @@
 			reader.onload = (e) => {
 				const session = JSON.parse(e.target.result);
 
+				console.log(session);
+
 				const check = confirm(
 					`\n¿Quieres cargar esta sesión?\n\n${session.db_userData.legal_name.toUpperCase()}\nÚltima modificación: ${Intl.DateTimeFormat(
 						'es-ES'
-					).format(new Date(session.db_userData._updated))}\n`
+					).format(
+						new Date(
+							session.db_userData._updated.seconds
+								? session.db_userData._updated.seconds * 1000
+								: session.db_userData._updated
+						)
+					)}\n`
 				);
 				if (!check) return;
 
@@ -131,15 +141,15 @@
 		<label class="col acenter wfull">
 			<Label clean>Datos locales</Label>
 
-			{#if !$Firebase.user}
-				<button type="button" class="wfull" title="Cargar datos" on:click={importData}>
-					Cargar datos
-				</button>
-			{/if}
+			<Row class="row wfull">
+				{#if !$Firebase.user}
+					<button type="button" class="wfull" on:click={importData}> Cargar datos </button>
+				{/if}
 
-			{#if $User.legal_name}
-				<button class="wfull" type="button" on:click={exportData}>Exportar</button>
-			{/if}
+				{#if $User.legal_name}
+					<button type="button" class="wfull" on:click={exportData}>Exportar</button>
+				{/if}
+			</Row>
 		</label>
 	</Row>
 
