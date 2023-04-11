@@ -18,7 +18,7 @@
 
 	$: filteredBills = sortedBills.filter((b) => {
 		const billClientName = b.client.legal_name.toLowerCase();
-		const billNumber = b.number.toString();
+		const billNumber = b.number ? b.number.toString() : b.number;
 		const billDateMonth = b.date.month.toString();
 		const billDateYear = b.date.year.toString();
 

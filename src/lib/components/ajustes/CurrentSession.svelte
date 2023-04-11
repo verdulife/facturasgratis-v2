@@ -61,8 +61,6 @@
 			reader.onload = (e) => {
 				const session = JSON.parse(e.target.result);
 
-				console.log(session);
-
 				const check = confirm(
 					`\n¿Quieres cargar esta sesión?\n\n${session.db_userData.legal_name.toUpperCase()}\nÚltima modificación: ${Intl.DateTimeFormat(
 						'es-ES'
@@ -94,9 +92,7 @@
 			setTimeout(clearLocalData(), 500);
 		});
 
-		toast.success('Sesión cerrada', {
-			position: 'bottom-right'
-		});
+		toast.success('Sesión cerrada');
 	}
 
 	function exportData() {

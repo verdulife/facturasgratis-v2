@@ -4,8 +4,10 @@
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
-	
+
 	export let number, date, legal_initials;
+
+	const initials = legal_initials ? `${legal_initials}/` : '';
 </script>
 
 <Container>
@@ -15,7 +17,7 @@
 		<label class="col wfull" for="number">
 			<Label>Número</Label>
 			<span class="row jstart acenter wfull">
-				<input type="text" value="{legal_initials}/{twoDigitYear(date.year)}" disabled />
+				<input type="text" value="{initials}{twoDigitYear(date.year)}" disabled />
 				<input
 					class="grow"
 					id="number"
@@ -83,6 +85,7 @@
 
 		& input:disabled {
 			width: 90px;
+			text-align: right;
 		}
 	}
 

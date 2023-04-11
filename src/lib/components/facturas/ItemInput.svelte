@@ -6,7 +6,7 @@
 	import Remove from '$lib/icons/Remove.svelte';
 
 	export let item, currency, deleteItem, iva;
-	const ivaOperator = (100 + iva) / 100;
+	$: ivaOperator = (100 + iva) / 100;
 
 	function calcWithTaxes() {
 		item.pvp = roundWithTwoDecimals(item.price * ivaOperator);
@@ -23,6 +23,9 @@
 	}
 
 	$: item, calcTotal();
+	// $: iva, calcTotal(); TODO MAKE CUSTOM TAXES REACTIVE
+
+	if (!item.pvp && item.price) calcWithTaxes();
 </script>
 
 <Container>

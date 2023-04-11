@@ -23,8 +23,10 @@
 		return currentNumeration + 1;
 	}
 
-	let bill = match
-		? { ...match }
+	const defaultTaxes = { iva: $User.iva, ret: $User.ret };
+
+	$: bill = match
+		? { ...match, taxes: defaultTaxes }
 		: {
 				number: nextNumeration(),
 				date: {
@@ -34,6 +36,7 @@
 				},
 				client: {},
 				items: [],
+				taxes: defaultTaxes,
 				totals: {}
 		  };
 
@@ -117,8 +120,8 @@
 	<ItemsListInput
 		bind:items={bill.items}
 		bind:totals={bill.totals}
+		bind:taxes={bill.taxes}
 		currency={$User.currency}
-		taxes={{ iva: $User.iva, ret: $User.ret }}
 	/>
 
 	<NotesInput bind:note={$User.bill_note} />

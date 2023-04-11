@@ -25,12 +25,12 @@
 		</label>
 
 		<label class="col grow" for="iva">
-			<Label>IVA (%)</Label>
+			<Label>IVA %</Label>
 			<input class="wfull" id="iva" type="number" bind:value={iva} placeholder="Ej. 21" required />
 		</label>
 
 		<label class="col grow" for="ret">
-			<Label>IRPF (%)</Label>
+			<Label>IRPF %</Label>
 			<input class="wfull" id="ret" type="number" bind:value={ret} placeholder="Ej. 15" required />
 		</label>
 	</Row>

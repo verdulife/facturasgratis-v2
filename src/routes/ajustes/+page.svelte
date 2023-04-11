@@ -2,7 +2,7 @@
 	import { ajustes } from '$lib/meta';
 	import { User } from '$lib/stores';
 	import { clearLocalData } from '$lib/utils';
-	
+
 	import toast from 'svelte-french-toast';
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/ajustes/Header.svelte';
@@ -14,7 +14,7 @@
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
 
-	let user = $User;
+	$: user = $User;
 
 	async function saveUserData() {
 		user._updated = new Date();
