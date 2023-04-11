@@ -2,9 +2,8 @@
 	import { ajustes } from '$lib/meta';
 	import { User } from '$lib/stores';
 	import { clearLocalData } from '$lib/utils';
-	import { updateUser } from '$lib/database/config';
+	
 	import toast from 'svelte-french-toast';
-
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/ajustes/Header.svelte';
 	import LogoUploader from '$lib/components/ajustes/LogoUploader.svelte';
@@ -15,14 +14,13 @@
 	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
 	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
 
-	$: user = $User;
+	let user = $User;
 
 	async function saveUserData() {
 		user._updated = new Date();
 		if (user.legal_initials) user.legal_initials = user.legal_initials.toUpperCase();
 
 		$User = user;
-		await updateUser(user);
 
 		toast.success('Datos guardados correctamente');
 	}
@@ -53,12 +51,7 @@
 
 <Header {user} />
 
-<form
-	class="col acenter wfull"
-	on:submit|preventDefault={saveUserData}
-	autocomplete="off"
-	spellcheck="false"
->
+<form class="col acenter wfull" on:submit|preventDefault={saveUserData}>
 	<CurrentSession />
 	<LogoUploader bind:logo={user.logo} />
 

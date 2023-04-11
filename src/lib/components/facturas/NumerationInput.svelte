@@ -4,6 +4,7 @@
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
+	
 	export let number, date, legal_initials;
 </script>
 

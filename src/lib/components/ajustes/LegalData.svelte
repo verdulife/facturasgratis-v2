@@ -3,7 +3,6 @@
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
-	import Input from '$lib/components/Forms/Input.svelte';
 
 	export let legal_name, legal_id, legal_initials;
 </script>
@@ -13,8 +12,8 @@
 
 	<Row>
 		<label class="col wfull" for="legal_name">
-			<Label class="wfull">→ Nombre fiscal</Label>
-			<Input
+			<Label>Nombre fiscal</Label>
+			<input
 				class="wfull"
 				id="legal_name"
 				type="text"
@@ -25,8 +24,8 @@
 		</label>
 
 		<label class="col grow" for="legal_id">
-			<Label>→ CIF/NIF</Label>
-			<Input
+			<Label>CIF/NIF</Label>
+			<input
 				class="wfull"
 				id="legal_id"
 				type="text"
@@ -39,7 +38,7 @@
 
 		<label class="col grow" for="legal_initials">
 			<Label>Iniciales</Label>
-			<Input
+			<input
 				class="wfull"
 				id="legal_initials"
 				type="text"

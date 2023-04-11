@@ -38,7 +38,7 @@
 	}
 </script>
 
-<Container class="col wfull">
+<Container>
 	<Title>Conceptos</Title>
 
 	{#if items.length > 0}

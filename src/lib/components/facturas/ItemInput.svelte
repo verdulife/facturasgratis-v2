@@ -25,7 +25,7 @@
 	$: item, calcTotal();
 </script>
 
-<Container class="col wfull">
+<Container>
 	<label class="col wfull">
 		<Label>Concepto</Label>
 		<input class="wfull" type="text" bind:value={item.label} required />

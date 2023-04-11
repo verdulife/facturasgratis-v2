@@ -3,8 +3,9 @@
 	import { facturas } from '$lib/tools';
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
-	import { addDoc } from '$lib/database/config';
+	import { addDoc, updateDoc } from '$lib/database/config';
 
+	import toast from 'svelte-french-toast';
 	import Meta from '$lib/components/Meta.svelte';
 	import Header from '$lib/components/facturas/Header.svelte';
 	import NumerationInput from '$lib/components/facturas/NumerationInput.svelte';
@@ -13,26 +14,28 @@
 	import NotesInput from '$lib/components/facturas/NotesInput.svelte';
 
 	export let data;
-	const { match } = data;
+	const { match, numeration } = data;
 	const currentDate = new Date();
 
-	function getLastNumeration() {
+	function nextNumeration() {
 		if ($Bills.length === 0) return 1;
 		const currentNumeration = Math.max(...$Bills.map((bill) => bill.number));
 		return currentNumeration + 1;
 	}
 
-	$: bill = match || {
-		number: getLastNumeration(),
-		date: {
-			day: currentDate.getDate(),
-			month: currentDate.getMonth() + 1,
-			year: currentDate.getFullYear()
-		},
-		client: {},
-		items: [],
-		totals: {}
-	};
+	let bill = match
+		? { ...match }
+		: {
+				number: nextNumeration(),
+				date: {
+					day: currentDate.getDate(),
+					month: currentDate.getMonth() + 1,
+					year: currentDate.getFullYear()
+				},
+				client: {},
+				items: [],
+				totals: {}
+		  };
 
 	async function saveClientData() {
 		const { client } = bill;
@@ -57,22 +60,7 @@
 		});
 	}
 
-	async function saveBillData() {
-		const numerationExists = $Bills.find((b) => b.number === bill.number);
-
-		if (bill.items.length === 0) {
-			alert('No has añadido ningun concepto');
-			return;
-		}
-
-		if (numerationExists) {
-			const check = confirm(
-				`Ya existe una factura con la siguiente numeración: ${bill.number}\n\n¿Guardar de todas formas?`
-			);
-
-			if (!check) return;
-		}
-
+	async function addNewBill() {
 		$Bills = [bill, ...$Bills];
 
 		if ($Firebase.user) {
@@ -80,6 +68,34 @@
 			await saveClientData();
 			await saveProductData();
 		}
+	}
+
+	async function updateBill() {
+		const billIndex = $Bills.findIndex((b) => b.id === bill.id);
+		$Bills[billIndex] = bill;
+
+		if ($Firebase.user) {
+			await updateDoc({ collection: 'bills', data: bill });
+			await saveClientData();
+			await saveProductData();
+		}
+	}
+
+	async function saveBillData() {
+		const numerationExists = $Bills.some((b) => b.number === bill.number);
+
+		if (bill.items.length === 0) {
+			toast.error('No has añadido ningun concepto');
+			return;
+		}
+
+		if (bill.number != numeration && numerationExists) {
+			toast.error(`Ya existe la factura número ${bill.number}`);
+			return;
+		}
+
+		if (match) await updateBill();
+		else await addNewBill();
 
 		goto('/facturas');
 	}
@@ -89,12 +105,7 @@
 
 <Header data={facturas} />
 
-<form
-	class="col acenter wfull"
-	on:submit|preventDefault={saveBillData}
-	autocomplete="off"
-	spellcheck="false"
->
+<form class="col acenter wfull" on:submit|preventDefault={saveBillData}>
 	<NumerationInput
 		bind:number={bill.number}
 		bind:date={bill.date}
@@ -113,7 +124,7 @@
 	<NotesInput bind:note={$User.bill_note} />
 
 	<footer class="row jcenter wfull">
-		<button type="submit" class="grow">Crear factura</button>
+		<button type="submit" class="grow">Guardar factura</button>
 		<a role="button" class="error" href="/facturas">Cancelar</a>
 	</footer>
 </form>

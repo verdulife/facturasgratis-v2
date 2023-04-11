@@ -96,8 +96,10 @@ export function twoDigitYear(year) {
 export function numerationFormat(num, year) {
   const length = `${num}`.length;
   const prefix = twoDigitYear(year);
+  const { legal_initials } = get(User);
+  const initials = legal_initials ? `${legal_initials}/` : '';
 
-  if (length === 1) return `${prefix}-0000${num}`;
+  if (length === 1) return `${initials}${prefix}-0000${num}`;
   if (length === 2) return `${prefix}-000${num}`;
   if (length === 3) return `${prefix}-00${num}`;
   if (length === 4) return `${prefix}-0${num}`;
@@ -118,3 +120,15 @@ export function autoNumeration(arr) {
 }
 
 export const currentYear = new Date().getFullYear();
+
+export function clickOut(node) {
+  function handleClick(e) {
+    if (node && !e.defaultPrevented) node.dispatchEvent(new CustomEvent('clickout', node))
+  }
+  document.addEventListener('click', handleClick, true);
+  return {
+    destroy() {
+      document.removeEventListener('click', handleClick, true);
+    }
+  }
+}

@@ -1,5 +1,6 @@
 <script>
-	export let width, height;
+	export let width = null,
+		height = null;
 </script>
 
 <svg viewBox="0 0 210.16 35.9" {width} {height}>

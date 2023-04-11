@@ -1,5 +1,4 @@
 <script>
-	import { es } from '$lib/postal-codes';
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
@@ -7,19 +6,6 @@
 
 	export let client;
 	let clientsData = [];
-
-	function autocompleteByPostalCode() {
-		const { cp } = client;
-
-		if (!cp || cp.length < 5) return;
-
-		const autocomplete = es.find((code) => code.zipcode === cp);
-
-		if (!autocomplete) return;
-
-		client.city = autocomplete.city;
-		client.country = 'España';
-	}
 
 	async function getBusinessData() {
 		if (client.legal_name === '') return;
@@ -46,6 +32,8 @@
 
 	async function getClientData() {
 		const [data] = clientsData;
+		if (!data) return;
+
 		const ID_API =
 			'https://zerd3zwis9.execute-api.eu-west-1.amazonaws.com/v1/services?country=ESP&lang=es&query_type=detail&term_looked=';
 
@@ -56,17 +44,20 @@
 		const clientData = hits.map((h) => {
 			const { _source: data } = h;
 
+			console.log(data);
+
 			return {
 				legal_name: data.denomination.fullName || '',
 				legal_id: data.nreg || '',
 				contact: data.telephone || '',
 				cp: data.address.postcode || '',
-				address: data.address.fullAddress || ''
+				address: data.address.fullAddress || '',
+				city: data.geo.admin3_desc || '',
+				country: 'ESPAÑA'
 			};
 		});
 
 		client = clientData[0];
-		autocompleteByPostalCode();
 	}
 
 	async function autocompleteClient() {
@@ -119,21 +110,7 @@
 	<Row>
 		<label class="col grow" for="cp">
 			<Label>Código postal</Label>
-			<input
-				class="wfull"
-				list="postal_codes"
-				id="cp"
-				type="text"
-				bind:value={client.cp}
-				on:input={autocompleteByPostalCode}
-				required
-			/>
-
-			<datalist id="postal_codes">
-				{#each es as { zipcode, city }}
-					<option value={zipcode}>{city}</option>
-				{/each}
-			</datalist>
+			<input class="wfull" id="cp" type="text" bind:value={client.cp} required />
 		</label>
 
 		<label class="col grow" for="city">

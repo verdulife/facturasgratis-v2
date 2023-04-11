@@ -82,17 +82,11 @@
 	}
 
 	function logIn() {
-		toast.promise(
-			signInWithPopup(auth, provider),
-			{
-				loading: 'Iniciando sesión...',
-				success: 'Sesión iniciada',
-				error: 'Error al iniciar sesión'
-			},
-			{
-				position: 'bottom-right'
-			}
-		);
+		toast.promise(signInWithPopup(auth, provider), {
+			loading: 'Iniciando sesión...',
+			success: 'Sesión iniciada',
+			error: 'Error al iniciar sesión'
+		});
 	}
 
 	function logOut() {

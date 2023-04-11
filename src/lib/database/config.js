@@ -4,6 +4,7 @@ import { getFirestore, collection, doc, getDoc, setDoc, getDocs } from "firebase
 import { User } from "$lib/stores";
 import { get } from 'svelte/store';
 
+import toast from 'svelte-french-toast';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBLfDlTK2nTfGKNQtPovcp-sKDiym8ToiE",
@@ -37,6 +38,8 @@ export async function syncUser(uid) {
     const localUser = get(User);
     await setDoc(userRef, localUser);
   }
+
+  toast.success('Datos sincronizados correctamente');
 }
 
 export async function updateUser(data) {
@@ -57,11 +60,11 @@ export async function addDoc({ collection, data }) {
 }
 
 export async function updateDoc({ collection, data }) {
-  /* const collectionRef = getCollectionRef(collection);
-  const docRef = doc(collectionRef);
-  const { id } = docRef;
+  const collectionRef = getCollectionRef(collection);
+  const { id } = data;
+  const docRef = doc(collectionRef, id);
 
-  await setDoc(docRef, { id, ...data }); */
+  await setDoc(docRef, data);
 }
 
 export async function syncCollection({ collection, store }) {

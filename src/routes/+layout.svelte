@@ -21,7 +21,7 @@
 				const collection = key.toLowerCase();
 				const store = Stores[key];
 
-				syncCollection({ collection, store });
+				await syncCollection({ collection, store });
 			}
 		}
 	});

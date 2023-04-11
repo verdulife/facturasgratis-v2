@@ -56,10 +56,6 @@
 </Container>
 
 <style lang="postcss">
-	div {
-		gap: 2em;
-	}
-
 	input[type='file'] {
 		position: absolute;
 		opacity: 0;

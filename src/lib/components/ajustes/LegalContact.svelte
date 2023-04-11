@@ -9,11 +9,10 @@
 
 <Container>
 	<Title>Contacto</Title>
-	<p>Los campos marcados con un → son obligatorios.</p>
 
 	<Row>
 		<label class="col grow" for="phone">
-			<Label class="wfull">→ Teléfono</Label>
+			<Label>Teléfono</Label>
 
 			<input
 				class="wfull"
@@ -26,7 +25,7 @@
 		</label>
 
 		<label class="col grow" for="email">
-			<Label class="wfull">→ Email</Label>
+			<Label>Email</Label>
 
 			<input
 				class="wfull"
@@ -39,13 +38,3 @@
 		</label>
 	</Row>
 </Container>
-
-<style lang="postcss">
-	p {
-		font-size: var(--font-xs);
-	}
-
-	div {
-		gap: 0.5em;
-	}
-</style>

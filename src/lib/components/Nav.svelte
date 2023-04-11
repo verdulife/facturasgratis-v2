@@ -1,12 +1,14 @@
 <script>
 	import { onMount } from 'svelte';
 	import { tools } from '$lib/tools';
+	import { clickOut } from '$lib/utils';
 
 	import Image from '$lib/components/Image.svelte';
 	import Logo from '$lib/icons/Logo.svelte';
 	import Session from '$lib/components/Session.svelte';
 
-	let visible = false;
+	let visible = false,
+		open = false;
 
 	onMount(() => {
 		const scrollbar = document.querySelector('.scrollbar');
@@ -24,13 +26,13 @@
 				<Logo width="175px" />
 			</a>
 
-			<button class="unset row fcenter">Herramientas</button>
+			<button class="unset row fcenter" on:click={() => (open = true)}>Herramientas</button>
 		</aside>
 
 		<Session />
 	</main>
 
-	<ul class="row jcenter wrap wfull">
+	<ul class="row jcenter wrap wfull" class:open use:clickOut on:clickout={() => (open = false)}>
 		{#each tools as { slug, title, icon }}
 			<li>
 				<a class="row acenter wfull" href={slug}>
@@ -49,18 +51,6 @@
 		left: 0;
 		z-index: 2;
 		pointer-events: none;
-
-		&:has(aside > button:focus-within) > ul {
-			transform: translateY(0);
-			opacity: 1;
-			pointer-events: all;
-		}
-
-		& ul:has(a:focus-within) {
-			transform: translateY(0);
-			opacity: 1;
-			pointer-events: all;
-		}
 	}
 
 	main {
@@ -131,5 +121,11 @@
 				font-size: var(--font-xs);
 			}
 		}
+	}
+
+	.open {
+		transform: translateY(0);
+		opacity: 1;
+		pointer-events: all;
 	}
 </style>

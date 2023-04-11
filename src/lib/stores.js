@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
-
+import { updateUser } from '$lib/database/config';
 
 export const Firebase = writable({ user: false, uid: "" });
 
@@ -9,7 +9,12 @@ export const Cookies = writable((browser && JSON.parse(localStorage.getItem("coo
 Cookies.subscribe((value) => browser && (localStorage.cookies = JSON.stringify(value)));
 
 export const User = writable((browser && JSON.parse(localStorage.getItem("userData"))) || {});
-User.subscribe((value) => browser && (localStorage.userData = JSON.stringify(value)));
+User.subscribe(async (value) => {
+  if (!browser) return;
+
+  localStorage.userData = JSON.stringify(value);
+  await updateUser(value);
+});
 
 export const Bills = writable((browser && JSON.parse(localStorage.getItem("bills"))) || []);
 Bills.subscribe((value) => browser && (localStorage.bills = JSON.stringify(value)));

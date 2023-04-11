@@ -1,18 +1,20 @@
 <script>
 	import { User } from '$lib/stores';
 	import Image from '$lib/components/Image.svelte';
+
+	$: ({ legal_name, logo } = $User);
 </script>
 
 <nav class="row acenter">
-	<a class="row acenter" href="/ajustes" title="Sesión actual: {$User.legal_name || 'Sin datos'}">
-		{#if $User.legal_name}
-			{#if $User.logo}
+	<a class="row acenter" href="/ajustes" title="Sesión actual: {legal_name || 'Sin datos'}">
+		{#if legal_name}
+			{#if logo}
 				<picture class="row">
-					<Image width="100%" height="100%" src={$User.logo} alt={$User.legal_name} />
+					<Image width="100%" height="100%" src={logo} alt={legal_name} />
 				</picture>
 			{/if}
 
-			<span>{$User.legal_name}</span>
+			<span>{legal_name}</span>
 		{:else}
 			<span>Tus datos</span>
 		{/if}
