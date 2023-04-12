@@ -1,9 +1,13 @@
 <script>
 	export let clean = false;
+	export let title = null;
 </script>
 
-<small class:clean>
+<small class:clean {title}>
 	<slot />
+	{#if title}
+		<b>ℹ️</b>
+	{/if}
 </small>
 
 <style lang="postcss">
@@ -18,6 +22,10 @@
 		@media (--dark) {
 			background-color: var(--base-800);
 			color: var(--base-300);
+		}
+
+		& b {
+			color: var(--accent);
 		}
 	}
 

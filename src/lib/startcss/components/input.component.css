@@ -45,6 +45,16 @@
 	}
 }
 
+option {
+	--background-color: var(--base);
+	--color: var(--base-900);
+
+	@media (--dark) {
+		--background-color: var(--base-900);
+		--color: var(--base);
+	}
+}
+
 :--input-ui {
 	--accent-color: var(--alt);
 
@@ -57,7 +67,6 @@
 
 :--input {
 	background-color: var(--background-color);
-	backdrop-filter: blur(5px);
 	border: var(--border);
 	border-radius: 0.2rem;
 	font-weight: normal;
@@ -78,6 +87,11 @@
 		background-color: var(--background-color);
 		border-color: var(--border-color);
 	}
+}
+
+option {
+	background-color: var(--background-color);
+	color: var(--color);
 }
 
 :--input-ui {

@@ -36,6 +36,10 @@
 <Toaster />
 
 <style lang="postcss">
+	:root {
+		--blur: blur(2em); 
+	}
+
 	main {
 		background-color: var(--c-neutral);
 	}

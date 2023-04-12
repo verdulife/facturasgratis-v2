@@ -6,6 +6,7 @@
 	article {
 		gap: 1.25em;
 		background-color: hsl(var(--base-hsl), 0.4);
+		backdrop-filter: var(--blur);
 		border: 1px solid var(--base-200);
 		border-bottom-width: 5px;
 		border-radius: 0.2rem;

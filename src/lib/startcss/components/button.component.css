@@ -55,7 +55,6 @@
 :--button {
 	cursor: pointer;
 	background-color: var(--background-color);
-	backdrop-filter: blur(5px);
 	color: var(--color);
 	font-family: var(--font-title);
 	font-size: var(--font-xs);
@@ -84,10 +83,26 @@
 	padding: unset;
 }
 
+:--button.accent {
+	background-color: hsl(var(--accent-hsl), 1);
+	color: var(--base-900);
+
+	&:hover {
+		background-color: hsl(var(--accent-hsl), 0.6);
+	}
+
+	@media (--dark) {
+		background-color: hsl(var(--accent-hsl), 0.8);
+
+		&:hover {
+			background-color: hsl(var(--accent-hsl), 1);
+		}
+	}
+}
+
 :--button.error {
 	background-color: hsl(var(--error-hsl), 0.2);
 	color: var(--error);
-	border: var(--border);
 
 	&:hover {
 		background-color: hsl(var(--error-hsl), 0.3);

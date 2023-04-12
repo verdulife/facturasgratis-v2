@@ -68,7 +68,7 @@
 
 	.visible {
 		background-color: hsl(var(--base-hsl), 0.8);
-		backdrop-filter: blur(6px);
+		backdrop-filter: var(--blur);
 		border-bottom: 1px solid hsl(var(--base-900-hsl), 0.1);
 
 		@media (--dark) {
@@ -80,7 +80,7 @@
 	ul {
 		max-width: var(--media-lg);
 		background-color: hsl(var(--base-hsl), 0.8);
-		backdrop-filter: blur(6px);
+		backdrop-filter: var(--blur);
 		border: 1px solid hsl(var(--base-900-hsl), 0.1);
 		border-radius: 0.3em;
 		padding: 1em;

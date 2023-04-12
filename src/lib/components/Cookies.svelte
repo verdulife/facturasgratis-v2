@@ -29,7 +29,7 @@
 		max-width: calc(100% - 2em);
 		gap: 0.5em;
 		background-color: hsl(var(--base-hsl), 0.8);
-		backdrop-filter: blur(6px);
+		backdrop-filter: var(--blur);
 		color: var(--base);
 		border: 1px solid hsl(var(--base-900-hsl), 0.1);
 		border-radius: 0.3em;

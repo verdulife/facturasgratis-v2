@@ -25,7 +25,7 @@
 	nav {
 		gap: 0.5em;
 		background-color: hsl(var(--base-900-hsl), 0.05);
-		backdrop-filter: blur(5px);
+		backdrop-filter: var(--blur);
 		color: var(--color);
 		border: 1px solid hsl(var(--base-900-hsl), 0.05);
 		border-radius: 0.3em;

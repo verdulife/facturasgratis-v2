@@ -2,7 +2,7 @@
 	import { roundWithTwoDecimals, currency } from '$lib/utils';
 
 	export let totals, items, taxes;
-	const { iva, ret } = taxes;
+	$: ({ iva, ret } = taxes);
 
 	$: base = items.reduce((acc, item) => {
 		const amountPrice = item.price * item.amount;
@@ -23,6 +23,7 @@
 	}
 
 	$: items, calcTotals();
+	$: iva || ret, calcTotals();
 </script>
 
 <article class="row fcenter">

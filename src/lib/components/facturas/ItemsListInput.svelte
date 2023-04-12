@@ -1,7 +1,6 @@
 <script>
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
-	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
 	import ItemInput from '$lib/components/facturas/ItemInput.svelte';
 	import Totals from '$lib/components/facturas/Totals.svelte';
@@ -39,17 +38,6 @@
 
 <Container>
 	<Title>Conceptos</Title>
-
-	<Row>
-		<label class="col grow">
-			<Label>IVA %</Label>
-			<input class="wfull" type="number" bind:value={taxes.iva} required />
-		</label>
-		<label class="col grow">
-			<Label>IRPF %</Label>
-			<input class="wfull" type="number" bind:value={taxes.ret} required />
-		</label>
-	</Row>
 
 	{#if items.length > 0}
 		<ul class="col wfull">

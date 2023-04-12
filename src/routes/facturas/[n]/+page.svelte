@@ -4,6 +4,7 @@
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
+	import { onMount } from 'svelte';
 
 	import toast from 'svelte-french-toast';
 	import Meta from '$lib/components/Meta.svelte';
@@ -12,6 +13,8 @@
 	import ClientInput from '$lib/components/facturas/ClientInput.svelte';
 	import ItemsListInput from '$lib/components/facturas/ItemsListInput.svelte';
 	import NotesInput from '$lib/components/facturas/NotesInput.svelte';
+	import CustomTaxes from '$lib/components/facturas/CustomTaxes.svelte';
+	import Actions from '$lib/components/facturas/Actions.svelte';
 
 	export let data;
 	const { match, numeration } = data;
@@ -23,10 +26,12 @@
 		return currentNumeration + 1;
 	}
 
-	const defaultTaxes = { iva: $User.iva, ret: $User.ret };
+	const defaultTaxes = match.taxes || { iva: $User.iva, ret: $User.ret };
+	const defaultState = match.state || '';
+	const defaultNote = match.note || $User.bill_note || '';
 
 	$: bill = match
-		? { ...match, taxes: defaultTaxes }
+		? { ...match, taxes: defaultTaxes, state: defaultState, note: defaultNote }
 		: {
 				number: nextNumeration(),
 				date: {
@@ -37,7 +42,9 @@
 				client: {},
 				items: [],
 				taxes: defaultTaxes,
-				totals: {}
+				totals: {},
+				note: defaultNote,
+				state: defaultState
 		  };
 
 	async function saveClientData() {
@@ -74,7 +81,7 @@
 	}
 
 	async function updateBill() {
-		const billIndex = $Bills.findIndex((b) => b.id === bill.id);
+		const billIndex = $Bills.findIndex((b) => b.number === bill.number);
 		$Bills[billIndex] = bill;
 
 		if ($Firebase.user) {
@@ -102,6 +109,10 @@
 
 		goto('/facturas');
 	}
+
+	onMount(() => {
+		document.querySelector('.scrollbar').scrollTo(0, 0);
+	});
 </script>
 
 <Meta data={meta} />
@@ -109,6 +120,10 @@
 <Header data={facturas} />
 
 <form class="col acenter wfull" on:submit|preventDefault={saveBillData}>
+	{#if match}
+		<Actions bind:state={bill.state} {bill} user={$User} />
+	{/if}
+
 	<NumerationInput
 		bind:number={bill.number}
 		bind:date={bill.date}
@@ -117,6 +132,8 @@
 
 	<ClientInput bind:client={bill.client} />
 
+	<CustomTaxes bind:taxes={bill.taxes} />
+
 	<ItemsListInput
 		bind:items={bill.items}
 		bind:totals={bill.totals}
@@ -124,7 +141,7 @@
 		currency={$User.currency}
 	/>
 
-	<NotesInput bind:note={$User.bill_note} />
+	<NotesInput bind:note={bill.note} />
 
 	<footer class="row jcenter wfull">
 		<button type="submit" class="grow">Guardar factura</button>

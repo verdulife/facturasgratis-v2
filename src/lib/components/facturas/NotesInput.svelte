@@ -8,5 +8,5 @@
 
 <Container>
 	<Title>Notas</Title>
-	<Note class="wfull" id="bill_note" {note}>Nota</Note>
+	<Note class="wfull" id="bill_note" bind:note>Nota</Note>
 </Container>
