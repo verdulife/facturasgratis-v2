@@ -2,6 +2,7 @@
 	import { ajustes } from '$lib/meta';
 	import { User } from '$lib/stores';
 	import { clearLocalData } from '$lib/utils';
+	import { updateUser } from '$lib/database/config';
 
 	import toast from 'svelte-french-toast';
 	import Meta from '$lib/components/Meta.svelte';
@@ -21,6 +22,7 @@
 		if (user.legal_initials) user.legal_initials = user.legal_initials.toUpperCase();
 
 		$User = user;
+		await updateUser(user);
 
 		toast.success('Datos guardados correctamente');
 	}

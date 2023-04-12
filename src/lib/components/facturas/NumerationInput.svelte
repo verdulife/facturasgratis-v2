@@ -85,7 +85,7 @@
 
 		& input:disabled {
 			width: 90px;
-			text-align: right;
+			text-align: center;
 		}
 	}
 

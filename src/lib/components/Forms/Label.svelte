@@ -26,6 +26,10 @@
 
 		& b {
 			color: var(--accent);
+
+			@media (--touch) {
+				display: none;
+			}
 		}
 	}
 

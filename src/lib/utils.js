@@ -88,6 +88,11 @@ export function dateObjectFormat(obj) {
   return `${obj.day}/${obj.month}/${obj.year}`
 }
 
+export function phoneFormat(phone) {
+  if (phone.includes("@")) return phone;
+  return phone.replace(/\D+/g, '').replace(/(\d{3})(\d{3})(\d{3})/, '$1.$2.$3');
+}
+
 export function twoDigitYear(year) {
   if (!year) year = new Date().getFullYear();
   return year.toString().slice(-2);

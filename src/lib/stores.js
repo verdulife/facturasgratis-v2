@@ -1,6 +1,5 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
-import { updateUser } from '$lib/database/config';
 
 export const Firebase = writable({ user: false, uid: "" });
 
@@ -8,13 +7,10 @@ const defaultCookies = { _created: new Date(), visited: false };
 export const Cookies = writable((browser && JSON.parse(localStorage.getItem("cookies"))) || defaultCookies);
 Cookies.subscribe((value) => browser && (localStorage.cookies = JSON.stringify(value)));
 
-export const User = writable((browser && JSON.parse(localStorage.getItem("userData"))) || {});
-User.subscribe(async (value) => {
-  if (!browser) return;
+// TODO: method to autoupdate firebase on store subscribe
 
-  localStorage.userData = JSON.stringify(value);
-  await updateUser(value);
-});
+export const User = writable((browser && JSON.parse(localStorage.getItem("userData"))) || {});
+User.subscribe((value) => browser && (localStorage.userData = JSON.stringify(value)));
 
 export const Budgets = writable((browser && JSON.parse(localStorage.getItem("budgets"))) || []);
 Budgets.subscribe((value) => browser && (localStorage.budgets = JSON.stringify(value)));
