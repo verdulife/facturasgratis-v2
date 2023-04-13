@@ -1,5 +1,6 @@
 <script>
 	import { printPdf } from '$lib/print';
+	import { numerationFormat } from '$lib/utils';
 
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
@@ -8,6 +9,7 @@
 
 	export let state, bill, user;
 
+	$: src = '';
 	const data = { ...bill, user, type: 'Factura' };
 	const stateDescription = `
 	[Emitida]
@@ -23,10 +25,11 @@ Factura cobrada
 Factura en cierre trimestral
 `;
 
-	$: src = '';
-
 	function download() {
-		src = printPdf(data);
+		const link = document.createElement('a');
+		link.href = printPdf(data);
+		link.download = `${bill.client.legal_name} - ${numerationFormat(bill.number, bill.date.year)}`;
+		link.click();
 	}
 </script>
 
@@ -50,12 +53,8 @@ Factura en cierre trimestral
 	</Row>
 </Container>
 
-<Container>
-	<iframe class="wfull hscreen" {src} title="preview" />
-</Container>
-
-<style>
-	iframe {
-		max-height: 800px;
-	}
-</style>
+{#if src}
+	<Container>
+		<iframe width="100%" height="800px" {src} title="preview" />
+	</Container>
+{/if}

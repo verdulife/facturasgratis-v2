@@ -1,4 +1,6 @@
 <script>
+	import { Clients } from '$lib/stores';
+
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
@@ -6,6 +8,8 @@
 
 	export let client;
 	let clientsData = [];
+
+	// TODO: check why all binds update store without saving
 
 	async function getBusinessData() {
 		if (client.legal_name === '') return;
@@ -20,6 +24,7 @@
 		const businessData = hits.map((h) => {
 			const { idprovider, nreg, denomination } = h._source;
 			const { fullName } = denomination;
+
 			return {
 				id: idprovider,
 				legal_id: nreg,
@@ -44,8 +49,6 @@
 		const clientData = hits.map((h) => {
 			const { _source: data } = h;
 
-			console.log(data);
-
 			return {
 				legal_name: data.denomination.fullName || '',
 				legal_id: data.nreg || '',
@@ -61,8 +64,13 @@
 	}
 
 	async function autocompleteClient() {
-		if (clientsData === 0) return;
+		const savedClient = $Clients.find((c) => c.legal_name === client.legal_name);
+		if (savedClient) {
+			client = savedClient;
+			return;
+		}
 
+		if (clientsData.length === 0) return;
 		setTimeout(getClientData, 250);
 	}
 </script>
@@ -85,8 +93,20 @@
 			/>
 
 			<datalist id="clients_data">
-				{#each clientsData as client}
-					<option value={client.legal_name}>{client.legal_id}</option>
+				{#each $Clients as { legal_name, legal_id, contact }}
+					<option
+						data-value={legal_id}
+						value={legal_name}
+						on:mousedown={() => console.log('hello')}
+					>
+						NIF/CIF:{legal_id} | Contacto: {contact}
+					</option>
+				{/each}
+
+				{#each clientsData as { legal_name, legal_id, contact }}
+					<option value={legal_name}>
+						NIF/CIF:{legal_id} | Contacto: {contact}
+					</option>
 				{/each}
 			</datalist>
 		</label>

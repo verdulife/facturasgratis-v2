@@ -4,7 +4,6 @@
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
-	import { onMount } from 'svelte';
 
 	import toast from 'svelte-french-toast';
 	import Meta from '$lib/components/Meta.svelte';
@@ -109,10 +108,6 @@
 
 		goto('/facturas');
 	}
-
-	onMount(() => {
-		document.querySelector('.scrollbar').scrollTo(0, 0);
-	});
 </script>
 
 <Meta data={meta} />

@@ -1,5 +1,7 @@
 <script>
-	import { roundWithTwoDecimals } from '$lib/utils';
+	import { roundWithTwoDecimals, currency as currencyFormat } from '$lib/utils';
+	import { Products } from '$lib/stores';
+
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
@@ -21,6 +23,14 @@
 		item.total = amountPvp - dtoPvp;
 	}
 
+	function autocompleteProduct() {
+		const { price } = $Products.find((p) => p.label === item.label);
+		item.price = price;
+		
+		calcWithTaxes();
+		calcTotal();
+	}
+
 	$: iva, calcWithTaxes();
 	$: item || iva, calcTotal();
 
@@ -31,7 +41,22 @@
 	<Row>
 		<label class="col wfull">
 			<Label>Concepto</Label>
-			<input class="wfull" type="text" bind:value={item.label} required />
+			<input
+				class="wfull"
+				list="products"
+				type="text"
+				bind:value={item.label}
+				on:change={autocompleteProduct}
+				required
+			/>
+
+			<datalist id="products">
+				{#each $Products as { label, price, pvp }}
+					<option value={label}>
+						Precio: {currencyFormat(price)} | PVP: {currencyFormat(pvp || 0)}
+					</option>
+				{/each}
+			</datalist>
 		</label>
 
 		<label class="col grow">

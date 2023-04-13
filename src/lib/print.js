@@ -46,7 +46,8 @@ function drawUserData(doc, data) {
 
 }
 
-function drawDocData(doc, { date, number, type }) {
+function drawDocData(doc, { date, number, type, pages }) {
+  const { pageNumber, pagesLength } = pages;
   const x = 154;
   const y = 22;
 
@@ -58,21 +59,29 @@ function drawDocData(doc, { date, number, type }) {
   doc.setLineWidth(0.1);
   doc.setFillColor("#eee");
 
-  doc.rect(x, y + 2, 12, 5);
-  doc.rect(x, y + 7, 12, 5);
-  doc.rect(x + 12, y + 2, 24, 5, "FD");
-  doc.rect(x + 12, y + 7, 24, 5, "FD");
+  doc.rect(x, y + 2, 12, 5); // Num label
+  doc.rect(x + 12, y + 2, 24, 5, "FD"); // Num data 
+  doc.rect(x, y + 7, 12, 5); // Date label
+  doc.rect(x + 12, y + 7, 24, 5, "FD"); // Date data
+
+  if (pagesLength > 1) {
+    doc.rect(x, y + 12, 12, 5); // Page label
+    doc.rect(x + 12, y + 12, 24, 5, "FD"); // Page data
+  }
 
   doc.setFont("FiraCode-Regular");
   doc.setFontSize(8);
 
   doc.text("Núm.", x + 1.5, y + 5.5);
-  doc.text(numerationFormat(number), x + 13.5, y + 5.5);
+  doc.text(numerationFormat(number, date.year), x + 13.5, y + 5.5);
 
   doc.text("Fecha", x + 1.5, y + 10.5);
   doc.text(dateObjectFormat(date), x + 13.5, y + 10.5);
 
-  // TODO: add page counter block if multpage doc
+  if (pagesLength > 1) {
+    doc.text("Pág.", x + 1.5, y + 15.5);
+    doc.text(`${pageNumber} de ${pagesLength}`, x + 13.5, y + 15.5);
+  }
 }
 
 function drawClientData(doc, data) {
@@ -109,19 +118,18 @@ function drawClientData(doc, data) {
   doc.text(phoneFormat(contact), x + 18, y + 21.5);
 };
 
-function drawItemsData(doc, data) {
+function drawItemsData(doc, { chunk, linesPerPage }) {
   const x = 20;
   const y = 90;
-  const lines = 27;
 
-  for (let l = 0; l < lines; l++) {
+  for (let l = 0; l < linesPerPage; l++) {
     if (l % 2) doc.setFillColor("#fff");
     else doc.setFillColor("#eee");
 
     doc.rect(x, y + 5 + (5 * l), 170, 5, "F");
   }
 
-  data.forEach((line, i) => {
+  chunk.forEach((line, i) => {
     const { amount, label, dto, price, total } = line;
     const posX = x + 1.5;
 
@@ -140,10 +148,10 @@ function drawItemsData(doc, data) {
   doc.rect(x + 125, y, 22.5, 5); // price
   doc.rect(x + 147.5, y, 22.5, 5); // total
 
-  doc.line(x + 15, y + 5, x + 15, y + 5 + (5 * lines));
-  doc.line(x + 115, y + 5, x + 115, y + 5 + (5 * lines));
-  doc.line(x + 125, y + 5, x + 125, y + 5 + (5 * lines));
-  doc.line(x + 147.5, y + 5, x + 147.5, y + 5 + (5 * lines));
+  doc.line(x + 15, y + 5, x + 15, y + 5 + (5 * linesPerPage));
+  doc.line(x + 115, y + 5, x + 115, y + 5 + (5 * linesPerPage));
+  doc.line(x + 125, y + 5, x + 125, y + 5 + (5 * linesPerPage));
+  doc.line(x + 147.5, y + 5, x + 147.5, y + 5 + (5 * linesPerPage));
 
   doc.text("Cant.", x + 1.5, y + 3.5); // amount
   doc.text("Concepto", x + 16.5, y + 3.5); // label
@@ -213,6 +221,9 @@ function drawNoteData(doc, data) {
 
 export function printPdf(data) {
   const { user, client, date, items, number, taxes, totals, note, type } = data;
+  const linesPerPage = 27;
+  const pagesLength = Math.ceil(items.length / linesPerPage);
+  const pages = { pageNumber: 1, pagesLength };
 
   const doc = new jsPDF({
     unit: "mm",
@@ -224,14 +235,22 @@ export function printPdf(data) {
   doc.addFileToVFS('FiraCode-Medium-normal.ttf', medium);
   doc.addFont('FiraCode-Medium-normal.ttf', 'FiraCode-Medium', 'normal');
 
-  drawLogo(doc, user.logo);
-  drawUserData(doc, user);
-  drawDocData(doc, { date, number, type });
-  drawClientData(doc, client);
-  drawItemsData(doc, items);
-  drawTotalsData(doc, { totals, taxes });
-  drawNoteData(doc, note);
-  drawOutlines(doc);
+  for (let i = 0; i < items.length; i += linesPerPage) {
+    const chunk = items.slice(i, i + linesPerPage);
+
+    drawLogo(doc, user.logo);
+    drawUserData(doc, user);
+    drawDocData(doc, { date, number, type, pages });
+    drawClientData(doc, client);
+    drawTotalsData(doc, { totals, taxes });
+    drawNoteData(doc, note);
+    drawOutlines(doc);
+    drawItemsData(doc, { chunk, linesPerPage });
+
+    if (i + linesPerPage > items.length) break;
+    doc.addPage();
+    pages.pageNumber++;
+  }
 
   const blob = doc.output("bloburi", { filename: "a4" });
   return blob + '#view=fit';
