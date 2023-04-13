@@ -51,5 +51,11 @@ Factura en cierre trimestral
 </Container>
 
 <Container>
-	<iframe class="wfull hscreen" {src} />
+	<iframe class="wfull hscreen" {src} title="preview" />
 </Container>
+
+<style>
+	iframe {
+		max-height: 800px;
+	}
+</style>

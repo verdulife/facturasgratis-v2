@@ -4,7 +4,10 @@ import { numerationFormat, dateObjectFormat, phoneFormat, currency } from "$lib/
 
 function drawOutlines(doc) {
   doc.setLineWidth(0.5);
+
   doc.rect(10, 10, 190, 277);
+
+  doc.setFillColor("#000");
 
   doc.triangle(185, 272, 200, 272, 185, 287, "F");
   doc.setFillColor("#fff");
@@ -22,7 +25,6 @@ function drawLogo(doc, data) {
 
 function drawUserData(doc, data) {
   const { legal_name, legal_id, street, city, cp, country, phone, email } = data;
-
   const x = 55;
   const y = 22;
   const inc = 4;
@@ -86,10 +88,10 @@ function drawClientData(doc, data) {
 
   doc.setFillColor("#eee");
 
-  doc.rect(x + 10, y + 4, 100, 5, "FD");
-  doc.rect(x + 130, y + 4, 40, 5, "FD");
-  doc.rect(x + 18.5, y + 11, 151.5, 5, "FD");
-  doc.rect(x + 16.5, y + 18, 153.5, 5, "FD");
+  doc.rect(x + 10, y + 4, 120, 5, "FD"); // legal_name
+  doc.rect(x + 150, y + 4, 20, 5, "FD"); // legal_id
+  doc.rect(x + 18.5, y + 11, 151.5, 5, "FD"); // address
+  doc.rect(x + 16.5, y + 18, 153.5, 5, "FD"); // contact
 
   doc.setFont("FiraCode-Regular");
   doc.setFontSize(8);
@@ -97,8 +99,8 @@ function drawClientData(doc, data) {
   doc.text("Para", x, y + 7.5)
   doc.text(legal_name, x + 11.5, y + 7.5);
 
-  doc.text("NIF/CIF", x + 115, y + 7.5)
-  doc.text(legal_id, x + 131.5, y + 7.5);
+  doc.text("NIF/CIF", x + 135, y + 7.5)
+  doc.text(legal_id, x + 151.5, y + 7.5);
 
   doc.text("Dirección", x, y + 14.5);
   doc.text(`${address}, ${cp} ${city} (${country})`, x + 20, y + 14.5);
@@ -118,6 +120,17 @@ function drawItemsData(doc, data) {
 
     doc.rect(x, y + 5 + (5 * l), 170, 5, "F");
   }
+
+  data.forEach((line, i) => {
+    const { amount, label, dto, price, total } = line;
+    const posX = x + 1.5;
+
+    doc.text(amount.toString(), posX, y + 8.5 + (5 * i)); // amount
+    doc.text(label, posX + 15, y + 8.5 + (5 * i)); // label
+    doc.text(`${dto}%`, posX + 115, y + 8.5 + (5 * i)); // dto
+    doc.text(currency(price), posX + 125, y + 8.5 + (5 * i)); // price
+    doc.text(currency(total), posX + 147.5, y + 8.5 + (5 * i)); // total
+  })
 
   doc.setFillColor("#fff");
 
@@ -139,6 +152,65 @@ function drawItemsData(doc, data) {
   doc.text("Total", x + 149, y + 3.5); // total
 }
 
+function drawTotalsData(doc, { totals, taxes }) {
+  const { base, iva, ret, total } = totals;
+  const x = 30;
+  const y = 240;
+
+  doc.setFillColor("#eee");
+
+  doc.rect(x + 10, y, 20, 5, "FD"); // base
+  doc.rect(x + 50, y, 20, 5, "FD"); // iva
+  doc.rect(x + 90, y, 20, 5, "FD"); // ret
+
+  doc.setFillColor("#000");
+
+  doc.rect(x + 130, y, 20, 5, "FD"); // total
+
+  doc.text("Base", x, y + 3.5);
+  doc.text(currency(base), x + 11.5, y + 3.5);
+
+  doc.text(`${taxes.iva}% IVA`, x + 35, y + 3.5);
+  doc.text(currency(iva), x + 51.5, y + 3.5);
+
+  doc.text(`${taxes.ret}% IRPF`, x + 75, y + 3.5);
+  doc.text(`-${currency(ret)}`, x + 91.5, y + 3.5);
+
+  doc.text(`Total`, x + 118.5, y + 3.5);
+
+  doc.setFont("FiraCode-Medium");
+  doc.setTextColor("#fff");
+
+  doc.text(currency(total), x + 131.5, y + 3.5);
+
+}
+
+function drawNoteData(doc, data) {
+  const x = 20;
+  const y = 255;
+
+  doc.setFont("FiraCode-Medium");
+  doc.setFontSize(10);
+  doc.setTextColor("#000");
+
+  doc.text("Notas", 210 / 2, y, {
+    align: "center"
+  });
+
+  doc.setFillColor("#eee");
+
+  doc.rect(x, y + 4, 170, 20, "FD");
+
+  doc.setFont("FiraCode-Regular");
+  doc.setFontSize(8);
+  doc.setTextColor("#000");
+
+  doc.text(data, 210 / 2, y + 8.5, {
+    maxWidth: 150,
+    align: "center"
+  });
+}
+
 export function printPdf(data) {
   const { user, client, date, items, number, taxes, totals, note, type } = data;
 
@@ -152,12 +224,14 @@ export function printPdf(data) {
   doc.addFileToVFS('FiraCode-Medium-normal.ttf', medium);
   doc.addFont('FiraCode-Medium-normal.ttf', 'FiraCode-Medium', 'normal');
 
-  drawOutlines(doc);
   drawLogo(doc, user.logo);
   drawUserData(doc, user);
   drawDocData(doc, { date, number, type });
   drawClientData(doc, client);
   drawItemsData(doc, items);
+  drawTotalsData(doc, { totals, taxes });
+  drawNoteData(doc, note);
+  drawOutlines(doc);
 
   const blob = doc.output("bloburi", { filename: "a4" });
   return blob + '#view=fit';
