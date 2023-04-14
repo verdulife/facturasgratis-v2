@@ -42,8 +42,8 @@
 		<Tools {filteredBills} bind:idFilter bind:monthFilter bind:yearFilter />
 
 		<ul class="col wfull">
-			{#each filteredBills as bill}
-				<Card {bill} />
+			{#each filteredBills as data}
+				<Card {data} />
 			{/each}
 		</ul>
 	{:else}

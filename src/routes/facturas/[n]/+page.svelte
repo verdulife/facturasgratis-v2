@@ -1,4 +1,5 @@
 <script>
+	import { browser } from '$app/environment';
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
@@ -16,21 +17,22 @@
 	import Actions from '$lib/components/facturas/Actions.svelte';
 
 	export let data;
-	const { match, numeration } = data;
+	const { numeration } = data;
+	const matched = browser && $Bills.find((b) => b.number == numeration);
 	const currentDate = new Date();
 
 	function nextNumeration() {
 		if ($Bills.length === 0) return 1;
-		const currentNumeration = Math.max(...$Bills.map((bill) => bill.number));
+		const currentNumeration = Math.max(...$Bills.map((b) => b.number));
 		return currentNumeration + 1;
 	}
 
-	const defaultTaxes = match.taxes || { iva: $User.iva, ret: $User.ret };
-	const defaultState = match.state || '';
-	const defaultNote = match.note || $User.bill_note || '';
+	const defaultTaxes = matched.taxes || { iva: $User.iva, ret: $User.ret };
+	const defaultState = matched.state || '';
+	const defaultNote = matched.note || $User.bill_note || '';
 
-	$: bill = match
-		? { ...match, taxes: defaultTaxes, state: defaultState, note: defaultNote }
+	$: bill = matched
+		? { ...matched, taxes: defaultTaxes, state: defaultState, note: defaultNote }
 		: {
 				number: nextNumeration(),
 				date: {
@@ -103,7 +105,7 @@
 			return;
 		}
 
-		if (match) await updateBill();
+		if (matched) await updateBill();
 		else await addNewBill();
 
 		goto('/facturas');
@@ -115,7 +117,7 @@
 <Header data={facturas} />
 
 <form class="col acenter wfull" on:submit|preventDefault={saveBillData}>
-	{#if match}
+	{#if matched}
 		<Actions bind:state={bill.state} {bill} user={$User} />
 	{/if}
 

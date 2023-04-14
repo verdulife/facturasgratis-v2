@@ -9,8 +9,6 @@
 	export let client;
 	let clientsData = [];
 
-	// TODO: check why all binds update store without saving
-
 	async function getBusinessData() {
 		if (client.legal_name === '') return;
 

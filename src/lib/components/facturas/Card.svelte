@@ -1,8 +1,8 @@
 <script>
 	import { numerationFormat, dateObjectFormat, currency } from '$lib/utils';
-	export let bill;
+	export let data;
 
-	const { client, date, number, totals } = bill;
+	const { client, date, number, totals } = data;
 </script>
 
 <article class="col wfull">

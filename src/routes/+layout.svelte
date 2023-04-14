@@ -1,7 +1,7 @@
 <script>
 	import '$lib/startcss/startcss.css';
 	import { onAuthStateChanged } from 'firebase/auth';
-	import { Firebase, Stores } from '$lib/stores';
+	import { Firebase, Stores, Bills } from '$lib/stores';
 	import { auth, syncUser, syncCollection } from '$lib/database/config';
 	import { Toaster } from 'svelte-french-toast';
 
@@ -25,6 +25,8 @@
 			}
 		}
 	});
+
+	$: console.log($Bills);
 </script>
 
 <main class="scrollbar">
@@ -37,7 +39,7 @@
 
 <style lang="postcss">
 	:root {
-		--blur: blur(2em); 
+		--blur: blur(2em);
 	}
 
 	main {
