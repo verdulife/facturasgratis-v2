@@ -1,6 +1,18 @@
 import { jsPDF } from "jspdf";
 import { normal, medium } from "$lib/assets/fira.js";
 import { numerationFormat, dateObjectFormat, phoneFormat, currency } from "$lib/utils";
+import { User } from "$lib/stores"
+import { get } from "svelte/store"
+
+export function downloadPdf(data, type) {
+  const user = get(User);
+  const pdfData = { ...data, user, type };
+  const link = document.createElement('a');
+
+  link.href = printPdf(pdfData);
+  link.download = `${data.client.legal_name} - ${numerationFormat(data.number, data.date.year)}`;
+  link.click();
+}
 
 function drawOutlines(doc) {
   doc.setLineWidth(0.5);
@@ -176,10 +188,10 @@ function drawTotalsData(doc, { totals, taxes }) {
   doc.rect(x + 130, y, 20, 5, "FD"); // total
 
   doc.text("Base", x, y + 3.5);
-  doc.text(currency(base), x + 11.5, y + 3.5);
+  doc.text(`${currency(base)}`, x + 11.5, y + 3.5);
 
   doc.text(`${taxes.iva}% IVA`, x + 35, y + 3.5);
-  doc.text(currency(iva), x + 51.5, y + 3.5);
+  doc.text(`${currency(iva)}`, x + 51.5, y + 3.5);
 
   doc.text(`${taxes.ret}% IRPF`, x + 75, y + 3.5);
   doc.text(`-${currency(ret)}`, x + 91.5, y + 3.5);
@@ -189,7 +201,7 @@ function drawTotalsData(doc, { totals, taxes }) {
   doc.setFont("FiraCode-Medium");
   doc.setTextColor("#fff");
 
-  doc.text(currency(total), x + 131.5, y + 3.5);
+  doc.text(`${currency(total)}`, x + 131.5, y + 3.5);
 
 }
 
@@ -213,17 +225,18 @@ function drawNoteData(doc, data) {
   doc.setFontSize(8);
   doc.setTextColor("#000");
 
-  doc.text(data, 210 / 2, y + 8.5, {
+  data && doc.text(data, 210 / 2, y + 8.5, {
     maxWidth: 150,
     align: "center"
   });
 }
 
 export function printPdf(data) {
-  const { user, client, date, items, number, taxes, totals, note, type } = data;
+  const { user, client, date, items, number, totals, note, type } = data;
   const linesPerPage = 27;
   const pagesLength = Math.ceil(items.length / linesPerPage);
   const pages = { pageNumber: 1, pagesLength };
+  const taxes = data.taxes || { iva: user.iva, ret: user.ret };
 
   const doc = new jsPDF({
     unit: "mm",

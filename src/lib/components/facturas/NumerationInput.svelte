@@ -36,7 +36,7 @@
 				id="day"
 				type="number"
 				inputmode="numeric"
-				bind:value={date.day}
+				bind:value={date['day']}
 				required
 			/>
 		</label>

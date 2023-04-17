@@ -137,3 +137,20 @@ export function clickOut(node) {
     }
   }
 }
+
+export function unbindFromStore(store) {
+  if (!store) return;
+
+  const serializedStore = JSON.stringify(store);
+  return JSON.parse(serializedStore);
+};
+
+export function printState(state) {
+  const state_lib = {
+    "send": "Enviada",
+    "paid": "Pagada",
+    "closed": "Cerrada"
+  }
+
+  return state_lib[state];
+}

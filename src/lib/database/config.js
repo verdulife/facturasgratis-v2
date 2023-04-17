@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore, collection, doc, getDoc, setDoc, getDocs } from "firebase/firestore/lite";
+import { getFirestore, collection, doc, getDoc, setDoc, getDocs, deleteDoc } from "firebase/firestore/lite";
 import { User } from "$lib/stores";
 import { get } from 'svelte/store';
 
@@ -65,6 +65,14 @@ export async function updateDoc({ collection, data }) {
   const docRef = doc(collectionRef, id);
 
   await setDoc(docRef, data);
+}
+
+export async function removeDoc({ collection, data }) {
+  const collectionRef = getCollectionRef(collection);
+  const { id } = data;
+  const docRef = doc(collectionRef, id);
+
+  await deleteDoc(docRef);
 }
 
 export async function syncCollection({ collection, store }) {

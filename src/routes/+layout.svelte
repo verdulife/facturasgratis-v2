@@ -25,8 +25,6 @@
 			}
 		}
 	});
-
-	$: console.log($Bills);
 </script>
 
 <main class="scrollbar">

@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
+	import { unbindFromStore } from '$lib/utils';
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
@@ -18,18 +19,42 @@
 
 	export let data;
 	const { numeration } = data;
-	const matched = browser && $Bills.find((b) => b.number == numeration);
+	const matched = browser && unbindFromStore($Bills.find((b) => b.number == numeration));
 	const currentDate = new Date();
 
+	function findFirstMissNumber(maxN) {
+		const numerations = $Bills.map((b) => b.number).sort();
+		let missingNumers = [];
+
+		for (let i = 1; i < maxN; i++) {
+			if (!numerations.includes(i)) missingNumers.push(i);
+		}
+
+		return missingNumers[0];
+	}
+
 	function nextNumeration() {
+		//TODO: Si la factura cambia de numero reset a 0, pero hay dependencias con la numeracion
+		// Revisar en facturasgratis v1 el uso de uuid
+
 		if ($Bills.length === 0) return 1;
 		const currentNumeration = Math.max(...$Bills.map((b) => b.number));
+		const missNumber = findFirstMissNumber(currentNumeration);
+
+		if (missNumber) {
+			const check = confirm(
+				`Existe una numeración vacia con el numero ${missNumber}\n\n¿Quieres usarla?`
+			);
+
+			if (check) return missNumber;
+		}
+
 		return currentNumeration + 1;
 	}
 
-	const defaultTaxes = matched.taxes || { iva: $User.iva, ret: $User.ret };
-	const defaultState = matched.state || '';
-	const defaultNote = matched.note || $User.bill_note || '';
+	const defaultTaxes = matched?.taxes || { iva: $User.iva, ret: $User.ret };
+	const defaultState = matched?.state || '';
+	const defaultNote = matched?.note || $User.bill_note || '';
 
 	$: bill = matched
 		? { ...matched, taxes: defaultTaxes, state: defaultState, note: defaultNote }
@@ -118,7 +143,7 @@
 
 <form class="col acenter wfull" on:submit|preventDefault={saveBillData}>
 	{#if matched}
-		<Actions bind:state={bill.state} {bill} user={$User} />
+		<Actions bind:state={bill.state} {bill} />
 	{/if}
 
 	<NumerationInput

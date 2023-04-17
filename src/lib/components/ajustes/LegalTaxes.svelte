@@ -9,7 +9,6 @@
 
 <Container>
 	<Title>Moneda e impuestos</Title>
-	<p>Los campos marcados con un → son obligatorios.</p>
 
 	<Row>
 		<label class="col wfull" for="currency">
@@ -35,13 +34,3 @@
 		</label>
 	</Row>
 </Container>
-
-<style lang="postcss">
-	p {
-		font-size: var(--font-xs);
-	}
-
-	div {
-		gap: 0.5em;
-	}
-</style>

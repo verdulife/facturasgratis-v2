@@ -1,8 +1,9 @@
 <script>
-	import { numerationFormat, dateObjectFormat, currency } from '$lib/utils';
+	import { downloadPdf } from '$lib/print';
+	import { numerationFormat, dateObjectFormat, currency, printState } from '$lib/utils';
 	export let data;
 
-	const { client, date, number, totals } = data;
+	const { client, date, number, totals, state } = data;
 </script>
 
 <article class="col wfull">
@@ -12,9 +13,13 @@
 			<h4><b>{client.legal_name}</b></h4>
 		</div>
 
-		<aside class="row">
+		<aside class="row acenter">
+			{#if state}
+				<span class={state}><b>{printState(state)}</b></span>
+			{/if}
+
 			<a role="button" href="facturas/{number}">Editar</a>
-			<button>Descargar</button>
+			<button on:click={downloadPdf(data, 'Factura')}>Descargar</button>
 		</aside>
 	</header>
 
@@ -48,6 +53,28 @@
 		& header {
 			& aside {
 				gap: 0.5em;
+
+				& span {
+					align-self: center !important;
+					background-color: var(--accent);
+					color: var(--base-900);
+					text-transform: uppercase;
+					font-size: 12px;
+					border-radius: 1em;
+					box-shadow: 0 0 20px hsl(var(--accent-hsl), 0.4);
+					padding: 0.1em 1em;
+					margin-right: 0.5em;
+
+					&.paid {
+						background-color: var(--success);
+						box-shadow: 0 0 20px hsl(var(--accent-hsl), 0.4);
+					}
+
+					&.closed {
+						background-color: var(--error);
+						box-shadow: 0 0 20px hsl(var(--error-hsl), 0.4);
+					}
+				}
 			}
 		}
 

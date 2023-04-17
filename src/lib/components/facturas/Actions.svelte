@@ -1,16 +1,17 @@
 <script>
-	import { printPdf } from '$lib/print';
-	import { numerationFormat } from '$lib/utils';
+	import { downloadPdf } from '$lib/print';
+	import { Bills } from '$lib/stores';
+	import { removeDoc } from '$lib/database/config';
+	import { goto } from '$app/navigation';
 
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Label from '$lib/components/Forms/Label.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
 
-	export let state, bill, user;
+	export let state, bill;
 
 	$: src = '';
-	const data = { ...bill, user, type: 'Factura' };
 	const stateDescription = `
 	[Emitida]
 Valor por defecto al crear una factura
@@ -25,11 +26,25 @@ Factura cobrada
 Factura en cierre trimestral
 `;
 
-	function download() {
-		const link = document.createElement('a');
-		link.href = printPdf(data);
-		link.download = `${bill.client.legal_name} - ${numerationFormat(bill.number, bill.date.year)}`;
-		link.click();
+	async function deleteBill() {
+		let check;
+		if (bill.state) {
+			check = confirm(
+				'⚠️ Esta factura ya ha sido enviada\n\n¿Prefieres hacer una rectificativa en lugar de borrarla?'
+			);
+		} else {
+			check = confirm(
+				'⚠️ Borrar esta factura puede afectar a la correlación en la numeración.\n\n¿Prefieres hacer una rectificativa en lugar de borrarla?'
+			);
+		}
+
+		if (!check) {
+			const billIndex = $Bills.findIndex((b) => b.number === bill.number);
+			$Bills.splice(billIndex, 1);
+			await removeDoc({ collection: 'bills', data: bill });
+
+			goto('/facturas');
+		}
 	}
 </script>
 
@@ -43,13 +58,13 @@ Factura en cierre trimestral
 				<option value="">Emitida</option>
 				<option value="send">Enviada</option>
 				<option value="paid">Pagada</option>
-				<option value="done">Cerrada</option>
+				<option value="closed">Cerrada</option>
 			</select>
 		</label>
 
-		<button type="button" on:click={download}>DESCARGAR</button>
+		<button type="button" on:click={() => downloadPdf(bill, 'Factura')}>DESCARGAR</button>
 		<button type="button">CREAR RECTIFICATIVA</button>
-		<button type="button" class="error">ELIMINAR</button>
+		<button type="button" class="error" on:click={deleteBill}>ELIMINAR</button>
 	</Row>
 </Container>
 
