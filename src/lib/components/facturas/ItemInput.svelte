@@ -24,9 +24,9 @@
 	}
 
 	function autocompleteProduct() {
-		const { price } = $Products.find((p) => p.label === item.label);
-		item.price = price;
-		
+		const price = $Products.find((p) => p.label === item.label)?.price;
+		item.price = price || 0;
+
 		calcWithTaxes();
 		calcTotal();
 	}

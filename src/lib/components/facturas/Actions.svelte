@@ -2,6 +2,7 @@
 	import { downloadPdf } from '$lib/print';
 	import { Bills } from '$lib/stores';
 	import { removeDoc } from '$lib/database/config';
+	import { numerationFormat } from '$lib/utils';
 	import { goto } from '$app/navigation';
 
 	import Container from '$lib/components/Forms/Container.svelte';
@@ -12,6 +13,8 @@
 	export let state, bill;
 
 	$: src = '';
+	let rectifing = false;
+	let rectify_reason = '';
 	const stateDescription = `
 	[Emitida]
 Valor por defecto al crear una factura
@@ -38,13 +41,26 @@ Factura en cierre trimestral
 			);
 		}
 
-		if (!check) {
-			const billIndex = $Bills.findIndex((b) => b.number === bill.number);
-			$Bills.splice(billIndex, 1);
-			await removeDoc({ collection: 'bills', data: bill });
-
-			goto('/facturas');
+		if (check) {
+			rectifing = true;
+			return;
 		}
+
+		const billIndex = $Bills.findIndex(
+			(b) => numerationFormat(b.number, b.date.year, true) === bill.numeration
+		);
+
+		$Bills.splice(billIndex, 1);
+		await removeDoc({ collection: 'bills', data: bill });
+
+		goto('/facturas');
+	}
+
+	async function createRectify() {
+		if (!rectify_reason) alert('No has seleccionado un motivo');
+		else console.log(rectify_reason);
+
+		//TODO: Create method
 	}
 </script>
 
@@ -63,9 +79,32 @@ Factura en cierre trimestral
 		</label>
 
 		<button type="button" on:click={() => downloadPdf(bill, 'Factura')}>DESCARGAR</button>
-		<button type="button">CREAR RECTIFICATIVA</button>
+		<button type="button" on:click={() => (rectifing = true)}>CREAR RECTIFICATIVA</button>
 		<button type="button" class="error" on:click={deleteBill}>ELIMINAR</button>
 	</Row>
+
+	{#if rectifing}
+		<Container>
+			<Title>Factura rectificativa</Title>
+
+			<Row class="aend">
+				<label class="col grow">
+					<Label>MOTIVO</Label>
+					<select class="wfull" type="number" bind:value={rectify_reason}>
+						<option value="" disabled>Selecciona un motivo de rectificación</option>
+						<option value="import">Error en el importe</option>
+						<option value="data">Error en los datos del cliente</option>
+						<option value="refund">Devolución de mercancía</option>
+						<option value="dto">Descuento posterior</option>
+						<option value="cancel">Anulación de factura original</option>
+					</select>
+				</label>
+
+				<button type="button" on:click={createRectify}>CREAR</button>
+				<button type="button" class="error" on:click={() => (rectifing = false)}>CANCELAR</button>
+			</Row>
+		</Container>
+	{/if}
 </Container>
 
 {#if src}

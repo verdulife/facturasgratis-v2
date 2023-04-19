@@ -18,11 +18,13 @@
 	$: user = $User;
 
 	async function saveUserData() {
-		user._updated = new Date();
-		if (user.legal_initials) user.legal_initials = user.legal_initials.toUpperCase();
+		const { tools_sort, ...userClean } = user;
 
-		$User = user;
-		await updateUser(user);
+		userClean._updated = new Date();
+		if (userClean.legal_initials) userClean.legal_initials = userClean.legal_initials.toUpperCase();
+
+		$User = userClean;
+		await updateUser(userClean);
 
 		toast.success('Datos guardados correctamente');
 	}

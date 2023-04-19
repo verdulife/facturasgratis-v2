@@ -3,7 +3,10 @@
 	import { numerationFormat, dateObjectFormat, currency, printState } from '$lib/utils';
 	export let data;
 
-	const { client, date, number, totals, state } = data;
+	let { client, date, number, numeration, totals, state } = data;
+
+	numeration = numeration || numerationFormat(number, date.year, true);
+	number = number || 'SN';
 </script>
 
 <article class="col wfull">
@@ -18,7 +21,7 @@
 				<span class={state}><b>{printState(state)}</b></span>
 			{/if}
 
-			<a role="button" href="facturas/{number}">Editar</a>
+			<a role="button" href="facturas/{numeration}">Editar</a>
 			<button on:click={downloadPdf(data, 'Factura')}>Descargar</button>
 		</aside>
 	</header>

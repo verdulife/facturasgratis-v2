@@ -18,12 +18,14 @@
 	import Actions from '$lib/components/facturas/Actions.svelte';
 
 	export let data;
-	const { numeration } = data;
-	const matched = browser && unbindFromStore($Bills.find((b) => b.number == numeration));
+	const { n } = data;
+	const matched =
+		browser &&
+		unbindFromStore($Bills.find((b) => numerationFormat(b.number, b.date.year, true) === n));
 	const currentDate = new Date();
 
-	function findFirstMissNumber(maxN) {
-		const numerations = $Bills.map((b) => b.number).sort();
+	function findFirstMissNumber(currentYear, maxN) {
+		const numerations = currentYear.map((b) => b.number).sort();
 		let missingNumers = [];
 
 		for (let i = 1; i < maxN; i++) {
@@ -34,11 +36,11 @@
 	}
 
 	function nextNumeration() {
-		//TODO: Si la factura cambia de año reset a 0, pero hay dependencias con la numeracion
-
 		if ($Bills.length === 0) return 1;
-		const currentNumeration = Math.max(...$Bills.map((b) => b.number));
-		const missNumber = findFirstMissNumber(currentNumeration);
+
+		const currentYear = $Bills.filter((b) => b.date.year === currentDate.getFullYear());
+		const currentNumeration = Math.max(...currentYear.map((b) => b.number));
+		const missNumber = findFirstMissNumber(currentYear, currentNumeration);
 
 		if (missNumber) {
 			const check = confirm(
@@ -56,7 +58,12 @@
 	const defaultNote = matched?.note || $User.bill_note || '';
 
 	$: bill = matched
-		? { ...matched, taxes: defaultTaxes, state: defaultState, note: defaultNote }
+		? {
+				...matched,
+				taxes: defaultTaxes,
+				state: defaultState,
+				note: defaultNote
+		  }
 		: {
 				number: nextNumeration(),
 				date: {
@@ -96,9 +103,6 @@
 	}
 
 	async function addNewBill() {
-		//TODO: Add next line to existen bills && change all number dependencies to numeration
-		//TODO: Remove initials from numertaion
-		bill.numeration = bill.numeration || numerationFormat(bill.number, bill.date.year);
 		$Bills = [bill, ...$Bills];
 
 		if ($Firebase.user) {
@@ -109,7 +113,10 @@
 	}
 
 	async function updateBill() {
-		const billIndex = $Bills.findIndex((b) => b.number === bill.number);
+		const billIndex = $Bills.findIndex(
+			(b) => numerationFormat(b.number, b.date.year, true) === bill.numeration
+		);
+
 		$Bills[billIndex] = bill;
 
 		if ($Firebase.user) {
@@ -120,15 +127,17 @@
 	}
 
 	async function saveBillData() {
-		const numerationExists = $Bills.some((b) => b.number === bill.number);
+		const numerationExists = $Bills.some(
+			(b) => numerationFormat(b.number, b.date.year, true) === bill.numeration
+		);
 
 		if (bill.items.length === 0) {
 			toast.error('No has añadido ningun concepto');
 			return;
 		}
 
-		if (bill.number != numeration && numerationExists) {
-			toast.error(`Ya existe la factura número ${bill.number}`);
+		if (bill.numeration !== n && numerationExists) {
+			toast.error(`Ya existe la factura número ${bill.numeration}`);
 			return;
 		}
 
@@ -137,6 +146,8 @@
 
 		goto('/facturas');
 	}
+
+	$: bill.number, (bill.numeration = numerationFormat(bill.number, bill.date.year, true));
 </script>
 
 <Meta data={meta} />

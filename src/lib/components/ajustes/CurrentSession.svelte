@@ -3,7 +3,7 @@
 	import { Stores, User, Firebase, stores_lib } from '$lib/stores';
 	import { signInWithPopup, signOut } from 'firebase/auth';
 	import { auth, provider } from '$lib/database/config';
-	import { clearLocalData } from '$lib/utils';
+	import { clearLocalData, capitalize } from '$lib/utils';
 	import toast from 'svelte-french-toast';
 
 	import Container from '$lib/components/Forms/Container.svelte';
@@ -39,13 +39,13 @@
 		if ($User.legal_name) clearData();
 
 		User.set(session.db_userData || {});
-		Stores.Bills.set(session.db_bills || []);
-		Stores.Budgets.set(session.db_budgets || []);
-		Stores.Deliveries.set(session.db_deliveries || []);
-		Stores.Clients.set(session.db_clients || []);
-		Stores.Products.set(session.db_products || []);
-		Stores.Providers.set(session.db_providers || []);
-		Stores.Proforma_bills.set(session.db_proforma_bills || []);
+
+		for (let s in session) {
+			const data = session[s];
+			const name = capitalize(s.split('_')[1]);
+
+			if (name !== 'UserData') Stores[name].set(data || []);
+		}
 	}
 
 	function importData() {

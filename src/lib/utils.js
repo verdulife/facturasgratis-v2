@@ -99,17 +99,18 @@ export function twoDigitYear(year) {
   return year.toString().slice(-2);
 }
 
-export function numerationFormat(num, year) {
+export function numerationFormat(num, year, clean) {
   const length = `${num}`.length;
   const prefix = twoDigitYear(year);
   const { legal_initials } = get(User);
-  const initials = legal_initials ? `${legal_initials}/` : '';
+  let initials = "";
+  if (!clean) initials = legal_initials ? `${legal_initials}/` : '';
 
   if (length === 1) return `${initials}${prefix}-0000${num}`;
-  if (length === 2) return `${prefix}-000${num}`;
-  if (length === 3) return `${prefix}-00${num}`;
-  if (length === 4) return `${prefix}-0${num}`;
-  return `${prefix}-${num}`;
+  if (length === 2) return `${initials}${prefix}-000${num}`;
+  if (length === 3) return `${initials}${prefix}-00${num}`;
+  if (length === 4) return `${initials}${prefix}-0${num}`;
+  return `${initials}${prefix}-${num}`;
 }
 
 export function autoNumeration(arr) {
