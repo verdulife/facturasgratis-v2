@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { unbindFromStore } from '$lib/utils';
+	import { unbindFromStore, numerationFormat } from '$lib/utils';
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
@@ -34,8 +34,7 @@
 	}
 
 	function nextNumeration() {
-		//TODO: Si la factura cambia de numero reset a 0, pero hay dependencias con la numeracion
-		// Revisar en facturasgratis v1 el uso de uuid
+		//TODO: Si la factura cambia de año reset a 0, pero hay dependencias con la numeracion
 
 		if ($Bills.length === 0) return 1;
 		const currentNumeration = Math.max(...$Bills.map((b) => b.number));
@@ -97,6 +96,9 @@
 	}
 
 	async function addNewBill() {
+		//TODO: Add next line to existen bills && change all number dependencies to numeration
+		//TODO: Remove initials from numertaion
+		bill.numeration = bill.numeration || numerationFormat(bill.number, bill.date.year);
 		$Bills = [bill, ...$Bills];
 
 		if ($Firebase.user) {

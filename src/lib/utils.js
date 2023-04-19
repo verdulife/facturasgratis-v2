@@ -1,6 +1,8 @@
 import { get } from 'svelte/store';
 import { Firebase, User, Stores } from '$lib/stores';
 
+export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
 export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
   return new Promise((resolve) => {
     let img = new Image();
@@ -42,7 +44,6 @@ export function clearLocalData() {
   }
 }
 
-export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
 export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

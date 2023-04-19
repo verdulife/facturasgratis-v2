@@ -17,7 +17,7 @@
 
 			await syncUser(uid);
 
-			for (let key in Stores) {
+			for (let key in Stores) { // TODO: Make it parallel
 				const collection = key.toLowerCase();
 				const store = Stores[key];
 
