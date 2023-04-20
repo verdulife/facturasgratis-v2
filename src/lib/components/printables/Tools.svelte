@@ -1,15 +1,19 @@
 <script>
 	import { months, currency, currentYear } from '$lib/utils';
+	import { page } from '$app/stores';
 	import Search from '$lib/icons/Search.svelte';
 	import Container from '$lib/components/Forms/Container.svelte';
 
-	export let filteredBills;
+	export let filtered;
 	export let idFilter, monthFilter, yearFilter;
 
-	const billYears = [...new Set([...filteredBills.map((bill) => bill.date.year), currentYear])];
+	const pathname = $page.route.id;
+	const docType = pathname.substring(1, pathname.length - 1);
+	const billYears = [...new Set([...filtered.map((b) => b.date.year), currentYear])];
 
 	function getAmount(kind) {
-		return currency(filteredBills.reduce((acc, bill) => acc + bill.totals[kind], 0));
+		if (!filtered) return currency(0);
+		return currency(filtered.reduce((acc, b) => acc + b.totals[kind], 0));
 	}
 </script>
 
@@ -38,13 +42,13 @@
 				</select>
 			</div>
 
-			<a role="button" class="row fcenter" href="/facturas/editar">CREAR FACTURA</a>
+			<a role="button" class="row fcenter" href="{pathname}/editar">CREAR {docType}</a>
 		</article>
 
 		<span class="xdiv" />
 
 		<footer class="row jbetween acenter wfull">
-			<p><b>Facturas:</b> {filteredBills.length}</p>
+			<p><b>{docType}s:</b> {filtered.length}</p>
 
 			<aside class="row acenter">
 				<p><b>Base:</b> {getAmount('base')}</p>

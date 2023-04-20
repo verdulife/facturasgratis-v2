@@ -1,11 +1,3 @@
-export const facturas = {
-  slug: "/facturas",
-  title: "Facturas",
-  description: "Genera y modifica facturas. Envíalas por correo electrónico y guárdalas en PDF.",
-  icon: "/facturas.svg",
-  soon: false,
-};
-
 export const presupuestos = {
   slug: "/presupuestos",
   title: "Presupuestos",
@@ -14,19 +6,35 @@ export const presupuestos = {
   soon: false,
 };
 
-export const albaranes = {
-  slug: "/albaranes",
-  title: "Albaranes",
-  description: "Genera y modifica albaranes. Envíalos por correo electrónico y guárdalos en PDF.",
-  icon: "/albaranes.svg",
-  soon: true,
-};
-
 export const proformas = {
   slug: "/proformas",
   title: "Proformas",
   description: "Genera y modifica proformas. Envíalas por correo electrónico y guárdalas en PDF.",
   icon: "/proformas.svg",
+  soon: false,
+};
+
+export const facturas = {
+  slug: "/facturas",
+  title: "Facturas",
+  description: "Genera y modifica facturas. Envíalas por correo electrónico y guárdalas en PDF.",
+  icon: "/facturas.svg",
+  soon: false,
+};
+
+export const rectificativas = {
+  slug: "/rectificativas",
+  title: "Rectificativas",
+  description: "Genera y modifica rectificativas. Envíalas por correo electrónico y guárdalas en PDF.",
+  icon: "/facturas.svg",
+  soon: false,
+};
+
+export const tareas = {
+  slug: "/tareas",
+  title: "Facturas",
+  description: "Genera y modifica tareas. Envíalas por correo electrónico y guárdalas en PDF.",
+  icon: "/facturas.svg",
   soon: false,
 };
 
@@ -46,14 +54,6 @@ export const productos_servicios = {
   soon: false,
 };
 
-export const proveedores = {
-  slug: "/proveedores",
-  title: "Proveedores",
-  description: "Crea una lista de proveedores. Así tendrás su información de contacto siempre a mano.",
-  icon: "/proveedores.svg",
-  soon: false,
-};
-
 export const calculadora = {
   slug: "/calculadora",
   title: "Calculadora de impuestos",
@@ -68,6 +68,22 @@ export const convertidor = {
   description: "Convierte precios con impuestos a sin impuestos y viceversa.",
   icon: "/convertidor.svg",
   soon: false,
+};
+
+export const proveedores = {
+  slug: "/proveedores",
+  title: "Proveedores",
+  description: "Crea una lista de proveedores. Así tendrás su información de contacto siempre a mano.",
+  icon: "/proveedores.svg",
+  soon: true,
+};
+
+export const albaranes = {
+  slug: "/albaranes",
+  title: "Albaranes",
+  description: "Genera y modifica albaranes. Envíalos por correo electrónico y guárdalos en PDF.",
+  icon: "/albaranes.svg",
+  soon: true,
 };
 
 export const metro_cuadrado = {
@@ -94,4 +110,4 @@ export const calculadora_descuentos = {
   soon: true,
 };
 
-export const tools = [facturas, presupuestos, albaranes, proformas, clientes, productos_servicios, proveedores, calculadora, convertidor, metro_cuadrado, control_gastos, calculadora_descuentos];
+export const tools = [presupuestos, proformas, facturas, rectificativas, clientes, productos_servicios, proveedores, calculadora, convertidor, albaranes, metro_cuadrado, control_gastos, calculadora_descuentos];

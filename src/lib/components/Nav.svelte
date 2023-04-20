@@ -98,6 +98,7 @@
 
 		& li {
 			width: 220px;
+			margin-right: auto
 		}
 
 		& a {

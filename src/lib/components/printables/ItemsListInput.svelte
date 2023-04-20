@@ -2,8 +2,8 @@
 	import Container from '$lib/components/Forms/Container.svelte';
 	import Title from '$lib/components/Forms/Title.svelte';
 	import Row from '$lib/components/Forms/Row.svelte';
-	import ItemInput from '$lib/components/facturas/ItemInput.svelte';
-	import Totals from '$lib/components/facturas/Totals.svelte';
+	import ItemInput from '$lib/components/printables/ItemInput.svelte';
+	import Totals from '$lib/components/printables/Totals.svelte';
 
 	export let items, currency, taxes, totals;
 

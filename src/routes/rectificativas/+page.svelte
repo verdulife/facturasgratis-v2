@@ -1,7 +1,7 @@
 <script>
 	import { facturas as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { User, Bills } from '$lib/stores';
+	import { User, Rectify_bills } from '$lib/stores';
 	import { currentYear, sortByNumber } from '$lib/utils';
 
 	import Meta from '$lib/components/Meta.svelte';
@@ -14,7 +14,7 @@
 	$: monthFilter = '';
 	$: yearFilter = currentYear;
 
-	const sorted = $Bills.sort(sortByNumber);
+	const sorted = $Rectify_bills.sort(sortByNumber);
 
 	$: filtered = sorted.filter((b) => {
 		const clientName = b.client.legal_name.toLowerCase();
@@ -35,6 +35,7 @@
 </script>
 
 <Meta data={meta} />
+<!-- TODO: Can autogenerate metadata? -->
 
 <Header data={facturas} />
 <section class="col acenter wfull">

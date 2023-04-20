@@ -3,7 +3,7 @@
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
 	import { unbindFromStore, numerationFormat } from '$lib/utils';
-	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
+	import { User, Rectify_bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
 
@@ -21,7 +21,9 @@
 	const { n } = data;
 	const matched =
 		browser &&
-		unbindFromStore($Bills.find((b) => numerationFormat(b.number, b.date.year, true) === n));
+		unbindFromStore(
+			$Rectify_bills.find((b) => numerationFormat(b.number, b.date.year, true) === n)
+		);
 	const currentDate = new Date();
 
 	function findFirstMissNumber(currentYear, maxN) {
@@ -36,9 +38,9 @@
 	}
 
 	function nextNumeration() {
-		if ($Bills.length === 0) return 1;
+		if ($Rectify_bills.length === 0) return 1;
 
-		const currentYear = $Bills.filter((b) => b.date.year === currentDate.getFullYear());
+		const currentYear = $Rectify_bills.filter((b) => b.date.year === currentDate.getFullYear());
 		const currentNumeration = Math.max(...currentYear.map((b) => b.number));
 		const missNumber = findFirstMissNumber(currentYear, currentNumeration);
 
@@ -79,34 +81,8 @@
 				state: defaultState
 		  };
 
-	async function saveClientData() {
-		const { client } = bill;
-		const clientExists = $Clients.find((c) => c.legal_id === client.legal_id);
-
-		if (clientExists) return;
-
-		client._updated = new Date();
-		$Clients = [client, ...$Clients];
-		await addDoc({ collection: 'clients', data: client });
-	}
-
-	async function saveProductData() {
-		const { items } = bill;
-		items.forEach(async (item) => {
-			const productExists = $Products.find((p) => p.label === item.label);
-
-			if (productExists) return;
-
-			const { amount, dto, total, ...product } = item;
-
-			product._updated = new Date();
-			$Products = [product, ...$Products];
-			await addDoc({ collection: 'products', data: product });
-		});
-	}
-
 	async function addNewBill() {
-		$Bills = [bill, ...$Bills];
+		$Rectify_bills = [bill, ...$Rectify_bills];
 
 		if ($Firebase.user) {
 			await addDoc({ collection: 'bills', data: bill });
@@ -116,11 +92,11 @@
 	}
 
 	async function updateBill() {
-		const billIndex = $Bills.findIndex(
+		const billIndex = $Rectify_bills.findIndex(
 			(b) => numerationFormat(b.number, b.date.year, true) === bill.numeration
 		);
 
-		$Bills[billIndex] = bill;
+		$Rectify_bills[billIndex] = bill;
 
 		if ($Firebase.user) {
 			await updateDoc({ collection: 'bills', data: bill });
@@ -130,7 +106,7 @@
 	}
 
 	async function saveBillData() {
-		const numerationExists = $Bills.some(
+		const numerationExists = $Rectify_bills.some(
 			(b) => numerationFormat(b.number, b.date.year, true) === bill.numeration
 		);
 
@@ -144,13 +120,13 @@
 			return;
 		}
 
-		bill.type = 'factura';
+		bill.type = 'rectificativa';
 		bill._updated = new Date();
 
 		if (matched) await updateBill();
 		else await addNewBill();
 
-		goto('/facturas');
+		goto('/rectificativas');
 	}
 
 	$: bill.number, (bill.numeration = numerationFormat(bill.number, bill.date.year, true));
@@ -185,8 +161,8 @@
 	<NotesInput bind:note={bill.note} />
 
 	<footer class="row jcenter wfull">
-		<button type="submit" class="grow">Guardar factura</button>
-		<a role="button" class="error" href="/facturas">Cancelar</a>
+		<button type="submit" class="grow">Guardar rectificativa</button>
+		<a role="button" class="error" href="/rectificativas">Cancelar</a>
 	</footer>
 </form>
 

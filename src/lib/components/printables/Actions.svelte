@@ -2,7 +2,7 @@
 	import { downloadPdf } from '$lib/print';
 	import { Bills } from '$lib/stores';
 	import { removeDoc } from '$lib/database/config';
-	import { numerationFormat } from '$lib/utils';
+	import { numerationFormat, printReason } from '$lib/utils';
 	import { goto } from '$app/navigation';
 
 	import Container from '$lib/components/Forms/Container.svelte';
@@ -13,6 +13,7 @@
 	export let state, bill;
 
 	$: src = '';
+	const currentDate = new Date();
 	let rectifing = false;
 	let rectify_reason = '';
 	const stateDescription = `
@@ -58,7 +59,28 @@ Factura en cierre trimestral
 
 	async function createRectify() {
 		if (!rectify_reason) alert('No has seleccionado un motivo');
-		else console.log(rectify_reason);
+		else {
+			let { id, state, ...rectify } = bill;
+			const number = 1;
+			const numeration = numerationFormat(number, currentDate.getFullYear(), true);
+
+			rectify = {
+				_updated: new Date(),
+				type: 'rectificativa',
+				number,
+				numeration,
+				date: {
+					day: currentDate.getDate(),
+					month: currentDate.getMonth() + 1,
+					year: currentDate.getFullYear()
+				},
+				from: { id, numeration: bill.numeration },
+				reason: rectify_reason,
+				note: printReason(rectify_reason)
+			};
+
+			console.log(rectify);
+		}
 
 		//TODO: Create method
 	}
@@ -92,7 +114,7 @@ Factura en cierre trimestral
 					<Label>MOTIVO</Label>
 					<select class="wfull" type="number" bind:value={rectify_reason}>
 						<option value="" disabled>Selecciona un motivo de rectificación</option>
-						<option value="import">Error en el importe</option>
+						<option value="amount">Error en el importe</option>
 						<option value="data">Error en los datos del cliente</option>
 						<option value="refund">Devolución de mercancía</option>
 						<option value="dto">Descuento posterior</option>

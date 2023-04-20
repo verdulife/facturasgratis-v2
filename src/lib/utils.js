@@ -39,8 +39,8 @@ export function clearLocalData() {
   User.set({});
 
   for (let key in Stores) {
-    const document = Stores[key];
-    document.set([])
+    const store = Stores[key];
+    store.set([])
   }
 }
 
@@ -155,4 +155,16 @@ export function printState(state) {
   }
 
   return state_lib[state];
+}
+
+export function printReason(reason) {
+  const reason_lib = {
+    "amount": "Error en el importe",
+    "data": "Error en el importe",
+    "refund": "Devolución de mercancía",
+    "dto": "Descuento posterior",
+    "cancel": "Anulación de factura original",
+  }
+
+  return `Motivo de la rectificación:\n\n${reason_lib[reason]}`;
 }
