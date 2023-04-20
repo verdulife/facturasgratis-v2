@@ -1,7 +1,7 @@
 <script>
 	import { downloadPdf } from '$lib/print';
-	import { Bills } from '$lib/stores';
-	import { removeDoc } from '$lib/database/config';
+	import { Bills, Rectify_bills, Firebase } from '$lib/stores';
+	import { removeDoc, addDoc } from '$lib/database/config';
 	import { numerationFormat, printReason } from '$lib/utils';
 	import { goto } from '$app/navigation';
 
@@ -57,32 +57,45 @@ Factura en cierre trimestral
 		goto('/facturas');
 	}
 
+	function nextNumeration() {
+		if ($Rectify_bills.length === 0) return 1;
+
+		const currentYear = $Rectify_bills.filter((b) => b.date.year === currentDate.getFullYear());
+		const currentNumeration = Math.max(...currentYear.map((b) => b.number));
+
+		return currentNumeration + 1;
+	}
+
+	async function addNewRectify(data) {
+		$Rectify_bills = [data, ...$Rectify_bills];
+		if ($Firebase.user) await addDoc({ collection: 'rectify_bills', data });
+	}
+
 	async function createRectify() {
-		if (!rectify_reason) alert('No has seleccionado un motivo');
-		else {
-			let { id, state, ...rectify } = bill;
-			const number = 1;
-			const numeration = numerationFormat(number, currentDate.getFullYear(), true);
-
-			rectify = {
-				_updated: new Date(),
-				type: 'rectificativa',
-				number,
-				numeration,
-				date: {
-					day: currentDate.getDate(),
-					month: currentDate.getMonth() + 1,
-					year: currentDate.getFullYear()
-				},
-				from: { id, numeration: bill.numeration },
-				reason: rectify_reason,
-				note: printReason(rectify_reason)
-			};
-
-			console.log(rectify);
+		if (!rectify_reason) {
+			alert('No has seleccionado un motivo');
+			return;
 		}
 
-		//TODO: Create method
+		let { id, state, ...rectify } = bill;
+		const number = nextNumeration();
+		const numeration = numerationFormat(number, currentDate.getFullYear(), true);
+
+		rectify._updated = new Date();
+		rectify.type = 'rectificativa';
+		rectify.number = number;
+		rectify.numeration = numeration;
+		rectify.date = {
+			day: currentDate.getDate(),
+			month: currentDate.getMonth() + 1,
+			year: currentDate.getFullYear()
+		};
+		rectify.from = { id, numeration: bill.numeration };
+		rectify.reason = rectify_reason;
+		rectify.note = printReason(rectify_reason);
+
+		await addNewRectify(rectify);
+		goto(`/rectificativas/${rectify.numeration}`);
 	}
 </script>
 
@@ -101,8 +114,10 @@ Factura en cierre trimestral
 		</label>
 
 		<button type="button" on:click={() => downloadPdf(bill, 'Factura')}>DESCARGAR</button>
-		<button type="button" on:click={() => (rectifing = true)}>CREAR RECTIFICATIVA</button>
-		<button type="button" class="error" on:click={deleteBill}>ELIMINAR</button>
+		{#if bill.type !== 'rectificativa'}
+			<button type="button" on:click={() => (rectifing = true)}>CREAR RECTIFICATIVA</button>
+			<button type="button" class="error" on:click={deleteBill}>ELIMINAR</button>
+		{/if}
 	</Row>
 
 	{#if rectifing}

@@ -1,9 +1,13 @@
 <script>
 	import { downloadPdf } from '$lib/print';
 	import { numerationFormat, dateObjectFormat, currency, printState } from '$lib/utils';
+	import { page } from '$app/stores';
+
 	export let data;
 
 	let { client, date, number, numeration, totals, state } = data;
+	const pathname = $page.route.id;
+	const docType = pathname.substring(1, pathname.length);
 
 	numeration = numeration || numerationFormat(number, date.year, true);
 	number = number || 'SN';
@@ -21,7 +25,7 @@
 				<span class={state}><b>{printState(state)}</b></span>
 			{/if}
 
-			<a role="button" href="facturas/{numeration}">Editar</a>
+			<a role="button" href="{docType}/{numeration}">Editar</a>
 			<button on:click={downloadPdf(data, 'Factura')}>Descargar</button>
 		</aside>
 	</header>

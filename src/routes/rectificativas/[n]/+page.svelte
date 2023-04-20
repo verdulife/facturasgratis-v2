@@ -3,7 +3,7 @@
 	import { nueva_factura as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
 	import { unbindFromStore, numerationFormat } from '$lib/utils';
-	import { User, Rectify_bills, Clients, Products, Firebase } from '$lib/stores';
+	import { User, Rectify_bills, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
 
