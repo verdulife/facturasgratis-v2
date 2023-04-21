@@ -1,6 +1,6 @@
 <script>
 	import { tools } from '$lib/tools';
-	import ToolCard from '$lib/components/home/ToolCard.svelte';
+	import ToolCard from '$components/home/ToolCard.svelte';
 
 	export let searchTerm;
 

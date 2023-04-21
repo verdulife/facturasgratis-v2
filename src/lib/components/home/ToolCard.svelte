@@ -1,5 +1,5 @@
 <script>
-	import Image from '$lib/components/Image.svelte';
+	import Image from '$components/global/Image.svelte';
 
 	export let tool;
 </script>

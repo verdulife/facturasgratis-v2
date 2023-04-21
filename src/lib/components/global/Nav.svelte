@@ -3,9 +3,9 @@
 	import { tools } from '$lib/tools';
 	import { clickOut } from '$lib/utils';
 
-	import Image from '$lib/components/Image.svelte';
+	import Image from '$components/global/Image.svelte';
 	import Logo from '$lib/icons/Logo.svelte';
-	import Session from '$lib/components/Session.svelte';
+	import Session from '$components/global/Session.svelte';
 
 	let visible = false,
 		open = false;
@@ -98,7 +98,7 @@
 
 		& li {
 			width: 220px;
-			margin-right: auto
+			margin-right: auto;
 		}
 
 		& a {

@@ -151,13 +151,16 @@ export function printState(state) {
   const state_lib = {
     "send": "Enviada",
     "paid": "Pagada",
-    "closed": "Cerrada"
+    "closed": "Cerrada",
+    "rectify": "Rectificada"
   }
 
   return state_lib[state];
 }
 
-export function printReason(reason) {
+export function printReason(from, reason) {
+  const user = get(User);
+  const initials = user.legal_initials ? `${user.legal_initials}/` : "";
   const reason_lib = {
     "amount": "Error en el importe",
     "data": "Error en el importe",
@@ -166,5 +169,5 @@ export function printReason(reason) {
     "cancel": "Anulación de factura original",
   }
 
-  return `Motivo de la rectificación:\n\n${reason_lib[reason]}`;
+  return `Rectificación de la factura con número ${initials}${from.numeration}.\nMotivo: ${reason_lib[reason]}.`;
 }

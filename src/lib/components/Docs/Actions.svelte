@@ -1,14 +1,14 @@
 <script>
-	import { downloadPdf } from '$lib/print';
-	import { Bills, Rectify_bills, Firebase } from '$lib/stores';
-	import { removeDoc, addDoc } from '$lib/database/config';
+	import { downloadPdf, printPdf } from '$lib/print';
+	import { User, Bills, Rectify_bills, Firebase } from '$lib/stores';
+	import { removeDoc, addDoc, updateDoc } from '$lib/database/config';
 	import { numerationFormat, printReason } from '$lib/utils';
 	import { goto } from '$app/navigation';
 
-	import Container from '$lib/components/Forms/Container.svelte';
-	import Title from '$lib/components/Forms/Title.svelte';
-	import Label from '$lib/components/Forms/Label.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
+	import Container from '$components/Forms/Container.svelte';
+	import Title from '$components/Forms/Title.svelte';
+	import Label from '$components/Forms/Label.svelte';
+	import Row from '$components/Forms/Row.svelte';
 
 	export let state, bill;
 
@@ -28,6 +28,9 @@ Factura cobrada
 
 [Cerrada]
 Factura en cierre trimestral
+
+[Rectificada]
+Factura rectificada
 `;
 
 	async function deleteBill() {
@@ -67,8 +70,20 @@ Factura en cierre trimestral
 	}
 
 	async function addNewRectify(data) {
+		let id;
+		if ($Firebase.user) id = await addDoc({ collection: 'rectify_bills', data });
+
+		if (id) data.id = id;
 		$Rectify_bills = [data, ...$Rectify_bills];
-		if ($Firebase.user) await addDoc({ collection: 'rectify_bills', data });
+	}
+
+	async function updateBill() {
+		const billIndex = $Bills.findIndex(
+			(b) => numerationFormat(b.number, b.date.year, true) === bill.numeration
+		);
+
+		$Bills[billIndex] = bill;
+		if ($Firebase.user) await updateDoc({ collection: 'bills', data: bill });
 	}
 
 	async function createRectify() {
@@ -80,6 +95,7 @@ Factura en cierre trimestral
 		let { id, state, ...rectify } = bill;
 		const number = nextNumeration();
 		const numeration = numerationFormat(number, currentDate.getFullYear(), true);
+		const from = { id, numeration: bill.numeration };
 
 		rectify._updated = new Date();
 		rectify.type = 'rectificativa';
@@ -90,11 +106,21 @@ Factura en cierre trimestral
 			month: currentDate.getMonth() + 1,
 			year: currentDate.getFullYear()
 		};
-		rectify.from = { id, numeration: bill.numeration };
+		rectify.from = from;
 		rectify.reason = rectify_reason;
-		rectify.note = printReason(rectify_reason);
+		rectify.note = printReason(from, rectify_reason);
+
+		bill._updated = new Date();
+		bill.state = 'rectify';
+
+		if (rectify_reason === 'cancel') {
+			rectify.items.forEach((b) => {
+				b.amount = -Math.abs(b.amount);
+			});
+		}
 
 		await addNewRectify(rectify);
+		await updateBill();
 		goto(`/rectificativas/${rectify.numeration}`);
 	}
 </script>
@@ -110,12 +136,20 @@ Factura en cierre trimestral
 				<option value="send">Enviada</option>
 				<option value="paid">Pagada</option>
 				<option value="closed">Cerrada</option>
+				<option value="rectify" disabled>Rectificada</option>
 			</select>
 		</label>
 
-		<button type="button" on:click={() => downloadPdf(bill, 'Factura')}>DESCARGAR</button>
+		<button type="button" on:click={() => (src = printPdf({ ...bill, user: $User }))}
+			>DESCARGAR</button
+		>
+		<!-- <button type="button" on:click={() => downloadPdf(bill, 'Factura')}>DESCARGAR</button> -->
+
 		{#if bill.type !== 'rectificativa'}
-			<button type="button" on:click={() => (rectifing = true)}>CREAR RECTIFICATIVA</button>
+			{#if bill.state !== 'rectify'}
+				<button type="button" on:click={() => (rectifing = true)}>CREAR RECTIFICATIVA</button>
+			{/if}
+
 			<button type="button" class="error" on:click={deleteBill}>ELIMINAR</button>
 		{/if}
 	</Row>

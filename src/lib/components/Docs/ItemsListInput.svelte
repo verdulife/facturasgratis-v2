@@ -1,9 +1,9 @@
 <script>
-	import Container from '$lib/components/Forms/Container.svelte';
-	import Title from '$lib/components/Forms/Title.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
-	import ItemInput from '$lib/components/printables/ItemInput.svelte';
-	import Totals from '$lib/components/printables/Totals.svelte';
+	import Container from '$components/Forms/Container.svelte';
+	import Title from '$components/Forms/Title.svelte';
+	import Row from '$components/Forms/Row.svelte';
+	import ItemInput from '$components/Docs/ItemInput.svelte';
+	import Totals from '$components/Docs/Totals.svelte';
 
 	export let items, currency, taxes, totals;
 

@@ -6,7 +6,10 @@ const config = {
 	preprocess: sveltePreprocess({ postcss: true }),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+		alias: {
+			"$components": "./src/lib/components"
+		}
 	}
 };
 

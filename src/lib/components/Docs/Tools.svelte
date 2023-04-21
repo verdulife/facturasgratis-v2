@@ -1,11 +1,12 @@
 <script>
 	import { months, currency, currentYear } from '$lib/utils';
 	import { page } from '$app/stores';
-	import Search from '$lib/icons/Search.svelte';
-	import Container from '$lib/components/Forms/Container.svelte';
 
-	export let filtered;
-	export let idFilter, monthFilter, yearFilter;
+	import Search from '$lib/icons/Search.svelte';
+	import Container from '$components/Forms/Container.svelte';
+
+	export let filtered, idFilter, monthFilter, yearFilter;
+	export let readonly = null;
 
 	const pathname = $page.route.id;
 	const docType = pathname.substring(1, pathname.length - 1);
@@ -42,7 +43,9 @@
 				</select>
 			</div>
 
-			<a role="button" class="row fcenter" href="{pathname}/editar">CREAR {docType}</a>
+			{#if !readonly}
+				<a role="button" class="row fcenter" href="{pathname}/editar">CREAR {docType}</a>
+			{/if}
 		</article>
 
 		<span class="xdiv" />

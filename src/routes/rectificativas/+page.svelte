@@ -1,14 +1,14 @@
 <script>
-	import { facturas as meta } from '$lib/meta';
-	import { facturas } from '$lib/tools';
+	import { rectificativas as meta } from '$lib/meta';
+	import { rectificativas } from '$lib/tools';
 	import { User, Rectify_bills } from '$lib/stores';
 	import { currentYear, sortByNumber } from '$lib/utils';
 
-	import Meta from '$lib/components/Meta.svelte';
-	import FirstSteps from '$lib/components/FirstSteps.svelte';
-	import Header from '$lib/components/printables/Header.svelte';
-	import Tools from '$lib/components/printables/Tools.svelte';
-	import Card from '$lib/components/printables/Card.svelte';
+	import Meta from '$components/global/Meta.svelte';
+	import FirstSteps from '$components/global/FirstSteps.svelte';
+	import Header from '$components/Docs/Header.svelte';
+	import Tools from '$components/Docs/Tools.svelte';
+	import Card from '$components/Docs/Card.svelte';
 
 	$: idFilter = '';
 	$: monthFilter = '';
@@ -37,10 +37,10 @@
 <Meta data={meta} />
 <!-- TODO: Can autogenerate metadata? -->
 
-<Header data={facturas} />
+<Header data={rectificativas} />
 <section class="col acenter wfull">
 	{#if $User.legal_name}
-		<Tools {filtered} bind:idFilter bind:monthFilter bind:yearFilter />
+		<Tools {filtered} bind:idFilter bind:monthFilter bind:yearFilter readonly/>
 
 		<ul class="col wfull">
 			{#each filtered as data}

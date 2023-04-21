@@ -25,7 +25,7 @@ export const facturas = {
 export const rectificativas = {
   slug: "/rectificativas",
   title: "Rectificativas",
-  description: "Genera y modifica rectificativas. Envíalas por correo electrónico y guárdalas en PDF.",
+  description: "Genera y define facturas rectificativas. Envíalas por correo electrónico y guárdalas en PDF.",
   icon: "/facturas.svg",
   soon: false,
 };

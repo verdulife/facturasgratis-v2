@@ -1,8 +1,8 @@
 <script>
-	import Container from '$lib/components/Forms/Container.svelte';
-	import Title from '$lib/components/Forms/Title.svelte';
-	import Label from '$lib/components/Forms/Label.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
+	import Container from '$components/Forms/Container.svelte';
+	import Title from '$components/Forms/Title.svelte';
+	import Label from '$components/Forms/Label.svelte';
+	import Row from '$components/Forms/Row.svelte';
 
 	export let street, cp, city, country;
 </script>

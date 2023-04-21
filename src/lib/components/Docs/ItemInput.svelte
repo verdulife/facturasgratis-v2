@@ -2,9 +2,9 @@
 	import { roundWithTwoDecimals, currency as currencyFormat } from '$lib/utils';
 	import { Products } from '$lib/stores';
 
-	import Container from '$lib/components/Forms/Container.svelte';
-	import Label from '$lib/components/Forms/Label.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
+	import Container from '$components/Forms/Container.svelte';
+	import Label from '$components/Forms/Label.svelte';
+	import Row from '$components/Forms/Row.svelte';
 
 	export let item, currency, deleteItem, iva;
 	$: ivaOperator = (100 + iva) / 100;

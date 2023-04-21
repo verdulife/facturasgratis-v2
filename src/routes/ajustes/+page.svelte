@@ -5,15 +5,15 @@
 	import { updateUser } from '$lib/database/config';
 
 	import toast from 'svelte-french-toast';
-	import Meta from '$lib/components/Meta.svelte';
-	import Header from '$lib/components/ajustes/Header.svelte';
-	import LogoUploader from '$lib/components/ajustes/LogoUploader.svelte';
-	import LegalData from '$lib/components/ajustes/LegalData.svelte';
-	import LegalAddress from '$lib/components/ajustes/LegalAddress.svelte';
-	import LegalContact from '$lib/components/ajustes/LegalContact.svelte';
-	import LegalTaxes from '$lib/components/ajustes/LegalTaxes.svelte';
-	import LegalNotes from '$lib/components/ajustes/LegalNotes.svelte';
-	import CurrentSession from '$lib/components/ajustes/CurrentSession.svelte';
+	import Meta from '$components/global/Meta.svelte';
+	import Header from '$components/ajustes/Header.svelte';
+	import LogoUploader from '$components/ajustes/LogoUploader.svelte';
+	import LegalData from '$components/ajustes/LegalData.svelte';
+	import LegalAddress from '$components/ajustes/LegalAddress.svelte';
+	import LegalContact from '$components/ajustes/LegalContact.svelte';
+	import LegalTaxes from '$components/ajustes/LegalTaxes.svelte';
+	import LegalNotes from '$components/ajustes/LegalNotes.svelte';
+	import CurrentSession from '$components/ajustes/CurrentSession.svelte';
 
 	$: user = $User;
 

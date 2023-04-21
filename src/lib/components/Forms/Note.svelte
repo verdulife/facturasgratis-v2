@@ -1,5 +1,5 @@
 <script>
-	import Label from '$lib/components/Forms/Label.svelte';
+	import Label from '$components/Forms/Label.svelte';
 
 	export let note;
 

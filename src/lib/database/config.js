@@ -57,6 +57,7 @@ export async function addDoc({ collection, data }) {
   const { id } = docRef;
 
   await setDoc(docRef, { id, ...data });
+  return id;
 }
 
 export async function updateDoc({ collection, data }) {

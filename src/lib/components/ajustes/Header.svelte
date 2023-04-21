@@ -1,5 +1,5 @@
 <script>
-	import HeaderBackground from '$lib/components/HeaderBackground.svelte';
+	import HeaderBackground from '$components/global/HeaderBackground.svelte';
 
 	export let user;
 </script>

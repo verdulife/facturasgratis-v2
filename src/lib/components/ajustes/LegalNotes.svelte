@@ -1,8 +1,8 @@
 <script>
-	import Container from '$lib/components/Forms/Container.svelte';
-	import Title from '$lib/components/Forms/Title.svelte';
-	import Note from '$lib/components/Forms/Note.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
+	import Container from '$components/Forms/Container.svelte';
+	import Title from '$components/Forms/Title.svelte';
+	import Note from '$components/Forms/Note.svelte';
+	import Row from '$components/Forms/Row.svelte';
 
 	export let bill_note, budget_note, delivery_note, proforma_note;
 </script>

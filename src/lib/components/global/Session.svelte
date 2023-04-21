@@ -1,6 +1,6 @@
 <script>
 	import { User } from '$lib/stores';
-	import Image from '$lib/components/Image.svelte';
+	import Image from '$components/global/Image.svelte';
 
 	$: ({ legal_name, logo } = $User);
 </script>

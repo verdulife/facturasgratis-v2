@@ -1,10 +1,10 @@
 <script>
 	import { resizeImage } from '$lib/utils';
 
-	import Container from '$lib/components/Forms/Container.svelte';
-	import Title from '$lib/components/Forms/Title.svelte';
-	import Row from '$lib/components/Forms/Row.svelte';
-	import Image from '$lib/components/Image.svelte';
+	import Image from '$components/global/Image.svelte';
+	import Container from '$components/Forms/Container.svelte';
+	import Title from '$components/Forms/Title.svelte';
+	import Row from '$components/Forms/Row.svelte';
 
 	export let logo;
 	let files;

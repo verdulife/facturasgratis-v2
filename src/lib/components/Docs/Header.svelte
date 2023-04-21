@@ -1,6 +1,6 @@
 <script>
-	import HeaderBackground from '$lib/components/HeaderBackground.svelte';
-	import Image from '$lib/components/Image.svelte';
+	import HeaderBackground from '$components/global/HeaderBackground.svelte';
+	import Image from '$components/global/Image.svelte';
 
 	export let data;
 </script>

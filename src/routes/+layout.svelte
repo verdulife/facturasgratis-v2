@@ -1,12 +1,12 @@
 <script>
 	import '$lib/startcss/startcss.css';
 	import { onAuthStateChanged } from 'firebase/auth';
-	import { Firebase, Stores, Bills } from '$lib/stores';
+	import { Firebase, Stores } from '$lib/stores';
 	import { auth, syncUser, syncCollection } from '$lib/database/config';
 	import { Toaster } from 'svelte-french-toast';
 
-	import Cookies from '$lib/components/Cookies.svelte';
-	import Nav from '$lib/components/Nav.svelte';
+	import Cookies from '$components/global/Cookies.svelte';
+	import Nav from '$components/global/Nav.svelte';
 
 	onAuthStateChanged(auth, async (user) => {
 		if (user) {

@@ -1,6 +1,6 @@
 import { jsPDF } from "jspdf";
 import { normal, medium } from "$lib/assets/fira.js";
-import { numerationFormat, dateObjectFormat, phoneFormat, currency } from "$lib/utils";
+import { numerationFormat, dateObjectFormat, phoneFormat, currency, capitalize } from "$lib/utils";
 import { User } from "$lib/stores"
 import { get } from "svelte/store"
 
@@ -66,7 +66,7 @@ function drawDocData(doc, { date, number, type, pages }) {
   doc.setFont("FiraCode-Medium");
   doc.setFontSize(12);
 
-  doc.text(type, x, y);
+  doc.text(capitalize(type), x, y);
 
   doc.setLineWidth(0.1);
   doc.setFillColor("#eee");
@@ -85,7 +85,8 @@ function drawDocData(doc, { date, number, type, pages }) {
   doc.setFontSize(8);
 
   doc.text("Núm.", x + 1.5, y + 5.5);
-  doc.text(numerationFormat(number, date.year), x + 13.5, y + 5.5);
+  if (type === "rectificativa") doc.text(`REC/${numerationFormat(number, date.year, true)}`, x + 13.5, y + 5.5);
+  else doc.text(numerationFormat(number, date.year, true), x + 13.5, y + 5.5);
 
   doc.text("Fecha", x + 1.5, y + 10.5);
   doc.text(dateObjectFormat(date), x + 13.5, y + 10.5);
@@ -134,6 +135,7 @@ function drawItemsData(doc, { chunk, linesPerPage }) {
   const x = 20;
   const y = 90;
 
+
   for (let l = 0; l < linesPerPage; l++) {
     if (l % 2) doc.setFillColor("#fff");
     else doc.setFillColor("#eee");
@@ -152,6 +154,7 @@ function drawItemsData(doc, { chunk, linesPerPage }) {
     doc.text(currency(total), posX + 147.5, y + 8.5 + (5 * i)); // total
   })
 
+  doc.setLineWidth(0.1);
   doc.setFillColor("#fff");
 
   doc.rect(x, y, 15, 5); // amount
