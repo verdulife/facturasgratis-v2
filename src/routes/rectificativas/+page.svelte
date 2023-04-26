@@ -6,7 +6,7 @@
 
 	import Meta from '$components/global/Meta.svelte';
 	import FirstSteps from '$components/global/FirstSteps.svelte';
-	import Header from '$components/Docs/Header.svelte';
+	import Header from '$components/global/Header.svelte';
 	import Tools from '$components/Docs/Tools.svelte';
 	import Card from '$components/Docs/Card.svelte';
 

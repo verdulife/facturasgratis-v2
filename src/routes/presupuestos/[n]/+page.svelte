@@ -9,7 +9,7 @@
 
 	import toast from 'svelte-french-toast';
 	import Meta from '$components/global/Meta.svelte';
-	import Header from '$components/Docs/Header.svelte';
+	import Header from '$components/global/Header.svelte';
 	import NumerationInput from '$components/Docs/NumerationInput.svelte';
 	import ClientInput from '$components/Docs/ClientInput.svelte';
 	import ItemsListInput from '$components/Docs/ItemsListInput.svelte';

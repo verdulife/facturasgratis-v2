@@ -72,6 +72,14 @@ export const proveedores = {
   image: "/proveedores.jpg",
 };
 
+export const qrGenerator = {
+  url: "/qr",
+  title: "Generador de QR" + SUFIX,
+  description: "Crea códigos QR para facilitar diversas tareas.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: "/qr.jpg",
+};
+
 export const calculadora = {
   url: "/calculadora",
   title: "Calculadora" + SUFIX,

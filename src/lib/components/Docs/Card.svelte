@@ -8,7 +8,7 @@
 	let { client, date, number, numeration, totals, state, from } = data;
 	const pathname = $page.route.id;
 	const docType = pathname.substring(1, pathname.length);
-	const initials = user.legal_initials ? `${user.legal_initials}/` : '';
+	const initials = `${user?.legal_initials}/` || '';
 
 	numeration = numeration || numerationFormat(number, date.year, true);
 	number = number || 'SN';

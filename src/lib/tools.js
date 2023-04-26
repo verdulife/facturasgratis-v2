@@ -54,6 +54,14 @@ export const productos_servicios = {
   soon: false,
 };
 
+export const qrGenerator = {
+  slug: "/qr",
+  title: "Generador de QR",
+  description: "Crea códigos QR para facilitar diversas tareas",
+  icon: "/qr.svg",
+  soon: false,
+};
+
 export const calculadora = {
   slug: "/calculadora",
   title: "Calculadora de impuestos",
@@ -110,4 +118,4 @@ export const calculadora_descuentos = {
   soon: true,
 };
 
-export const tools = [presupuestos, proformas, facturas, rectificativas, clientes, productos_servicios, proveedores, calculadora, convertidor, albaranes, metro_cuadrado, control_gastos, calculadora_descuentos];
+export const tools = [presupuestos, proformas, facturas, rectificativas, clientes, productos_servicios, proveedores, qrGenerator, calculadora, convertidor, albaranes, metro_cuadrado, control_gastos, calculadora_descuentos];
