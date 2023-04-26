@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { facturas as meta } from '$lib/meta';
 	import { facturas } from '$lib/tools';
-	import { unbindFromStore, numerationFormat } from '$lib/utils';
+	import { unbindStore, numerationFormat } from '$lib/utils';
 	import { User, Bills, Clients, Products, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { addDoc, updateDoc } from '$lib/database/config';
@@ -21,7 +21,7 @@
 	const { n } = data;
 	const matched =
 		browser &&
-		unbindFromStore($Bills.find((b) => numerationFormat(b.number, b.date.year, true) === n));
+		unbindStore($Bills.find((b) => numerationFormat(b.number, b.date.year, true) === n));
 	const currentDate = new Date();
 
 	function findFirstMissNumber(currentYear, maxN) {

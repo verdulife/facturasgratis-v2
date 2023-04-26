@@ -2,7 +2,7 @@
 	import { downloadPdf, printPdf } from '$lib/print';
 	import { User, Bills, Rectify_bills, Firebase } from '$lib/stores';
 	import { removeDoc, addDoc, updateDoc } from '$lib/database/config';
-	import { numerationFormat, printReason } from '$lib/utils';
+	import { numerationFormat, printReason, unbindStore } from '$lib/utils';
 	import { goto } from '$app/navigation';
 
 	import Container from '$components/Forms/Container.svelte';
@@ -92,7 +92,7 @@ Factura rectificada
 			return;
 		}
 
-		let { id, state, ...rectify } = bill;
+		let { id, state, ...rectify } = unbindStore(bill);
 		const number = nextNumeration();
 		const numeration = numerationFormat(number, currentDate.getFullYear(), true);
 		const from = { id, numeration: bill.numeration };

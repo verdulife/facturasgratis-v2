@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { rectificativas as meta } from '$lib/meta';
 	import { rectificativas } from '$lib/tools';
-	import { unbindFromStore, numerationFormat } from '$lib/utils';
+	import { unbindStore, numerationFormat } from '$lib/utils';
 	import { User, Rectify_bills, Firebase } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { updateDoc } from '$lib/database/config';
@@ -21,7 +21,7 @@
 	const { n } = data;
 	const matched =
 		browser &&
-		unbindFromStore($Rectify_bills.find((b) => numerationFormat(b.number, 2023, true) === n));
+		unbindStore($Rectify_bills.find((b) => numerationFormat(b.number, 2023, true) === n));
 
 	$: bill = matched;
 

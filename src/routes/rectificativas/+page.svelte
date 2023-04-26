@@ -40,11 +40,11 @@
 <Header data={rectificativas} />
 <section class="col acenter wfull">
 	{#if $User.legal_name}
-		<Tools {filtered} bind:idFilter bind:monthFilter bind:yearFilter readonly/>
+		<Tools {filtered} bind:idFilter bind:monthFilter bind:yearFilter readonly />
 
 		<ul class="col wfull">
 			{#each filtered as data}
-				<Card {data} />
+				<Card {data} user={$User} />
 			{/each}
 		</ul>
 	{:else}

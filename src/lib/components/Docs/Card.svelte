@@ -3,11 +3,12 @@
 	import { numerationFormat, dateObjectFormat, currency, printState } from '$lib/utils';
 	import { page } from '$app/stores';
 
-	export let data;
+	export let data, user;
 
-	let { client, date, number, numeration, totals, state } = data;
+	let { client, date, number, numeration, totals, state, from } = data;
 	const pathname = $page.route.id;
 	const docType = pathname.substring(1, pathname.length);
+	const initials = user.legal_initials ? `${user.legal_initials}/` : '';
 
 	numeration = numeration || numerationFormat(number, date.year, true);
 	number = number || 'SN';
@@ -16,7 +17,14 @@
 <article class="col wfull">
 	<header class="row jbetween wfull">
 		<div class="col">
-			<small>{numerationFormat(number, date.year)}</small>
+			<small>
+				{#if docType === 'rectificativas'}
+					{'REC/' + numerationFormat(number, date.year, true)}
+					<small>↔ {initials}{from.numeration}</small>
+				{:else}
+					{numerationFormat(number, date.year)}
+				{/if}
+			</small>
 			<h4><b>{client.legal_name}</b></h4>
 		</div>
 
@@ -58,6 +66,10 @@
 		}
 
 		& header {
+			& small > small {
+				color: var(--base-500);
+			}
+
 			& aside {
 				gap: 0.5em;
 

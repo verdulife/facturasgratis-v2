@@ -140,7 +140,7 @@ export function clickOut(node) {
   }
 }
 
-export function unbindFromStore(store) {
+export function unbindStore(store) {
   if (!store) return;
 
   const serializedStore = JSON.stringify(store);
